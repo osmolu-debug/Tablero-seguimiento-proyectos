@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portafolio OTIC — Dashboard de Gestión</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  /* Palette glassmorphism clara */
+  --cyan:       #00C2D4;
+  --cyan-dk:    #0096A8;
+  --cyan-lt:    #E0F8FB;
+  --blue:       #2563EB;
+  --blue-lt:    #EFF6FF;
+  --indigo:     #4F46E5;
+  --bg:         #F0F4FF;
+  --surface:    #FFFFFF;
+  --glass:      rgba(255,255,255,0.72);
+  --border:     rgba(0,0,0,0.07);
+  --border-md:  rgba(0,0,0,0.11);
+  --text:       #0F172A;
+  --text-md:    #475569;
+  --text-lt:    #94A3B8;
+  /* Semaforos pastel */
+  --green:      #166534;
+  --green-bg:   #DCFCE7;
+  --green-bd:   #86EFAC;
+  --green-val:  #22C55E;
+  --yellow:     #854D0E;
+  --yellow-bg:  #FEF9C3;
+  --yellow-bd:  #FDE047;
+  --yellow-val: #EAB308;
+  --red:        #991B1B;
+  --red-bg:     #FEE2E2;
+  --red-bd:     #FCA5A5;
+  --red-val:    #EF4444;
+  /* Sombras suaves */
+  --shadow-sm:  0 1px 3px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04);
+  --shadow-md:  0 4px 16px rgba(15,23,42,.08), 0 2px 4px rgba(15,23,42,.04);
+  --shadow-lg:  0 8px 32px rgba(15,23,42,.10), 0 4px 8px rgba(15,23,42,.06);
+  --radius:     14px;
+  --radius-sm:  8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;background:var(--bg);color:var(--text);}
+
+/* Fondo malla de puntos suave */
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;
+  background-color:var(--bg);
+  background-image:radial-gradient(circle at 20% 10%, rgba(0,194,212,.10) 0%, transparent 55%),
+                   radial-gradient(circle at 80% 80%, rgba(37,99,235,.08) 0%, transparent 55%),
+                   radial-gradient(circle at 55% 45%, rgba(79,70,229,.06) 0%, transparent 45%);
+}
+
+/* ==================== TOPBAR ==================== */
+.topbar{
+  background:var(--surface);
+  height:52px;flex-shrink:0;
+  display:flex;align-items:center;padding:0 18px;gap:12px;
+  border-bottom:1px solid var(--border);
+  box-shadow:var(--shadow-sm);
+  position:relative;z-index:100;
+}
+.logo{
+  width:34px;height:34px;
+  background:linear-gradient(135deg,var(--cyan),var(--blue));
+  border-radius:9px;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;color:#fff;flex-shrink:0;
+  box-shadow:0 2px 8px rgba(0,194,212,.35);
+  letter-spacing:-.3px;
+}
+.title-block{display:flex;flex-direction:column;line-height:1.15;}
+.title-main{font-size:14px;font-weight:800;color:var(--text);letter-spacing:-.3px;}
+.title-main span{background:linear-gradient(90deg,var(--cyan-dk),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.title-sub{font-size:10px;color:var(--text-lt);letter-spacing:.2px;}
+.sep{width:1px;height:26px;background:var(--border-md);margin:0 2px;}
+/* Filtros */
+.filter-group{display:flex;flex-direction:column;gap:2px;}
+.filter-lbl{font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.5px;font-weight:700;}
+.filter-sel{
+  background:var(--bg);border:1px solid var(--border-md);
+  border-radius:6px;color:var(--text);
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;
+  padding:4px 22px 4px 8px;cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%2394A3B8'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 6px center;min-width:120px;
+  transition:border-color .15s;
+}
+.filter-sel:focus{outline:none;border-color:var(--cyan);}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
+.date-badge{
+  background:var(--bg);border:1px solid var(--border-md);
+  border-radius:6px;padding:4px 12px;
+  font-size:10px;color:var(--text-md);font-weight:600;
+}
+.load-btn{
+  background:linear-gradient(135deg,var(--cyan),var(--blue));
+  border:none;border-radius:8px;padding:6px 14px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;color:#fff;
+  cursor:pointer;display:flex;align-items:center;gap:6px;
+  box-shadow:0 2px 8px rgba(0,194,212,.3);transition:all .2s;
+}
+.load-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,194,212,.4);}
+
+/* ==================== KPI BAR ==================== */
+.kpi-bar{
+  display:flex;align-items:stretch;flex-shrink:0;
+  padding:10px 14px;gap:10px;
+  border-bottom:1px solid var(--border);
+  background:var(--surface);
+}
+.kpi-item{
+  flex:1;
+  background:var(--bg);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:10px 14px;
+  display:flex;align-items:center;gap:10px;
+  transition:box-shadow .15s, transform .15s;
+  position:relative;overflow:hidden;
+}
+.kpi-item::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2.5px;
+  background:linear-gradient(90deg,var(--cyan),var(--blue));
+  border-radius:8px 8px 0 0;
+}
+.kpi-item.kpi-green::before{background:linear-gradient(90deg,var(--green-val),#34D399);}
+.kpi-item.kpi-yellow::before{background:linear-gradient(90deg,var(--yellow-val),#FDE047);}
+.kpi-item.kpi-red::before{background:linear-gradient(90deg,var(--red-val),#F87171);}
+.kpi-item:hover{box-shadow:var(--shadow-md);transform:translateY(-1px);}
+.kpi-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.kpi-icon.teal{background:rgba(0,194,212,.12);}
+.kpi-icon.green{background:rgba(34,197,94,.12);}
+.kpi-icon.yellow{background:rgba(234,179,8,.12);}
+.kpi-icon.red{background:rgba(239,68,68,.12);}
+.kpi-icon.blue{background:rgba(37,99,235,.12);}
+.kpi-text{display:flex;flex-direction:column;gap:1px;}
+.kpi-val{font-size:20px;font-weight:800;line-height:1;color:var(--text);letter-spacing:-.5px;}
+.kpi-val.teal-c{background:linear-gradient(135deg,var(--cyan-dk),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.kpi-val.green-c{color:var(--green-val);}
+.kpi-val.yellow-c{color:var(--yellow-val);}
+.kpi-val.red-c{color:var(--red-val);}
+.kpi-val.blue-c{color:var(--blue);}
+.kpi-lbl{font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.5px;font-weight:700;}
+.kpi-sub{font-size:9px;color:var(--text-md);font-weight:500;}
+.kpi-pill{display:inline-block;padding:1px 7px;border-radius:20px;font-size:9px;font-weight:700;margin-top:2px;}
+.kpi-pill.g{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.kpi-pill.r{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+.kpi-pill.y{background:var(--yellow-bg);color:var(--yellow);border:1px solid var(--yellow-bd);}
+
+/* ==================== LAYOUT PRINCIPAL ==================== */
+.layout{display:grid;grid-template-columns:230px 1fr;flex:1;overflow:hidden;}
+
+/* ==================== SIDEBAR ==================== */
+.sidebar{background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;}
+.sb-header{padding:10px 12px;border-bottom:1px solid var(--border);flex-shrink:0;}
+.sb-title{font-size:10px;font-weight:700;color:var(--text-lt);text-transform:uppercase;letter-spacing:.6px;margin-bottom:7px;}
+.sb-search{display:flex;align-items:center;gap:7px;background:var(--bg);border:1px solid var(--border-md);border-radius:7px;padding:5px 9px;transition:border-color .15s;}
+.sb-search:focus-within{border-color:var(--cyan);}
+.sb-search input{background:none;border:none;color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;width:100%;outline:none;}
+.sb-search input::placeholder{color:var(--text-lt);}
+.sb-search span{color:var(--text-lt);font-size:13px;}
+.sb-filters{padding:8px 12px;border-bottom:1px solid var(--border);flex-shrink:0;background:var(--bg);}
+.sb-flt-lbl{font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.5px;font-weight:700;margin-bottom:4px;}
+.sb-flt-sel{width:100%;border:1px solid var(--border-md);border-radius:6px;padding:4px 7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:10px;font-weight:600;color:var(--text);background:var(--surface);cursor:pointer;}
+.sb-flt-sel:focus{outline:none;border-color:var(--cyan);}
+.proj-list{overflow-y:auto;flex:1;}
+.proj-list::-webkit-scrollbar{width:3px;}
+.proj-list::-webkit-scrollbar-track{background:transparent;}
+.proj-list::-webkit-scrollbar-thumb{background:var(--cyan-lt);border-radius:2px;}
+.proj-row{padding:8px 12px;display:flex;align-items:center;gap:9px;cursor:pointer;border-left:3px solid transparent;border-bottom:1px solid var(--border);transition:all .15s;}
+.proj-row:hover{background:var(--cyan-lt);}
+.proj-row.active{background:rgba(0,194,212,.07);border-left-color:var(--cyan);}
+.proj-badge{width:30px;height:30px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;}
+.proj-info{flex:1;min-width:0;}
+.proj-name{font-size:10px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--text);}
+.proj-supervisor{font-size:9px;color:var(--text-lt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px;}
+.proj-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.proj-pct{font-size:11px;font-weight:700;color:var(--text-md);}
+.sem-g{background:var(--green-val);}
+.sem-y{background:var(--yellow-val);}
+.sem-r{background:var(--red-val);}
+.sem-n{background:#CBD5E1;}
+
+/* ==================== MAIN CONTENT ==================== */
+.main{display:flex;flex-direction:column;overflow:hidden;background:var(--bg);}
+
+/* Header del proyecto seleccionado */
+.proj-header{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  padding:16px 20px;
+  display:flex;align-items:center;gap:18px;flex-shrink:0;
+  box-shadow:var(--shadow-sm);
+  min-height:88px;
+}
+.ph-id{
+  font-size:40px;font-weight:800;
+  background:linear-gradient(135deg,var(--cyan-dk),var(--indigo));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  line-height:1;flex-shrink:0;letter-spacing:-2px;
+}
+.ph-info{flex:1;}
+.ph-name{font-size:17px;font-weight:800;color:var(--text);letter-spacing:-.3px;}
+.ph-sub{font-size:11px;color:var(--text-md);margin-top:3px;}
+.ph-tags{display:flex;gap:6px;margin-top:7px;flex-wrap:wrap;}
+.tag{padding:3px 10px;border-radius:20px;font-size:9px;font-weight:700;letter-spacing:.2px;}
+.tag.teal{background:rgba(0,194,212,.12);color:var(--cyan-dk);border:1px solid rgba(0,194,212,.25);}
+.tag.blue{background:rgba(37,99,235,.10);color:var(--blue);border:1px solid rgba(37,99,235,.2);}
+.tag.green{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.tag.yellow{background:var(--yellow-bg);color:var(--yellow);border:1px solid var(--yellow-bd);}
+.tag.red{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+.ph-right{display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.ph-progress{text-align:center;}
+.ph-pct{font-size:46px;font-weight:800;color:var(--text);line-height:1;letter-spacing:-2px;}
+.ph-pct-lbl{font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.6px;font-weight:600;margin-top:2px;}
+.ph-donut{width:52px;height:52px;position:relative;}
+
+/* ==================== CONTENT GRID ==================== */
+.content-scroll{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:12px;}
+.content-scroll::-webkit-scrollbar{width:4px;}
+.content-scroll::-webkit-scrollbar-track{background:transparent;}
+.content-scroll::-webkit-scrollbar-thumb{background:var(--cyan-lt);border-radius:2px;}
+
+/* GAUGE / VELOCÍMETRO → reemplazado por card KPI con arco SVG */
+.gauges-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.gauge-card{
+  background:var(--surface);
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-sm);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+}
+.gauge-card.critico{border-top:3px solid var(--red-val);}
+.gauge-card.alerta{border-top:3px solid var(--yellow-val);}
+.gauge-card.ok{border-top:3px solid var(--green-val);}
+.gauge-header-bar{
+  padding:10px 14px 8px;
+  border-bottom:1px solid var(--border);
+}
+.gauge-titulo{font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.3px;}
+.gauge-subtitulo{font-size:9px;color:var(--text-lt);margin-top:2px;}
+.gauge-body{
+  display:flex;align-items:center;gap:16px;
+  padding:14px 18px 12px;
+}
+.gauge-arc-wrap{position:relative;width:80px;height:80px;flex-shrink:0;}
+.gauge-arc-wrap svg{overflow:visible;}
+.gauge-big-num{
+  display:flex;flex-direction:column;
+}
+.gauge-dias-num{font-size:38px;font-weight:800;line-height:1;letter-spacing:-1px;}
+.gauge-dias-num.c{color:var(--red-val);}
+.gauge-dias-num.a{color:var(--yellow-val);}
+.gauge-dias-num.ok{color:var(--green-val);}
+.gauge-dias-label{font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.4px;font-weight:600;margin-top:2px;}
+.gauge-date-str{font-size:11px;color:var(--text-md);font-weight:600;margin-top:4px;}
+.gauge-pill{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:20px;
+  font-size:10px;font-weight:700;margin-top:6px;
+}
+.gauge-pill.c{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+.gauge-pill.a{background:var(--yellow-bg);color:var(--yellow);border:1px solid var(--yellow-bd);}
+.gauge-pill.ok{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+
+/* Card base */
+.card{background:var(--surface);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow-sm);overflow:hidden;}
+.card-header{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.card-title{font-size:11px;font-weight:700;color:var(--text);text-transform:uppercase;letter-spacing:.4px;display:flex;align-items:center;gap:7px;}
+.card-title .icon{font-size:13px;}
+.card-body{padding:10px 14px;}
+
+/* ==================== DATOS + EQUIPO ==================== */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.data-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;border-bottom:1px solid var(--bg);}
+.data-row:last-child{border-bottom:none;}
+.data-lbl{font-size:10px;color:var(--text-md);font-weight:600;}
+.data-val{font-size:10px;font-weight:700;color:var(--text);text-align:right;max-width:60%;}
+.team-row{display:flex;align-items:center;gap:8px;padding:5px 0;}
+.team-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--cyan),var(--blue));display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:#fff;flex-shrink:0;}
+.team-role{font-size:8px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.4px;}
+.team-name{font-size:10px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ==================== TABLA TAREAS ==================== */
+.tasks-card{border-top:3px solid var(--cyan);}
+.tasks-table{width:100%;border-collapse:collapse;}
+.tasks-table th{
+  background:var(--bg);color:var(--text-md);
+  font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;
+  padding:7px 10px;text-align:left;white-space:nowrap;
+  border-bottom:1.5px solid var(--border-md);
+}
+.tasks-table td{padding:7px 10px;font-size:10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.tasks-table tr:last-child td{border-bottom:none;}
+.tasks-table tr:hover td{background:var(--bg);}
+.tasks-table tr.completed td{opacity:.6;}
+.task-num{font-weight:800;font-size:11px;color:var(--text-lt);text-align:center;}
+.task-name-cell{font-weight:600;color:var(--text);}
+.task-date{font-size:9px;color:var(--text-md);white-space:nowrap;}
+.dias-badge{font-size:12px;font-weight:800;text-align:center;}
+.dias-badge.pos{color:var(--green-val);}
+.dias-badge.neg{color:var(--red-val);}
+.dias-badge.warn{color:var(--yellow-val);}
+.avance-col{width:100px;}
+.avance-bar{height:6px;background:var(--bg);border-radius:3px;overflow:hidden;border:1px solid var(--border);}
+.avance-fill{height:100%;border-radius:3px;transition:width .4s ease;}
+.avance-fill.c100{background:linear-gradient(90deg,var(--green-val),#34D399);}
+.avance-fill.c75{background:linear-gradient(90deg,var(--cyan),var(--blue));}
+.avance-fill.c50{background:linear-gradient(90deg,var(--yellow-val),#FDE047);}
+.avance-fill.c25{background:linear-gradient(90deg,var(--red-val),#F87171);}
+.avance-pct{font-size:10px;font-weight:700;color:var(--text-md);margin-top:2px;}
+.estado-badge{padding:3px 8px;border-radius:20px;font-size:9px;font-weight:700;white-space:nowrap;}
+.estado-badge.completada{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.estado-badge.vencida{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+.estado-badge.alerta{background:var(--yellow-bg);color:var(--yellow);border:1px solid var(--yellow-bd);}
+.estado-badge.tiempo{background:rgba(0,194,212,.1);color:var(--cyan-dk);border:1px solid rgba(0,194,212,.3);}
+.estado-badge.sin{background:var(--bg);color:var(--text-lt);border:1px solid var(--border-md);}
+.task-footer{background:linear-gradient(135deg,var(--cyan-dk),var(--blue));padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+.task-footer-lbl{font-size:11px;font-weight:700;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.4px;}
+.task-footer-val{font-size:20px;font-weight:800;color:#fff;}
+.task-footer-sub{font-size:9px;color:rgba(255,255,255,.6);}
+
+/* ==================== PANEL PORTAFOLIO COMPLETO ==================== */
+.port-table{width:100%;border-collapse:collapse;}
+.port-table th{background:var(--bg);color:var(--text-md);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:7px 10px;text-align:left;border-bottom:1.5px solid var(--border-md);}
+.port-table td{padding:6px 10px;font-size:9px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.port-table tr:hover td{background:rgba(0,194,212,.05);}
+.port-table .clickable{cursor:pointer;}
+.sem-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
+.port-val{font-size:11px;font-weight:700;}
+.pbar{width:60px;height:5px;background:var(--bg);border-radius:3px;overflow:hidden;display:inline-block;border:1px solid var(--border);}
+.pbar-f{height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue));border-radius:3px;}
+
+/* Gráfico barras supervisor */
+.supervisor-bars{display:flex;flex-direction:column;gap:7px;}
+.sup-bar-row{display:flex;align-items:center;gap:8px;}
+.sup-name{font-size:9px;font-weight:600;color:var(--text-md);width:100px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0;}
+.sup-bar-track{flex:1;height:14px;background:var(--bg);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+.sup-bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:6px;font-size:10px;font-weight:700;color:#fff;transition:width .5s ease;}
+.sup-count{font-size:12px;font-weight:700;color:var(--text);width:20px;text-align:right;flex-shrink:0;}
+
+/* ==================== TABS NAV ==================== */
+.tab-nav{background:var(--surface);border-bottom:1px solid var(--border);display:flex;flex-shrink:0;padding:0 6px;}
+.tab-btn{padding:10px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.3px;color:var(--text-lt);border:none;background:none;cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .15s;}
+.tab-btn:hover{color:var(--cyan-dk);}
+.tab-btn.active{color:var(--cyan-dk);border-bottom-color:var(--cyan);}
+
+/* PANTALLA INICIO */
+#screen-load{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:18px;}
+.load-screen-icon{font-size:52px;opacity:.35;}
+.load-screen-title{font-size:22px;font-weight:800;color:var(--text);letter-spacing:-.5px;}
+.load-screen-sub{font-size:12px;color:var(--text-md);text-align:center;max-width:380px;line-height:1.6;}
+.load-file-btn{background:linear-gradient(135deg,var(--cyan),var(--blue));border:none;border-radius:10px;padding:12px 28px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:#fff;cursor:pointer;box-shadow:0 4px 16px rgba(0,194,212,.3);transition:all .2s;}
+.load-file-btn:hover{transform:translateY(-2px);box-shadow:0 6px 22px rgba(0,194,212,.4);}
+#file-input{display:none;}
+
+/* EMPTY STATE */
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;gap:8px;color:var(--text-lt);}
+.empty-state .icon{font-size:32px;opacity:.3;}
+.empty-state p{font-size:11px;}
+
+/* VIEW */
+.view{display:none;}
+.view.active{display:flex;flex-direction:column;gap:12px;}
+</style>
+</head>
+<body>
+
+<!-- INPUT OCULTO -->
+<input type="file" id="file-input" accept=".json"/>
+
+<!-- TOPBAR -->
+<div class="topbar" id="main-topbar" style="display:none;">
+  <div class="logo">OT</div>
+  <div class="title-block">
+    <div class="title-main">Portafolio OTIC / <span>Dashboard de Gestión</span></div>
+    <div class="title-sub">Oficina TIC — Secretaría Distrital de Movilidad</div>
+  </div>
+  <div class="sep"></div>
+  <div class="filter-group">
+    <div class="filter-lbl">Mes Mesa Trabajo</div>
+    <select class="filter-sel" id="filter-mes" onchange="applyFilters()">
+      <option value="">Todos los meses</option>
+    </select>
+  </div>
+  <div class="sep"></div>
+  <div class="filter-group">
+    <div class="filter-lbl">Supervisor</div>
+    <select class="filter-sel" id="filter-supervisor" onchange="applyFilters()">
+      <option value="">Todos</option>
+    </select>
+  </div>
+  <div class="sep"></div>
+  <div class="filter-group">
+    <div class="filter-lbl">Estado</div>
+    <select class="filter-sel" id="filter-estado" onchange="applyFilters()">
+      <option value="">Todos</option>
+      <option value="En Progreso">En Progreso</option>
+      <option value="RADICADO A DC">Radicado</option>
+    </select>
+  </div>
+  <div class="topbar-right">
+    <div class="date-badge" id="topbar-date"></div>
+    <button class="load-btn" onclick="document.getElementById('file-input').click()">📂 Cargar datos</button>
+  </div>
+</div>
+
+<!-- PANTALLA CARGA INICIAL -->
+<div id="screen-load" style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;">
+  <div class="load-screen-icon">📊</div>
+  <div class="load-screen-title">Portafolio OTIC — Dashboard de Gestión</div>
+  <div class="load-screen-sub">Para comenzar, cargue el archivo <strong>datos_otic.json</strong> generado desde el Excel con la macro de exportación.</div>
+  <button class="load-file-btn" onclick="document.getElementById('file-input').click()">📂 Cargar datos_otic.json</button>
+  <div style="font-size:10px;color:var(--text-lt);">También puede arrastrar el archivo JSON sobre esta ventana</div>
+</div>
+
+<!-- DASHBOARD PRINCIPAL (oculto hasta cargar) -->
+<div id="dashboard" style="display:none;flex-direction:column;height:calc(100% - 52px);">
+
+  <!-- KPI BAR -->
+  <div class="kpi-bar" id="kpi-bar"></div>
+
+  <!-- TABS -->
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('resumen')">📋 Resumen Portafolio</button>
+    <button class="tab-btn" onclick="switchTab('proyecto')">🔍 Detalle Proyecto</button>
+    <button class="tab-btn" onclick="switchTab('semaforos')">🚦 Fechas y Semáforos</button>
+    <button class="tab-btn" onclick="switchTab('plantrabajo')">📅 Plan de Trabajo</button>
+  </div>
+
+  <!-- LAYOUT -->
+  <div class="layout" style="flex:1;overflow:hidden;">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sb-header">
+        <div class="sb-title">Seleccionar Proyecto</div>
+        <div class="sb-search">
+          <span>🔍</span>
+          <input type="text" placeholder="Buscar..." id="search-input" oninput="filterSidebar()"/>
+        </div>
+      </div>
+      <div class="sb-filters">
+        <div class="sb-flt-lbl">Filtrar por supervisor</div>
+        <select class="sb-flt-sel" id="sb-filter-sup" onchange="filterSidebar()">
+          <option value="">Todos los supervisores</option>
+        </select>
+      </div>
+      <div class="proj-list" id="proj-list"></div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+      <div class="content-scroll" id="content-area"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ============================================================
+// ESTADO GLOBAL
+// ============================================================
+let DATA = null;
+let filteredProjects = [];
+let selectedProject = null;
+let currentTab = 'resumen';
+
+const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+const BADGE_COLORS = [
+  '0891b2','2563eb','059669','7c3aed','dc2626','0d9488','1d4ed8','16a34a','9333ea','0e7490',
+  '1e40af','047857','6d28d9','b91c1c','0369a1','065f46','4338ca','c2410c','0284c7','4f46e5'
+];
+
+// ============================================================
+// CARGA DE DATOS — con recálculo automático de días
+// ============================================================
+function procesarDatos(rawData) {
+  const hoy = new Date();
+  hoy.setHours(0,0,0,0);
+  rawData.proyectos.forEach(p => {
+    if (p.fecha_abogado)    p.dias_abogado    = diffDias(hoy, p.fecha_abogado);
+    if (p.fecha_mesa)       p.dias_mesa       = diffDias(hoy, p.fecha_mesa);
+    if (p.fecha_radicacion) p.dias_radicacion = diffDias(hoy, p.fecha_radicacion);
+    if ((!p.progreso_general || p.progreso_general === 0) && p.tareas && p.tareas.length > 0) {
+      const conAvance = p.tareas.filter(t => t.avance !== undefined && t.avance !== null);
+      if (conAvance.length > 0) {
+        p.progreso_general = Math.round(conAvance.reduce((s,t) => s+(t.avance||0), 0) / conAvance.length);
+      }
+    }
+    if (p.progreso_general > 0 && p.progreso_general <= 1) p.progreso_general = Math.round(p.progreso_general * 100);
+    if (p.tareas) {
+      p.tareas.forEach(t => {
+        if (t.fin) t.dias = diffDias(hoy, t.fin);
+        if (t.avance > 0 && t.avance <= 1) t.avance = Math.round(t.avance * 100);
+        if (!t.estado || t.estado === '' || t.estado === '-') {
+          t.estado = calcEstadoTareaRaw(t.avance || 0, t.dias || 0);
+        }
+      });
+    }
+  });
+  return rawData;
+}
+
+function diffDias(desde, fechaStr) {
+  if (!fechaStr) return 0;
+  const hasta = new Date(fechaStr);
+  hasta.setHours(0,0,0,0);
+  return Math.round((hasta - desde) / (1000*60*60*24));
+}
+
+function calcEstadoTareaRaw(avance, dias) {
+  if (avance >= 100) return 'Completada';
+  if (dias < 0) return 'Vencida';
+  if (dias <= 5) return 'Por vencer';
+  return 'En tiempo';
+}
+
+document.getElementById('file-input').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      DATA = procesarDatos(JSON.parse(ev.target.result));
+      initDashboard();
+    } catch(err) { alert('Error al leer el archivo JSON: ' + err.message); }
+  };
+  reader.readAsText(file, 'UTF-8');
+  e.target.value = '';
+});
+
+document.addEventListener('dragover', e => e.preventDefault());
+document.addEventListener('drop', e => {
+  e.preventDefault();
+  const file = e.dataTransfer.files[0];
+  if (file && file.name.endsWith('.json')) {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        DATA = procesarDatos(JSON.parse(ev.target.result));
+        initDashboard();
+      } catch(err) { alert('Error: ' + err.message); }
+    };
+    reader.readAsText(file, 'UTF-8');
+  }
+});
+
+// ============================================================
+// INICIALIZAR
+// ============================================================
+function initDashboard() {
+  document.getElementById('screen-load').style.display = 'none';
+  const dash = document.getElementById('dashboard');
+  dash.style.display = 'flex';
+  document.getElementById('main-topbar').style.display = 'flex';
+  document.body.style.height = '100%';
+  document.body.style.overflow = 'hidden';
+
+  const now = new Date();
+  document.getElementById('topbar-date').textContent =
+    now.toLocaleDateString('es-CO', {weekday:'short', day:'2-digit', month:'short', year:'numeric'}).toUpperCase();
+
+  populateFilters();
+  filteredProjects = [...DATA.proyectos];
+  renderKPIs();
+  renderSidebar();
+  if (filteredProjects.length > 0) selectedProject = filteredProjects[0].id;
+  renderContent();
+}
+
+// ============================================================
+// FILTROS
+// ============================================================
+function populateFilters() {
+  const selMes = document.getElementById('filter-mes');
+  selMes.innerHTML = '<option value="">Todos los meses</option>';
+  const meses = [...new Set(DATA.proyectos.filter(p => p.fecha_mesa).map(p => {
+    const d = new Date(p.fecha_mesa);
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+  }))].sort();
+  meses.forEach(m => {
+    const [y, mo] = m.split('-');
+    const opt = document.createElement('option');
+    opt.value = m; opt.textContent = `${MESES[parseInt(mo)-1]} ${y}`;
+    selMes.appendChild(opt);
+  });
+
+  const sups = [...new Set(DATA.proyectos.map(p => p.supervisor).filter(Boolean))].sort();
+  const selSup = document.getElementById('filter-supervisor');
+  selSup.innerHTML = '<option value="">Todos</option>';
+  sups.forEach(s => { const opt = document.createElement('option'); opt.value = s; opt.textContent = s; selSup.appendChild(opt); });
+
+  const sbSup = document.getElementById('sb-filter-sup');
+  sbSup.innerHTML = '<option value="">Todos los supervisores</option>';
+  sups.forEach(s => { const opt = document.createElement('option'); opt.value = s; opt.textContent = s; sbSup.appendChild(opt); });
+
+  const ests = [...new Set(DATA.proyectos.map(p => p.estado).filter(Boolean))].sort();
+  const selEst = document.getElementById('filter-estado');
+  selEst.innerHTML = '<option value="">Todos</option>';
+  ests.forEach(e => { const opt = document.createElement('option'); opt.value = e; opt.textContent = e; selEst.appendChild(opt); });
+}
+
+function applyFilters() {
+  const mes = document.getElementById('filter-mes').value;
+  const sup = document.getElementById('filter-supervisor').value;
+  const est = document.getElementById('filter-estado').value;
+  filteredProjects = DATA.proyectos.filter(p => {
+    if (mes && p.fecha_mesa) {
+      const d = new Date(p.fecha_mesa);
+      const pm = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+      if (pm !== mes) return false;
+    }
+    if (sup && p.supervisor !== sup) return false;
+    if (est && p.estado !== est) return false;
+    return true;
+  });
+  renderKPIs(); renderSidebar(); renderContent();
+}
+
+function filterSidebar() {
+  const search = document.getElementById('search-input').value.toLowerCase();
+  const sup = document.getElementById('sb-filter-sup').value;
+  document.querySelectorAll('.proj-row').forEach(row => {
+    const id = row.dataset.id;
+    const p = DATA.proyectos.find(x => x.id === id);
+    if (!p) return;
+    const matchSearch = !search || p.nombre.toLowerCase().includes(search) || p.id.toLowerCase().includes(search);
+    const matchSup = !sup || p.supervisor === sup;
+    row.style.display = (matchSearch && matchSup) ? '' : 'none';
+  });
+}
+
+// ============================================================
+// KPI BAR
+// ============================================================
+function renderKPIs() {
+  const ps = filteredProjects;
+  const total = ps.length;
+  const valorTotal = ps.reduce((s, p) => s + (p.valor || 0), 0);
+  const criticos = ps.filter(p => getSemaforoProyecto(p) === 'r').length;
+  const alerta = ps.filter(p => getSemaforoProyecto(p) === 'y').length;
+  const enTiempo = ps.filter(p => getSemaforoProyecto(p) === 'g').length;
+  const pctTiempo = total > 0 ? Math.round(enTiempo / total * 100) : 0;
+  const bySup = {};
+  ps.forEach(p => { const s = p.supervisor || 'Sin asignar'; bySup[s] = (bySup[s] || 0) + 1; });
+  const topSup = Object.entries(bySup).sort((a,b) => b[1]-a[1])[0];
+
+  const kpis = [
+    { icon:'📁', cls:'teal', kpiCls:'', val:total, valCls:'teal-c', lbl:'Total Proyectos', sub:'Portafolio activo', pill:null },
+    { icon:'💰', cls:'blue', kpiCls:'', val:formatCOP(valorTotal), valCls:'blue-c', lbl:'Valor del Portafolio', sub:'Apropiación vigente', pill:null },
+    { icon:'✅', cls:'green', kpiCls:'kpi-green', val:`${enTiempo} / ${total}`, valCls:'green-c', lbl:'En Tiempo', sub:`${pctTiempo}% del portafolio`, pill:{txt:`${pctTiempo}%`,cls:'g'} },
+    { icon:'⚠️', cls:'yellow', kpiCls:'kpi-yellow', val:alerta, valCls:'yellow-c', lbl:'En Alerta', sub:'Entre 5 y 20 días', pill:alerta>0?{txt:`${alerta} proyectos`,cls:'y'}:null },
+    { icon:'🔴', cls:'red', kpiCls:'kpi-red', val:criticos, valCls:'red-c', lbl:'Críticos', sub:'Menos de 5 días', pill:criticos>0?{txt:'Atención requerida',cls:'r'}:null },
+    { icon:'👥', cls:'teal', kpiCls:'', val:Object.keys(bySup).length, valCls:'teal-c', lbl:'Supervisores', sub:topSup?`Mayor carga: ${topSup[0].split(' ')[0]} (${topSup[1]})`:'' , pill:null }
+  ];
+
+  document.getElementById('kpi-bar').innerHTML = kpis.map(k => `
+    <div class="kpi-item ${k.kpiCls}">
+      <div class="kpi-icon ${k.cls}">${k.icon}</div>
+      <div class="kpi-text">
+        <div class="kpi-val ${k.valCls}">${k.val}</div>
+        <div class="kpi-lbl">${k.lbl}</div>
+        ${k.sub ? `<div class="kpi-sub">${k.sub}</div>` : ''}
+        ${k.pill ? `<span class="kpi-pill ${k.pill.cls}">${k.pill.txt}</span>` : ''}
+      </div>
+    </div>`).join('');
+}
+
+// ============================================================
+// SIDEBAR
+// ============================================================
+function renderSidebar() {
+  const list = document.getElementById('proj-list');
+  list.innerHTML = filteredProjects.map((p, idx) => {
+    const sem = getSemaforoProyecto(p);
+    const dotCls = sem === 'r' ? 'sem-r' : sem === 'y' ? 'sem-y' : 'sem-g';
+    const badgeBg = BADGE_COLORS[idx % BADGE_COLORS.length];
+    const pct = getProgreso(p);
+    const isActive = selectedProject === p.id ? ' active' : '';
+    return `
+      <div class="proj-row${isActive}" data-id="${p.id}" onclick="selectProject('${p.id}')">
+        <div class="proj-badge" style="background:#${badgeBg}">${p.id}</div>
+        <div class="proj-info">
+          <div class="proj-name">${cleanName(p.nombre)}</div>
+          <div class="proj-supervisor">${p.supervisor || '—'}</div>
+        </div>
+        <div class="proj-dot ${dotCls}"></div>
+        <div class="proj-pct">${pct}%</div>
+      </div>`;
+  }).join('');
+}
+
+// ============================================================
+// SELECCIONAR PROYECTO
+// ============================================================
+function selectProject(id) {
+  selectedProject = id;
+  document.querySelectorAll('.proj-row').forEach(r => r.classList.toggle('active', r.dataset.id === id));
+  if (currentTab === 'resumen') switchTab('proyecto');
+  else renderContent();
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(tab) {
+  currentTab = tab;
+  const tabNames = ['resumen','proyecto','semaforos','plantrabajo'];
+  document.querySelectorAll('.tab-btn').forEach((b, i) => b.classList.toggle('active', tabNames[i] === tab));
+  renderContent();
+}
+
+// ============================================================
+// RENDER CONTENT
+// ============================================================
+function renderContent() {
+  const area = document.getElementById('content-area');
+  if (currentTab === 'resumen') {
+    area.innerHTML = renderResumen();
+  } else if (currentTab === 'proyecto') {
+    const p = filteredProjects.find(x => x.id === selectedProject) || filteredProjects[0];
+    if (!p) { area.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>No hay proyectos con los filtros actuales</p></div>'; return; }
+    selectedProject = p.id;
+    area.innerHTML = renderProyecto(p);
+  } else if (currentTab === 'semaforos') {
+    area.innerHTML = renderSemaforos();
+  } else if (currentTab === 'plantrabajo') {
+    const p = filteredProjects.find(x => x.id === selectedProject) || filteredProjects[0];
+    if (!p) { area.innerHTML = '<div class="empty-state"><div class="icon">📭</div><p>No hay proyectos con los filtros actuales</p></div>'; return; }
+    selectedProject = p.id;
+    area.innerHTML = renderPlanTrabajo(p);
+  }
+}
+
+// ============================================================
+// VISTA: PROYECTO DETALLE
+// ============================================================
+function renderProyecto(p) {
+  const semAbogado = getSemaforo(p.dias_abogado);
+  const semMesa    = getSemaforo(p.dias_mesa);
+  const semRadic   = getSemaforo(p.dias_radicacion);
+  const valorFmt = p.valor > 0 ? '$ ' + p.valor.toLocaleString('es-CO') : 'Sin valor asignado';
+  const pct = getProgreso(p);
+
+  return `
+  <!-- HEADER PROYECTO -->
+  <div class="proj-header">
+    <div class="ph-id">${p.id}</div>
+    <div class="ph-info">
+      <div class="ph-name">${cleanName(p.nombre)}</div>
+      <div class="ph-sub">${p.supervisor && p.supervisor !== 'Pendiente' ? 'Supervisor: ' + p.supervisor + '  ·  ' : ''}Abogado: ${p.abogado || '—'}</div>
+      <div class="ph-tags">
+        <span class="tag teal">${p.estado}</span>
+        ${p.modalidad ? `<span class="tag blue">${truncate(p.modalidad.replace(/^\d+[\.-]+/,'').trim(), 30)}</span>` : ''}
+        ${p.sgc ? `<span class="tag blue">SGC: ${p.sgc}</span>` : ''}
+      </div>
+    </div>
+    <div class="ph-right">
+      <div class="ph-progress">
+        <div class="ph-pct">${pct}%</div>
+        <div class="ph-pct-lbl">Avance General</div>
+      </div>
+      ${renderDonut(pct, 54)}
+    </div>
+  </div>
+
+  <!-- CARDS FECHAS (reemplazo velocímetros) -->
+  <div class="gauges-row">
+    ${renderGaugeCard('📋 Entrega Abogado OTIC', p.dias_abogado, p.fecha_abogado, semAbogado, '6 días antes de Mesa')}
+    ${renderGaugeCard('📅 Mesa de Trabajo', p.dias_mesa, p.fecha_mesa, semMesa, 'Fecha comprometida')}
+    ${renderGaugeCard('⚡ Radicación Contratación', p.dias_radicacion, p.fecha_radicacion, semRadic, 'Umbral crítico: 20 días')}
+  </div>
+
+  <!-- DATOS DEL PROYECTO + GRÁFICA -->
+  <div class="two-col">
+    <div class="card" style="border-top:3px solid var(--cyan);">
+      <div class="card-header">
+        <div class="card-title"><span class="icon">📄</span> Datos del Proyecto</div>
+      </div>
+      <div style="padding:12px 16px;">
+        <div style="text-align:center;padding:8px 0 10px;border-bottom:1px solid var(--border);margin-bottom:10px;">
+          <div style="font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;">Valor del Proyecto</div>
+          <div style="font-size:${p.valor > 0 ? '24' : '14'}px;font-weight:800;color:var(--cyan-dk);line-height:1.1;letter-spacing:-1px;">${valorFmt}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;">
+          ${[
+            ['ID', p.id],
+            ['Estado', p.estado || '—'],
+            ['Supervisor OTIC', p.supervisor || '—'],
+            ['Abogado OTIC', p.abogado || '—'],
+            ['Estructurador OTIC', p.estructurador || '—'],
+            ['Apoyo Supervisión', p.apoyo || '—'],
+          ].map(([lbl, val]) => `
+            <div style="padding:5px 0;border-bottom:1px solid var(--border);">
+              <div style="font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.4px;">${lbl}</div>
+              <div style="font-size:12px;font-weight:700;color:var(--text);margin-top:1px;">${val}</div>
+            </div>`).join('')}
+          <div style="padding:5px 0;grid-column:1/-1;border-bottom:1px solid var(--border);">
+            <div style="font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.4px;">Evaluadores OTIC</div>
+            <div style="font-size:12px;font-weight:700;color:var(--text);margin-top:1px;">${p.evaluadores || '—'}</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;">
+          <div style="font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;">Modalidad</div>
+          <div style="font-size:11px;color:var(--text-md);line-height:1.5;">${truncate((p.modalidad||'').replace(/^\d+[\.-]+/,'').trim(), 100)}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- GRÁFICA -->
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="card-header">
+        <div class="card-title"><span class="icon">📊</span> N.º Contratos × Supervisor</div>
+      </div>
+      <div style="padding:10px 14px;">
+        ${renderSupBarChart()}
+      </div>
+    </div>
+  </div>
+
+  <!-- TAREAS -->
+  <div class="card tasks-card">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">✅</span> Tareas Comprometidas por el Supervisor</div>
+      <div style="font-size:9px;color:var(--text-lt);">Plan de Trabajo — ${p.id} ${p.tareas ? '· ' + p.tareas.length + ' tareas' : ''}</div>
+    </div>
+    ${renderTasksTable(p)}
+    <div class="task-footer">
+      <span class="task-footer-lbl">Progreso General del Proyecto</span>
+      <div style="display:flex;align-items:baseline;gap:6px;">
+        <span class="task-footer-val">${pct}%</span>
+        <span class="task-footer-sub">${p.tareas ? p.tareas.filter(t => calcEstadoTarea(t).includes('Completada')).length : 0} de ${p.tareas ? p.tareas.length : 0} tareas completadas</span>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// CARD FECHA (reemplaza velocímetro SVG por card limpia + arco)
+// ============================================================
+function renderGaugeCard(titulo, dias, fecha, sem, subtitulo) {
+  const semCls = sem === 'r' ? 'critico' : sem === 'y' ? 'alerta' : 'ok';
+  const pillCls = sem === 'r' ? 'c' : sem === 'y' ? 'a' : 'ok';
+  const numCls  = sem === 'r' ? 'c' : sem === 'y' ? 'a' : 'ok';
+  const statusTxt = sem === 'r' ? '🔴 Crítico' : sem === 'y' ? '🟡 Alerta' : '🟢 En Tiempo';
+  const strokeColor = sem === 'r' ? '#EF4444' : sem === 'y' ? '#EAB308' : '#22C55E';
+  const trackColor = sem === 'r' ? '#FEE2E2' : sem === 'y' ? '#FEF9C3' : '#DCFCE7';
+
+  const maxDias = 120;
+  const pct = Math.max(0, Math.min((dias || 0) / maxDias, 1));
+  const r = 32, circ = 2 * Math.PI * r;
+  const offset = circ * (1 - pct);
+
+  return `
+  <div class="gauge-card ${semCls}">
+    <div class="gauge-header-bar">
+      <div class="gauge-titulo">${titulo}</div>
+      <div class="gauge-subtitulo">${subtitulo}</div>
+    </div>
+    <div class="gauge-body">
+      <div class="gauge-arc-wrap">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle cx="40" cy="40" r="${r}" fill="none" stroke="${trackColor}" stroke-width="9"/>
+          <circle cx="40" cy="40" r="${r}" fill="none" stroke="${strokeColor}" stroke-width="9"
+            stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"
+            stroke-linecap="round" transform="rotate(-90 40 40)"
+            style="transition:stroke-dashoffset .6s ease;"/>
+        </svg>
+        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;">
+          <div style="font-size:15px;font-weight:800;color:${strokeColor};line-height:1;">${Math.min(Math.max(dias||0,0), maxDias)}d</div>
+        </div>
+      </div>
+      <div class="gauge-big-num">
+        <div class="gauge-dias-num ${numCls}">${dias !== undefined && dias !== null ? dias : '—'}d</div>
+        <div class="gauge-dias-label">Días restantes</div>
+        ${fecha ? `<div class="gauge-date-str">${formatDateDisplay(fecha)}</div>` : ''}
+        <div class="gauge-pill ${pillCls}">${statusTxt}</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// DONUT AVANCE GENERAL
+// ============================================================
+function renderDonut(pct, size) {
+  const r = 20, circ = 2 * Math.PI * r;
+  const offset = circ * (1 - pct/100);
+  return `<div style="position:relative;width:${size}px;height:${size}px;">
+    <svg width="${size}" height="${size}" viewBox="0 0 48 48">
+      <circle cx="24" cy="24" r="${r}" fill="none" stroke="var(--border-md)" stroke-width="5"/>
+      <circle cx="24" cy="24" r="${r}" fill="none" stroke="url(#dg)" stroke-width="5"
+        stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"
+        stroke-linecap="round" transform="rotate(-90 24 24)"/>
+      <defs><linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#00C2D4"/><stop offset="100%" stop-color="#2563EB"/>
+      </linearGradient></defs>
+    </svg>
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:11px;font-weight:800;color:var(--text);">${pct}%</div>
+  </div>`;
+}
+
+// ============================================================
+// GRÁFICA BARRAS SUPERVISOR
+// ============================================================
+function renderSupBarChart() {
+  if (!DATA) return '';
+  const ps = filteredProjects.length > 0 ? filteredProjects : DATA.proyectos;
+  const bySup = {};
+  ps.forEach(p => {
+    const s = (p.supervisor || 'Sin asignar').split(',')[0].trim();
+    bySup[s] = (bySup[s] || 0) + 1;
+  });
+  const entries = Object.entries(bySup).sort((a, b) => b[1] - a[1]);
+  if (entries.length === 0) return '';
+
+  const COLORS = ['#0891b2','#2563eb','#7c3aed','#059669','#dc2626','#d97706','#0d9488','#9333ea','#16a34a','#c2410c'];
+  const maxVal = Math.max(...entries.map(e => e[1]));
+  return `<div style="display:flex;flex-direction:column;gap:8px;">
+    ${entries.map(([name, count], i) => {
+      const pct = Math.round(count / maxVal * 100);
+      const color = COLORS[i % COLORS.length];
+      return `
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:90px;font-size:9px;font-weight:600;color:var(--text-md);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:0;">${name.split(' ')[0]} ${name.split(' ')[1]||''}</div>
+        <div style="flex:1;height:14px;background:var(--bg);border-radius:4px;overflow:hidden;border:1px solid var(--border);">
+          <div style="width:${pct}%;height:100%;background:${color};border-radius:4px;display:flex;align-items:center;padding-left:6px;transition:width .5s;">
+            ${pct > 25 ? `<span style="font-size:10px;font-weight:700;color:#fff;">${count}</span>` : ''}
+          </div>
+        </div>
+        <div style="font-size:12px;font-weight:700;color:var(--text);width:18px;text-align:right;">${count}</div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+// ============================================================
+// TABLA DE TAREAS
+// ============================================================
+function renderTasksTable(p) {
+  if (!p.tareas || p.tareas.length === 0) {
+    return `<div class="empty-state" style="height:80px;"><div class="icon">📝</div><p>No hay tareas registradas para este proyecto</p></div>`;
+  }
+  const rows = p.tareas.map(t => {
+    const diasCls = (t.dias||0) < 0 ? 'neg' : (t.dias||0) <= 5 ? 'warn' : 'pos';
+    const diasStr = t.dias !== undefined && t.dias !== null ? (t.dias > 0 ? '+'+t.dias : t.dias) + 'd' : '—';
+    const avance = t.avance || 0;
+    const fillCls = avance >= 100 ? 'c100' : avance >= 75 ? 'c75' : avance >= 50 ? 'c50' : 'c25';
+    const estadoCalculado = calcEstadoTarea(t);
+    const estadoCls = getEstadoCls(estadoCalculado);
+    const estadoTxt = cleanEstado(estadoCalculado);
+    const completedCls = avance >= 100 ? ' completed' : '';
+    return `
+    <tr class="${completedCls}">
+      <td class="task-num">${String(t.num).padStart(2,'0')}</td>
+      <td class="task-name-cell">${t.nombre}</td>
+      <td><span class="tag blue" style="font-size:8px;">${t.fase || '—'}</span></td>
+      <td class="task-date">${formatDateDisplay(t.inicio)}</td>
+      <td class="task-date">${formatDateDisplay(t.fin)}</td>
+      <td><span class="dias-badge ${diasCls}">${diasStr}</span></td>
+      <td class="avance-col">
+        <div class="avance-bar"><div class="avance-fill ${fillCls}" style="width:${avance}%"></div></div>
+        <div class="avance-pct">${avance}%</div>
+      </td>
+      <td><span class="estado-badge ${estadoCls}">${estadoTxt}</span></td>
+    </tr>`;
+  }).join('');
+  return `
+  <div style="overflow-x:auto;">
+    <table class="tasks-table">
+      <thead><tr>
+        <th>#</th><th>Tarea</th><th>Fase</th><th>F. Inicio</th><th>F. Fin</th>
+        <th>Días Rest.</th><th>% Avance</th><th>Estado</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
+// ============================================================
+// VISTA: PLAN DE TRABAJO
+// ============================================================
+function renderPlanTrabajo(p) {
+  const pct = getProgreso(p);
+  const completadas = p.tareas ? p.tareas.filter(t => calcEstadoTarea(t).includes('Completada')).length : 0;
+  const total = p.tareas ? p.tareas.length : 0;
+  const selector = filteredProjects.map((fp, idx) => {
+    const sel = fp.id === p.id ? 'selected' : '';
+    return `<option value="${fp.id}" ${sel}>${fp.id} — ${cleanName(fp.nombre)}</option>`;
+  }).join('');
+
+  if (!p.tareas || p.tareas.length === 0) {
+    return `<div class="card" style="border-top:3px solid var(--cyan);">
+      <div class="card-header">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+          <div class="card-title">📅 Plan de Trabajo</div>
+          <select style="border:1px solid var(--border-md);border-radius:6px;padding:4px 10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;background:var(--bg);" onchange="selectProject(this.value);switchTab('plantrabajo');">${selector}</select>
+        </div>
+      </div>
+      <div class="empty-state"><div class="icon">📝</div><p>No hay tareas registradas para el proyecto ${p.id}</p></div>
+    </div>`;
+  }
+
+  const rows = p.tareas.map(t => {
+    const avance = t.avance || 0;
+    const estadoCalculado = calcEstadoTarea(t);
+    const estadoCls = getEstadoCls(estadoCalculado);
+    const diasCls = (t.dias||0) < 0 ? 'neg' : (t.dias||0) <= 5 ? 'warn' : 'pos';
+    const diasStr = t.dias !== undefined ? ((t.dias > 0 ? '+' : '') + t.dias + 'd') : '—';
+    const fillCls = avance >= 100 ? 'c100' : avance >= 75 ? 'c75' : avance >= 50 ? 'c50' : 'c25';
+    const completedRow = avance >= 100 ? ' completed' : '';
+    return `
+    <tr class="${completedRow}">
+      <td style="text-align:center;font-weight:800;font-size:11px;color:var(--cyan-dk);">${String(t.num).padStart(2,'0')}</td>
+      <td><span class="tag blue" style="font-size:8px;">${t.fase || '—'}</span></td>
+      <td style="font-weight:600;font-size:11px;max-width:200px;">${t.nombre}</td>
+      <td style="font-size:10px;color:var(--text-md);">${formatDateDisplay(t.inicio)}</td>
+      <td style="font-size:10px;color:var(--text-md);">${formatDateDisplay(t.fin)}</td>
+      <td style="text-align:center;"><span class="dias-badge ${diasCls}">${diasStr}</span></td>
+      <td>
+        <div style="display:flex;align-items:center;gap:6px;min-width:110px;">
+          <div class="avance-bar" style="flex:1;height:7px;"><div class="avance-fill ${fillCls}" style="width:${avance}%;height:100%;border-radius:4px;"></div></div>
+          <span style="font-size:11px;font-weight:700;color:var(--cyan-dk);min-width:30px;">${avance}%</span>
+        </div>
+      </td>
+      <td><span class="estado-badge ${estadoCls}">${cleanEstado(estadoCalculado)}</span></td>
+    </tr>`;
+  }).join('');
+
+  const vencidas  = p.tareas.filter(t => calcEstadoTarea(t) === 'Vencida').length;
+  const porVencer = p.tareas.filter(t => calcEstadoTarea(t) === 'Por vencer').length;
+  const enTiempo  = p.tareas.filter(t => calcEstadoTarea(t) === 'En tiempo').length;
+
+  return `
+  <div class="card" style="border-top:3px solid var(--cyan);margin-bottom:0;">
+    <div class="card-header">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;width:100%;">
+        <div class="card-title">📅 Plan de Trabajo</div>
+        <select style="border:1px solid var(--border-md);border-radius:6px;padding:4px 10px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:600;cursor:pointer;background:var(--bg);min-width:200px;" onchange="selectProject(this.value);switchTab('plantrabajo');">${selector}</select>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:14px;">
+          <div style="text-align:right;">
+            <div style="font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.4px;">Supervisor</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text);">${p.supervisor || '—'}</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.4px;">Abogado</div>
+            <div style="font-size:11px;font-weight:700;color:var(--text);">${p.abogado || '—'}</div>
+          </div>
+          <div style="background:linear-gradient(135deg,var(--cyan),var(--blue));border-radius:10px;padding:7px 16px;text-align:center;">
+            <div style="font-size:22px;font-weight:800;color:#fff;line-height:1;letter-spacing:-1px;">${pct}%</div>
+            <div style="font-size:8px;color:rgba(255,255,255,.8);text-transform:uppercase;letter-spacing:.4px;">Avance</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MÉTRICAS RÁPIDAS -->
+    <div style="display:flex;gap:0;border-bottom:1px solid var(--border);">
+      ${[
+        [total, 'Total Tareas', 'var(--cyan-dk)'],
+        [completadas, 'Completadas', 'var(--green-val)'],
+        [vencidas, 'Vencidas', 'var(--red-val)'],
+        [porVencer, 'Por Vencer', 'var(--yellow-val)'],
+        [enTiempo, 'En Tiempo', 'var(--green-val)'],
+      ].map(([val, lbl, color], i, arr) => `
+        <div style="flex:1;padding:10px 14px;${i < arr.length-1 ? 'border-right:1px solid var(--border);' : ''}text-align:center;">
+          <div style="font-size:22px;font-weight:800;color:${color};letter-spacing:-1px;">${val}</div>
+          <div style="font-size:9px;color:var(--text-lt);text-transform:uppercase;letter-spacing:.4px;margin-top:1px;">${lbl}</div>
+        </div>`).join('')}
+    </div>
+
+    <!-- BARRA PROGRESO GENERAL -->
+    <div style="padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;margin-bottom:5px;">
+        <span style="font-size:10px;font-weight:700;color:var(--cyan-dk);">Progreso General — ${p.id}: ${cleanName(p.nombre)}</span>
+        <span style="font-size:10px;color:var(--text-md);font-weight:600;">${completadas} de ${total} tareas completadas</span>
+      </div>
+      <div style="height:8px;background:var(--border);border-radius:4px;overflow:hidden;">
+        <div style="width:${pct}%;height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue));border-radius:4px;transition:width .5s;"></div>
+      </div>
+    </div>
+
+    <!-- TABLA -->
+    <div style="overflow-x:auto;max-height:calc(100vh - 340px);overflow-y:auto;">
+      <table class="tasks-table" style="width:100%;">
+        <thead>
+          <tr>
+            <th style="width:40px;">#</th>
+            <th style="width:70px;">Fase</th>
+            <th>Nombre de la Tarea</th>
+            <th style="width:100px;">F. Inicio</th>
+            <th style="width:100px;">F. Fin Comprometida</th>
+            <th style="width:80px;">Días Rest.</th>
+            <th style="width:130px;">% Avance</th>
+            <th style="width:90px;">Estado</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// VISTA: RESUMEN PORTAFOLIO
+// ============================================================
+function renderResumen() {
+  const ps = filteredProjects;
+  const tableRows = ps.map((p, idx) => {
+    const sem = getSemaforoProyecto(p);
+    const dotCls = sem === 'r' ? 'sem-r' : sem === 'y' ? 'sem-y' : 'sem-g';
+    const pct = getProgreso(p);
+    const valorFmt = p.valor > 0 ? '$ ' + (p.valor/1000000).toFixed(0) + 'M' : '—';
+    const bg = BADGE_COLORS[idx % BADGE_COLORS.length];
+    return `
+    <tr class="clickable" onclick="selectProject('${p.id}')">
+      <td><span style="background:#${bg};color:#fff;padding:2px 7px;border-radius:4px;font-weight:700;font-size:9px;">${p.id}</span></td>
+      <td style="font-weight:600;font-size:9px;max-width:180px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${cleanName(p.nombre)}</td>
+      <td style="font-size:9px;">${p.supervisor || '—'}</td>
+      <td><span class="sem-dot ${dotCls}" style="display:inline-block;"></span></td>
+      <td style="font-size:9px;">${formatDateShort(p.fecha_mesa)}</td>
+      <td><span class="dias-badge ${(p.dias_radicacion||0) < 0 ? 'neg' : (p.dias_radicacion||0) <= 20 ? 'warn' : 'pos'}" style="font-size:10px;">${p.dias_radicacion}d</span></td>
+      <td style="font-size:9px;color:var(--cyan-dk);font-weight:700;">${valorFmt}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:4px;">
+          <div class="pbar"><div class="pbar-f" style="width:${pct}%"></div></div>
+          <span class="port-val" style="color:var(--cyan-dk)">${pct}%</span>
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+
+  const criticos = ps.filter(p => getSemaforoProyecto(p) === 'r');
+  const alertas  = ps.filter(p => getSemaforoProyecto(p) === 'y');
+  const enTiempo = ps.filter(p => getSemaforoProyecto(p) === 'g');
+
+  return `
+  <div style="display:grid;grid-template-columns:1fr 290px;gap:12px;">
+    <div class="card" style="overflow:hidden;">
+      <div class="card-header">
+        <div class="card-title"><span class="icon">📋</span> Todos los Proyectos</div>
+        <div style="font-size:9px;color:var(--text-lt);">${ps.length} proyectos · Clic para ver detalle</div>
+      </div>
+      <div style="overflow-x:auto;max-height:calc(100vh - 250px);overflow-y:auto;">
+        <table class="port-table">
+          <thead><tr>
+            <th>ID</th><th>Proyecto</th><th>Supervisor</th><th>🚦</th>
+            <th>Mesa Trabajo</th><th>Días Radic.</th><th>Valor</th><th>Avance</th>
+          </tr></thead>
+          <tbody>${tableRows}</tbody>
+        </table>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <div class="card">
+        <div class="card-header"><div class="card-title"><span class="icon">🚦</span> Semáforos</div></div>
+        <div class="card-body" style="display:flex;flex-direction:column;gap:8px;">
+          <div onclick="selectBySemaforo('r')" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--red-bg);border:1px solid var(--red-bd);border-radius:8px;transition:opacity .15s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+            <span style="font-size:10px;font-weight:700;color:var(--red);">🔴 Críticos (&lt;5d)</span>
+            <span style="font-size:22px;font-weight:800;color:var(--red);letter-spacing:-1px;">${criticos.length}</span>
+          </div>
+          <div onclick="selectBySemaforo('y')" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--yellow-bg);border:1px solid var(--yellow-bd);border-radius:8px;transition:opacity .15s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+            <span style="font-size:10px;font-weight:700;color:var(--yellow);">🟡 En Alerta (5-20d)</span>
+            <span style="font-size:22px;font-weight:800;color:var(--yellow);letter-spacing:-1px;">${alertas.length}</span>
+          </div>
+          <div onclick="selectBySemaforo('g')" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--green-bg);border:1px solid var(--green-bd);border-radius:8px;transition:opacity .15s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
+            <span style="font-size:10px;font-weight:700;color:var(--green);">🟢 En Tiempo (&gt;20d)</span>
+            <span style="font-size:22px;font-weight:800;color:var(--green);letter-spacing:-1px;">${enTiempo.length}</span>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="flex:1;">
+        <div class="card-header"><div class="card-title"><span class="icon">📊</span> N.º Contratos × Supervisor</div></div>
+        <div style="padding:10px 14px;">
+          ${renderSupBarChart()}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+// VISTA: SEMÁFOROS
+// ============================================================
+function renderSemaforos() {
+  const ps = filteredProjects;
+  const sorted = [...ps].sort((a, b) => (a.dias_mesa || 999) - (b.dias_mesa || 999));
+  const rows = sorted.map((p, idx) => {
+    const sa = getSemaforo(p.dias_abogado);
+    const sm = getSemaforo(p.dias_mesa);
+    const sr = getSemaforo(p.dias_radicacion);
+    const bg = BADGE_COLORS[idx % BADGE_COLORS.length];
+    return `
+    <tr class="clickable" onclick="selectProject('${p.id}')">
+      <td><span style="background:#${bg};color:#fff;padding:2px 7px;border-radius:4px;font-weight:700;font-size:9px;">${p.id}</span></td>
+      <td style="font-weight:600;font-size:9px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${cleanName(p.nombre)}</td>
+      <td style="font-size:9px;">${p.supervisor || '—'}</td>
+      <td>${renderSemCell(p.dias_abogado, p.fecha_abogado, sa)}</td>
+      <td>${renderSemCell(p.dias_mesa, p.fecha_mesa, sm)}</td>
+      <td>${renderSemCell(p.dias_radicacion, p.fecha_radicacion, sr)}</td>
+    </tr>`;
+  }).join('');
+
+  return `
+  <div class="card" style="overflow:hidden;">
+    <div class="card-header">
+      <div class="card-title"><span class="icon">🚦</span> Semáforos de Fechas Clave — Todos los Proyectos</div>
+      <div style="display:flex;gap:12px;font-size:9px;align-items:center;">
+        <span style="color:var(--red);font-weight:700;"><span class="sem-dot sem-r" style="display:inline-block;margin-right:3px;"></span>Crítico &lt;5d</span>
+        <span style="color:var(--yellow);font-weight:700;"><span class="sem-dot sem-y" style="display:inline-block;margin-right:3px;"></span>Alerta 5-20d</span>
+        <span style="color:var(--green);font-weight:700;"><span class="sem-dot sem-g" style="display:inline-block;margin-right:3px;"></span>En Tiempo &gt;20d</span>
+      </div>
+    </div>
+    <div style="overflow-x:auto;max-height:calc(100vh - 200px);overflow-y:auto;">
+      <table class="port-table">
+        <thead>
+          <tr>
+            <th rowspan="2" style="vertical-align:middle;">ID</th>
+            <th rowspan="2" style="vertical-align:middle;">Proyecto</th>
+            <th rowspan="2" style="vertical-align:middle;">Supervisor</th>
+            <th colspan="1" style="text-align:center;">📋 Entrega Abogado</th>
+            <th colspan="1" style="text-align:center;">📅 Mesa de Trabajo</th>
+            <th colspan="1" style="text-align:center;">⚡ Radicación</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>
+  </div>`;
+}
+
+function renderSemCell(dias, fecha, sem) {
+  const col = sem === 'r' ? 'var(--red-val)' : sem === 'y' ? 'var(--yellow-val)' : 'var(--green-val)';
+  const icon = sem === 'r' ? '🔴' : sem === 'y' ? '🟡' : '🟢';
+  return `<div style="text-align:center;">
+    <div style="font-size:14px;font-weight:800;color:${col};">${icon} ${dias}d</div>
+    <div style="font-size:8px;color:var(--text-lt);">${formatDateShort(fecha)}</div>
+  </div>`;
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function getSemaforo(dias) {
+  if (dias === null || dias === undefined) return 'n';
+  if (dias < 5) return 'r';
+  if (dias <= 20) return 'y';
+  return 'g';
+}
+
+function getSemaforoProyecto(p) {
+  const sems = [getSemaforo(p.dias_abogado), getSemaforo(p.dias_mesa), getSemaforo(p.dias_radicacion)];
+  if (sems.includes('r')) return 'r';
+  if (sems.includes('y')) return 'y';
+  return 'g';
+}
+
+function getProgreso(p) {
+  if (p.progreso_general && p.progreso_general > 1) return p.progreso_general;
+  if (p.progreso_general && p.progreso_general > 0 && p.progreso_general <= 1) return Math.round(p.progreso_general * 100);
+  if (p.tareas && p.tareas.length > 0) {
+    const conAvance = p.tareas.filter(t => t.avance !== undefined && t.avance !== null);
+    if (conAvance.length > 0) return Math.round(conAvance.reduce((s,t) => s+(t.avance||0), 0) / conAvance.length);
+  }
+  return 0;
+}
+
+function calcEstadoTarea(t) {
+  if (t.estado && t.estado !== '' && t.estado !== '-' && t.estado !== 'Sin datos') return t.estado;
+  const avance = t.avance || 0;
+  const dias = t.dias !== undefined && t.dias !== null ? t.dias : null;
+  if (avance >= 100) return 'Completada';
+  if (dias !== null) {
+    if (dias < 0) return 'Vencida';
+    if (dias <= 5) return 'Por vencer';
+    return 'En tiempo';
+  }
+  if (t.fin) {
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+    const fin = new Date(t.fin);
+    const diff = Math.round((fin - hoy) / (1000*60*60*24));
+    if (diff < 0) return 'Vencida';
+    if (diff <= 5) return 'Por vencer';
+    return 'En tiempo';
+  }
+  return 'Sin datos';
+}
+
+function getEstadoCls(estado) {
+  if (!estado) return 'sin';
+  if (estado.includes('Completada')) return 'completada';
+  if (estado.includes('Vencida')) return 'vencida';
+  if (estado.includes('vencer') || estado.includes('Vencer')) return 'alerta';
+  if (estado.includes('tiempo') || estado.includes('Tiempo')) return 'tiempo';
+  return 'sin';
+}
+
+function cleanEstado(estado) {
+  if (!estado) return 'Sin datos';
+  return estado.replace(/[✅🔴🟡🟢☑□●◎]/g, '').trim();
+}
+
+function cleanName(nombre) {
+  return (nombre||'').replace(/\s*QUITAR\s*/gi, '').replace(/\s+/g,' ').trim();
+}
+
+function truncate(str, len) {
+  if (!str) return '';
+  return str.length > len ? str.substring(0, len) + '…' : str;
+}
+
+function formatDateDisplay(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr + 'T00:00:00');
+  return d.toLocaleDateString('es-CO', {day:'2-digit', month:'long', year:'numeric'});
+}
+
+function formatDateShort(dateStr) {
+  if (!dateStr) return '—';
+  const d = new Date(dateStr + 'T00:00:00');
+  return `${String(d.getDate()).padStart(2,'0')}/${MESES[d.getMonth()].substring(0,3)}`;
+}
+
+function formatCOP(val) {
+  if (val >= 1e12) return '$ ' + (val/1e12).toFixed(1) + 'B';
+  if (val >= 1e9)  return '$ ' + (val/1e9).toFixed(1) + 'MM';
+  if (val >= 1e6)  return '$ ' + (val/1e6).toFixed(1) + 'MM';
+  return '$ ' + val.toLocaleString('es-CO');
+}
+
+function getInitials(str) {
+  return (str||'').substring(0, 2).toUpperCase();
+}
+
+function selectBySemaforo(sem) {
+  filteredProjects = DATA.proyectos.filter(p => getSemaforoProyecto(p) === sem);
+  renderKPIs(); renderSidebar(); switchTab('semaforos');
+}
+</script>
+</body>
+</html>

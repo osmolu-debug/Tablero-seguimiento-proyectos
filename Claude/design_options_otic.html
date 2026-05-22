@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Opciones de Diseño — Dashboard OTIC</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&family=Playfair+Display:wght@700;900&family=Bebas+Neue&family=Oxanium:wght@400;600;800&family=Crimson+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;600&family=Nunito:wght@400;600;800&family=Barlow+Condensed:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:#0a0a0a;color:#fff;padding:0;}
+
+.page-header{background:#111;padding:32px 40px 24px;border-bottom:1px solid #222;position:sticky;top:0;z-index:100;}
+.page-header h1{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;letter-spacing:-0.5px;}
+.page-header h1 span{color:#00D4FF;}
+.page-header p{color:#888;font-size:14px;margin-top:6px;}
+.instruction{display:inline-block;margin-top:12px;background:#1a1a1a;border:1px solid #333;border-radius:8px;padding:8px 16px;font-size:13px;color:#ccc;}
+.instruction strong{color:#00D4FF;}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:2px;background:#000;}
+
+.option{background:#111;cursor:pointer;position:relative;overflow:hidden;transition:transform .2s;border:2px solid transparent;}
+.option:hover{transform:scale(1.01);z-index:10;border-color:#00D4FF;}
+.option-num{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.8);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:20px;z-index:5;letter-spacing:1px;}
+.option-label{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.85);padding:10px 14px;backdrop-filter:blur(4px);}
+.option-label h3{font-size:12px;font-weight:700;letter-spacing:.3px;}
+.option-label p{font-size:10px;color:#888;margin-top:2px;}
+
+/* Cada mini-dashboard tiene altura fija */
+.preview{height:300px;width:100%;overflow:hidden;position:relative;}
+
+/* =========================================
+   OPCIÓN 1 — DARK NAVY PREMIUM
+   ========================================= */
+.op1{background:linear-gradient(135deg,#0D1B2A 0%,#162032 100%);}
+.op1 .bar{background:#162032;border-bottom:1px solid #1e3050;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op1 .bar .logo{width:22px;height:22px;background:linear-gradient(135deg,#00C9FF,#0072FF);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;}
+.op1 .bar .title{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:#fff;} .op1 .bar .title span{color:#00C9FF;}
+.op1 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op1 .sidebar{background:#0f1924;border-right:1px solid #1e3050;padding:8px;}
+.op1 .pitem{padding:4px 6px;border-radius:4px;margin-bottom:3px;font-size:8px;font-weight:700;color:#90a8c0;cursor:pointer;}
+.op1 .pitem.on{background:#0072FF22;color:#00C9FF;border-left:2px solid #00C9FF;}
+.op1 .main{padding:10px;}
+.op1 .card{background:#162032;border:1px solid #1e3050;border-top:2px solid #00C9FF;border-radius:6px;padding:8px;margin-bottom:6px;}
+.op1 .gauge-row{display:flex;gap:6px;}
+.op1 .gauge{flex:1;background:#0f1924;border-radius:5px;padding:8px;text-align:center;}
+.op1 .gauge .val{font-size:18px;font-weight:900;color:#00C9FF;}
+.op1 .gauge .lbl{font-size:7px;color:#90a8c0;text-transform:uppercase;letter-spacing:.5px;}
+.op1 .gauge .status{font-size:8px;font-weight:700;color:#ff4d4d;margin-top:2px;}
+.op1 .proj-title{font-size:10px;font-weight:800;color:#fff;margin-bottom:4px;}
+.op1 .tasks{margin-top:4px;}
+.op1 .task{display:flex;align-items:center;gap:5px;padding:3px 0;border-bottom:1px solid #1e3050;}
+.op1 .task-name{font-size:8px;color:#90a8c0;flex:1;}
+.op1 .bar-prog{flex:1;height:4px;background:#1e3050;border-radius:2px;overflow:hidden;}
+.op1 .bar-fill{height:100%;background:linear-gradient(90deg,#0072FF,#00C9FF);border-radius:2px;}
+.op1 .tag{font-size:7px;padding:2px 5px;border-radius:3px;font-weight:700;}
+.op1 .tag.g{background:#16653444;color:#6EE7A0;}
+.op1 .tag.r{background:#99111144;color:#FCA5A5;}
+.op1 .tag.y{background:#78350F44;color:#FCD34D;}
+
+/* =========================================
+   OPCIÓN 2 — BLANCO CRISTAL / GLASS
+   ========================================= */
+.op2{background:linear-gradient(135deg,#e8f4f8 0%,#dbeafe 50%,#e0e7ff 100%);}
+.op2 .bar{background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.6);padding:8px 12px;display:flex;align-items:center;gap:8px;box-shadow:0 2px 12px rgba(0,0,0,.08);}
+.op2 .logo2{width:22px;height:22px;background:linear-gradient(135deg,#6366F1,#8B5CF6);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;}
+.op2 .title2{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:#1e293b;} .op2 .title2 span{color:#6366F1;}
+.op2 .content{display:grid;grid-template-columns:75px 1fr;height:calc(100% - 38px);}
+.op2 .side2{background:rgba(255,255,255,.5);backdrop-filter:blur(8px);border-right:1px solid rgba(255,255,255,.7);padding:8px;}
+.op2 .pitem2{padding:4px 6px;border-radius:4px;margin-bottom:3px;font-size:8px;font-weight:600;color:#64748b;cursor:pointer;}
+.op2 .pitem2.on{background:rgba(99,102,241,.12);color:#6366F1;border-left:2px solid #6366F1;}
+.op2 .main2{padding:10px;}
+.op2 .glass-card{background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.8);border-radius:8px;padding:8px;margin-bottom:6px;box-shadow:0 4px 20px rgba(0,0,0,.06);}
+.op2 .gauge-row{display:flex;gap:6px;}
+.op2 .gauge2{flex:1;background:rgba(255,255,255,.8);border-radius:6px;padding:6px;text-align:center;border:1px solid rgba(255,255,255,.9);}
+.op2 .gauge2 .val{font-size:16px;font-weight:900;color:#6366F1;}
+.op2 .gauge2 .lbl{font-size:7px;color:#64748b;text-transform:uppercase;}
+.op2 .gauge2 .r{color:#ef4444;font-size:7px;font-weight:700;}
+.op2 .proj2{font-size:10px;font-weight:800;color:#1e293b;margin-bottom:4px;}
+.op2 .task2{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid rgba(0,0,0,.06);}
+.op2 .tn{font-size:8px;color:#475569;flex:1;}
+.op2 .bp{flex:1;height:4px;background:rgba(0,0,0,.08);border-radius:2px;overflow:hidden;}
+.op2 .bf{height:100%;background:linear-gradient(90deg,#6366F1,#8B5CF6);border-radius:2px;}
+.op2 .t2{font-size:7px;padding:2px 5px;border-radius:20px;font-weight:700;}
+.op2 .t2.g{background:#d1fae5;color:#065f46;}
+.op2 .t2.r{background:#fee2e2;color:#991b1b;}
+
+/* =========================================
+   OPCIÓN 3 — DARK VERDE NEÓN / TERMINAL
+   ========================================= */
+.op3{background:#040d04;font-family:'JetBrains Mono',monospace;}
+.op3 .bar{background:#080f08;border-bottom:1px solid #1a3a1a;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op3 .logo3{width:22px;height:22px;border:1.5px solid #00ff41;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#00ff41;}
+.op3 .title3{font-size:10px;font-weight:700;color:#00ff41;text-shadow:0 0 8px #00ff41;}
+.op3 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op3 .side3{background:#060d06;border-right:1px solid #1a3a1a;padding:8px;}
+.op3 .pitem3{padding:4px 6px;margin-bottom:3px;font-size:8px;color:#3a6a3a;cursor:pointer;}
+.op3 .pitem3.on{color:#00ff41;text-shadow:0 0 6px #00ff41;}
+.op3 .pitem3.on::before{content:'> ';color:#00ff41;}
+.op3 .main3{padding:10px;}
+.op3 .card3{background:#060d06;border:1px solid #1a3a1a;border-left:2px solid #00ff41;border-radius:3px;padding:8px;margin-bottom:6px;}
+.op3 .gauge-row{display:flex;gap:6px;}
+.op3 .gauge3{flex:1;background:#040d04;border:1px solid #1a3a1a;border-radius:3px;padding:6px;text-align:center;}
+.op3 .gauge3 .val{font-size:16px;font-weight:700;color:#00ff41;text-shadow:0 0 10px #00ff41;}
+.op3 .gauge3 .lbl{font-size:7px;color:#3a6a3a;text-transform:uppercase;}
+.op3 .gauge3 .s{font-size:7px;font-weight:700;color:#ff4444;}
+.op3 .proj3{font-size:9px;font-weight:700;color:#00ff41;margin-bottom:4px;}
+.op3 .task3{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #1a3a1a;}
+.op3 .tn3{font-size:8px;color:#3a6a3a;flex:1;}
+.op3 .bp3{flex:1;height:3px;background:#1a3a1a;border-radius:1px;overflow:hidden;}
+.op3 .bf3{height:100%;background:#00ff41;box-shadow:0 0 6px #00ff41;}
+.op3 .t3{font-size:7px;padding:1px 4px;border:1px solid #3a6a3a;font-weight:700;color:#00ff41;}
+.op3 .t3.r{border-color:#ff4444;color:#ff4444;}
+
+/* =========================================
+   OPCIÓN 4 — COBRE / DORADO EDITORIAL
+   ========================================= */
+.op4{background:#1a1208;font-family:'Barlow Condensed',sans-serif;}
+.op4 .bar{background:#221a08;border-bottom:1px solid #3d2e0a;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op4 .logo4{width:22px;height:22px;background:linear-gradient(135deg,#D4A017,#8B6914);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#1a1208;}
+.op4 .title4{font-size:13px;font-weight:800;color:#D4A017;letter-spacing:1px;text-transform:uppercase;}
+.op4 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op4 .side4{background:#161006;border-right:1px solid #3d2e0a;padding:8px;}
+.op4 .pitem4{padding:4px 6px;margin-bottom:3px;font-size:9px;font-weight:700;color:#8B6914;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;}
+.op4 .pitem4.on{color:#D4A017;border-left:2px solid #D4A017;padding-left:8px;}
+.op4 .main4{padding:10px;}
+.op4 .card4{background:#221a08;border:1px solid #3d2e0a;border-top:2px solid #D4A017;border-radius:4px;padding:8px;margin-bottom:6px;}
+.op4 .gauge-row{display:flex;gap:6px;}
+.op4 .gauge4{flex:1;background:#161006;border:1px solid #3d2e0a;border-radius:3px;padding:6px;text-align:center;}
+.op4 .gauge4 .val{font-size:18px;font-weight:700;color:#D4A017;}
+.op4 .gauge4 .lbl{font-size:7px;color:#8B6914;text-transform:uppercase;letter-spacing:.5px;}
+.op4 .gauge4 .s{font-size:8px;font-weight:700;color:#ff6b35;}
+.op4 .proj4{font-size:11px;font-weight:700;color:#D4A017;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;}
+.op4 .task4{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #3d2e0a;}
+.op4 .tn4{font-size:8px;color:#8B6914;flex:1;}
+.op4 .bp4{flex:1;height:4px;background:#3d2e0a;border-radius:2px;overflow:hidden;}
+.op4 .bf4{height:100%;background:linear-gradient(90deg,#8B6914,#D4A017);}
+.op4 .t4{font-size:7px;padding:2px 5px;font-weight:700;border:1px solid #3d2e0a;}
+.op4 .t4.g{color:#86efac;border-color:#166534;}
+.op4 .t4.r{color:#fca5a5;border-color:#991b1b;}
+
+/* =========================================
+   OPCIÓN 5 — SLATE MODERNO / CORPORATIVO
+   ========================================= */
+.op5{background:#F8FAFC;font-family:'DM Sans',sans-serif;}
+.op5 .bar{background:#fff;border-bottom:2px solid #E2E8F0;padding:8px 12px;display:flex;align-items:center;gap:8px;box-shadow:0 1px 3px rgba(0,0,0,.05);}
+.op5 .logo5{width:22px;height:22px;background:linear-gradient(135deg,#0EA5E9,#0284C7);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;}
+.op5 .title5{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#0F172A;} .op5 .title5 span{color:#0EA5E9;}
+.op5 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op5 .side5{background:#fff;border-right:2px solid #E2E8F0;padding:8px;}
+.op5 .pitem5{padding:4px 6px;border-radius:5px;margin-bottom:3px;font-size:8px;font-weight:600;color:#64748B;cursor:pointer;}
+.op5 .pitem5.on{background:#F0F9FF;color:#0284C7;border-left:2px solid #0EA5E9;}
+.op5 .main5{padding:10px;background:#F8FAFC;}
+.op5 .card5{background:#fff;border:1.5px solid #E2E8F0;border-radius:8px;padding:8px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,0,0,.04);}
+.op5 .gauge-row{display:flex;gap:6px;}
+.op5 .gauge5{flex:1;background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:6px;padding:6px;text-align:center;}
+.op5 .gauge5 .val{font-size:16px;font-weight:800;color:#0EA5E9;}
+.op5 .gauge5 .lbl{font-size:7px;color:#94A3B8;text-transform:uppercase;letter-spacing:.4px;}
+.op5 .gauge5 .s{font-size:7px;font-weight:700;color:#EF4444;}
+.op5 .proj5{font-size:10px;font-weight:700;color:#0F172A;margin-bottom:4px;}
+.op5 .task5{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #F1F5F9;}
+.op5 .tn5{font-size:8px;color:#64748B;flex:1;}
+.op5 .bp5{flex:1;height:4px;background:#F1F5F9;border-radius:2px;overflow:hidden;}
+.op5 .bf5{height:100%;background:linear-gradient(90deg,#0EA5E9,#38BDF8);border-radius:2px;}
+.op5 .t5{font-size:7px;padding:2px 6px;border-radius:20px;font-weight:700;}
+.op5 .t5.g{background:#DCFCE7;color:#166534;}
+.op5 .t5.r{background:#FEE2E2;color:#991B1B;}
+.op5 .t5.y{background:#FEF9C3;color:#854D0E;}
+
+/* =========================================
+   OPCIÓN 6 — DEEP PURPLE / VIOLETA MIDNIGHT
+   ========================================= */
+.op6{background:#0C0A1E;font-family:'Nunito',sans-serif;}
+.op6 .bar{background:#130F2E;border-bottom:1px solid #211B4A;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op6 .logo6{width:22px;height:22px;background:linear-gradient(135deg,#A855F7,#7C3AED);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;}
+.op6 .title6{font-size:11px;font-weight:800;color:#fff;} .op6 .title6 span{color:#A855F7;}
+.op6 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op6 .side6{background:#0C0A1E;border-right:1px solid #211B4A;padding:8px;}
+.op6 .pitem6{padding:4px 6px;border-radius:4px;margin-bottom:3px;font-size:8px;font-weight:700;color:#6B7280;cursor:pointer;}
+.op6 .pitem6.on{background:#A855F722;color:#A855F7;border-left:2px solid #A855F7;}
+.op6 .main6{padding:10px;}
+.op6 .card6{background:#130F2E;border:1px solid #211B4A;border-radius:8px;padding:8px;margin-bottom:6px;}
+.op6 .gauge-row{display:flex;gap:6px;}
+.op6 .gauge6{flex:1;background:#0C0A1E;border:1px solid #211B4A;border-radius:6px;padding:6px;text-align:center;}
+.op6 .gauge6 .val{font-size:16px;font-weight:800;color:#A855F7;}
+.op6 .gauge6 .lbl{font-size:7px;color:#6B7280;text-transform:uppercase;}
+.op6 .gauge6 .s{font-size:7px;font-weight:700;color:#F87171;}
+.op6 .proj6{font-size:10px;font-weight:800;color:#E9D5FF;margin-bottom:4px;}
+.op6 .task6{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #211B4A;}
+.op6 .tn6{font-size:8px;color:#6B7280;flex:1;}
+.op6 .bp6{flex:1;height:4px;background:#211B4A;border-radius:2px;overflow:hidden;}
+.op6 .bf6{height:100%;background:linear-gradient(90deg,#7C3AED,#A855F7);border-radius:2px;}
+.op6 .t6{font-size:7px;padding:2px 5px;border-radius:3px;font-weight:700;}
+.op6 .t6.g{background:#14532D44;color:#86EFAC;border:1px solid #166534;}
+.op6 .t6.r{background:#7F1D1D44;color:#FCA5A5;border:1px solid #991B1B;}
+
+/* =========================================
+   OPCIÓN 7 — ROJO INSTITUCIONAL / ENERGÉTICO
+   ========================================= */
+.op7{background:#0F0203;font-family:'Barlow Condensed',sans-serif;}
+.op7 .bar{background:#180305;border-bottom:1px solid #3d0808;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op7 .logo7{width:22px;height:22px;background:linear-gradient(135deg,#EF4444,#B91C1C);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;}
+.op7 .title7{font-size:13px;font-weight:800;color:#fff;letter-spacing:1px;text-transform:uppercase;}
+.op7 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op7 .side7{background:#0a0101;border-right:1px solid #3d0808;padding:8px;}
+.op7 .pitem7{padding:4px 6px;margin-bottom:3px;font-size:9px;font-weight:700;color:#7f1d1d;cursor:pointer;text-transform:uppercase;}
+.op7 .pitem7.on{color:#EF4444;border-left:2px solid #EF4444;padding-left:8px;}
+.op7 .main7{padding:10px;}
+.op7 .card7{background:#180305;border:1px solid #3d0808;border-top:2px solid #EF4444;border-radius:4px;padding:8px;margin-bottom:6px;}
+.op7 .gauge-row{display:flex;gap:6px;}
+.op7 .gauge7{flex:1;background:#0a0101;border:1px solid #3d0808;border-radius:3px;padding:6px;text-align:center;}
+.op7 .gauge7 .val{font-size:18px;font-weight:700;color:#EF4444;}
+.op7 .gauge7 .lbl{font-size:7px;color:#7f1d1d;text-transform:uppercase;}
+.op7 .gauge7 .s{font-size:8px;font-weight:700;color:#F97316;}
+.op7 .proj7{font-size:11px;font-weight:700;color:#EF4444;margin-bottom:4px;text-transform:uppercase;}
+.op7 .task7{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #3d0808;}
+.op7 .tn7{font-size:8px;color:#7f1d1d;flex:1;}
+.op7 .bp7{flex:1;height:4px;background:#3d0808;border-radius:2px;overflow:hidden;}
+.op7 .bf7{height:100%;background:linear-gradient(90deg,#B91C1C,#EF4444);}
+.op7 .t7{font-size:7px;padding:2px 5px;font-weight:700;border:1px solid;}
+.op7 .t7.g{color:#86efac;border-color:#166534;}
+.op7 .t7.r{color:#fca5a5;border-color:#991b1b;}
+
+/* =========================================
+   OPCIÓN 8 — TEAL OSCURO REFINADO (basado en mockup original mejorado)
+   ========================================= */
+.op8{background:#0A1E1F;font-family:'DM Sans',sans-serif;}
+.op8 .bar{background:#0F2829;border-bottom:1px solid #1B4A4C;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op8 .logo8{width:22px;height:22px;background:linear-gradient(135deg,#14B8A6,#0B8FA0);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;}
+.op8 .title8{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;color:#fff;} .op8 .title8 span{color:#14B8A6;}
+.op8 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op8 .side8{background:#091A1B;border-right:1px solid #1B4A4C;padding:8px;}
+.op8 .pitem8{padding:4px 6px;border-radius:4px;margin-bottom:3px;font-size:8px;font-weight:600;color:#4B7577;cursor:pointer;}
+.op8 .pitem8.on{background:#14B8A622;color:#14B8A6;border-left:2px solid #14B8A6;}
+.op8 .main8{padding:10px;}
+.op8 .card8{background:#0F2829;border:1px solid #1B4A4C;border-top:2px solid #14B8A6;border-radius:6px;padding:8px;margin-bottom:6px;}
+.op8 .gauge-row{display:flex;gap:6px;}
+.op8 .gauge8{flex:1;background:#091A1B;border:1px solid #1B4A4C;border-radius:5px;padding:6px;text-align:center;}
+.op8 .gauge8 .val{font-size:16px;font-weight:800;color:#14B8A6;}
+.op8 .gauge8 .lbl{font-size:7px;color:#4B7577;text-transform:uppercase;}
+.op8 .gauge8 .s{font-size:7px;font-weight:700;color:#F87171;}
+.op8 .proj8{font-size:10px;font-weight:700;color:#E2F8F8;margin-bottom:4px;}
+.op8 .task8{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #1B4A4C;}
+.op8 .tn8{font-size:8px;color:#4B7577;flex:1;}
+.op8 .bp8{flex:1;height:4px;background:#1B4A4C;border-radius:2px;overflow:hidden;}
+.op8 .bf8{height:100%;background:linear-gradient(90deg,#0B8FA0,#14B8A6);border-radius:2px;}
+.op8 .t8{font-size:7px;padding:2px 5px;border-radius:3px;font-weight:700;}
+.op8 .t8.g{background:#16654344;color:#6EE7A0;border:1px solid #166543;}
+.op8 .t8.r{background:#99111144;color:#FCA5A5;border:1px solid #991111;}
+
+/* =========================================
+   OPCIÓN 9 — PAPEL/BEIGE EDITORIAL PREMIUM
+   ========================================= */
+.op9{background:#F5EDD8;font-family:'Crimson Pro',serif;}
+.op9 .bar{background:#EDE0C4;border-bottom:2px solid #C9A96E;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op9 .logo9{width:22px;height:22px;background:#2D1A0A;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#C9A96E;}
+.op9 .title9{font-size:13px;font-weight:700;color:#2D1A0A;letter-spacing:.5px;}
+.op9 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op9 .side9{background:#EDE0C4;border-right:2px solid #C9A96E;padding:8px;}
+.op9 .pitem9{padding:4px 6px;margin-bottom:3px;font-size:9px;font-weight:700;color:#8B6A40;cursor:pointer;}
+.op9 .pitem9.on{color:#2D1A0A;border-left:2px solid #2D1A0A;padding-left:8px;}
+.op9 .main9{padding:10px;}
+.op9 .card9{background:#EDE0C4;border:1.5px solid #C9A96E;border-radius:3px;padding:8px;margin-bottom:6px;}
+.op9 .gauge-row{display:flex;gap:6px;}
+.op9 .gauge9{flex:1;background:#F5EDD8;border:1.5px solid #C9A96E;border-radius:3px;padding:6px;text-align:center;}
+.op9 .gauge9 .val{font-size:18px;font-weight:700;color:#2D1A0A;}
+.op9 .gauge9 .lbl{font-size:7px;color:#8B6A40;text-transform:uppercase;letter-spacing:.5px;}
+.op9 .gauge9 .s{font-size:8px;font-weight:700;color:#991B1B;}
+.op9 .proj9{font-size:11px;font-weight:700;color:#2D1A0A;margin-bottom:4px;font-style:italic;}
+.op9 .task9{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #C9A96E;}
+.op9 .tn9{font-size:8px;color:#8B6A40;flex:1;}
+.op9 .bp9{flex:1;height:3px;background:#C9A96E44;border-radius:2px;overflow:hidden;}
+.op9 .bf9{height:100%;background:#2D1A0A;}
+.op9 .t9{font-size:7px;padding:2px 5px;font-weight:700;border:1px solid;}
+.op9 .t9.g{color:#166534;border-color:#166534;}
+.op9 .t9.r{color:#991B1B;border-color:#991B1B;}
+
+/* =========================================
+   OPCIÓN 10 — NEGRO/NARANJA FUTURISTA
+   ========================================= */
+.op10{background:#090909;font-family:'Oxanium',sans-serif;}
+.op10 .bar{background:#101010;border-bottom:1px solid #2a1800;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op10 .logo10{width:22px;height:22px;background:linear-gradient(135deg,#F97316,#EA580C);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;}
+.op10 .title10{font-size:11px;font-weight:800;color:#fff;letter-spacing:1px;} .op10 .title10 span{color:#F97316;}
+.op10 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op10 .side10{background:#060606;border-right:1px solid #2a1800;padding:8px;}
+.op10 .pitem10{padding:4px 6px;border-radius:3px;margin-bottom:3px;font-size:8px;font-weight:600;color:#4a2e00;cursor:pointer;}
+.op10 .pitem10.on{color:#F97316;border-left:2px solid #F97316;background:#F9731611;}
+.op10 .main10{padding:10px;}
+.op10 .card10{background:#101010;border:1px solid #2a1800;border-top:2px solid #F97316;border-radius:4px;padding:8px;margin-bottom:6px;}
+.op10 .gauge-row{display:flex;gap:6px;}
+.op10 .gauge10{flex:1;background:#060606;border:1px solid #2a1800;border-radius:3px;padding:6px;text-align:center;}
+.op10 .gauge10 .val{font-size:16px;font-weight:700;color:#F97316;}
+.op10 .gauge10 .lbl{font-size:7px;color:#4a2e00;text-transform:uppercase;letter-spacing:.5px;}
+.op10 .gauge10 .s{font-size:7px;font-weight:700;color:#EF4444;}
+.op10 .proj10{font-size:10px;font-weight:700;color:#F97316;margin-bottom:4px;}
+.op10 .task10{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #2a1800;}
+.op10 .tn10{font-size:8px;color:#4a2e00;flex:1;}
+.op10 .bp10{flex:1;height:4px;background:#2a1800;border-radius:2px;overflow:hidden;}
+.op10 .bf10{height:100%;background:linear-gradient(90deg,#EA580C,#F97316);}
+.op10 .t10{font-size:7px;padding:2px 5px;font-weight:700;}
+.op10 .t10.g{color:#86efac;background:#16654322;}
+.op10 .t10.r{color:#fca5a5;background:#99111122;}
+
+/* =========================================
+   OPCIÓN 11 — BLANCO + VERDE AGUA INSTITUCIONAL
+   ========================================= */
+.op11{background:#F0FAF9;font-family:'DM Sans',sans-serif;}
+.op11 .bar{background:#fff;border-bottom:2px solid #B2DFDB;padding:8px 12px;display:flex;align-items:center;gap:8px;box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.op11 .logo11{width:22px;height:22px;background:linear-gradient(135deg,#00897B,#00695C);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;}
+.op11 .title11{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#004D40;} .op11 .title11 span{color:#00897B;}
+.op11 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op11 .side11{background:#fff;border-right:2px solid #B2DFDB;padding:8px;}
+.op11 .pitem11{padding:4px 6px;border-radius:4px;margin-bottom:3px;font-size:8px;font-weight:600;color:#546E7A;cursor:pointer;}
+.op11 .pitem11.on{background:#E0F2F1;color:#00695C;border-left:2px solid #00897B;}
+.op11 .main11{padding:10px;background:#F0FAF9;}
+.op11 .card11{background:#fff;border:1.5px solid #B2DFDB;border-radius:8px;padding:8px;margin-bottom:6px;box-shadow:0 2px 8px rgba(0,137,123,.06);}
+.op11 .gauge-row{display:flex;gap:6px;}
+.op11 .gauge11{flex:1;background:#F0FAF9;border:1.5px solid #B2DFDB;border-radius:6px;padding:6px;text-align:center;}
+.op11 .gauge11 .val{font-size:16px;font-weight:800;color:#00897B;}
+.op11 .gauge11 .lbl{font-size:7px;color:#78909C;text-transform:uppercase;}
+.op11 .gauge11 .s{font-size:7px;font-weight:700;color:#E53935;}
+.op11 .proj11{font-size:10px;font-weight:700;color:#004D40;margin-bottom:4px;}
+.op11 .task11{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #E0F2F1;}
+.op11 .tn11{font-size:8px;color:#546E7A;flex:1;}
+.op11 .bp11{flex:1;height:4px;background:#E0F2F1;border-radius:2px;overflow:hidden;}
+.op11 .bf11{height:100%;background:linear-gradient(90deg,#00695C,#00897B);}
+.op11 .t11{font-size:7px;padding:2px 6px;border-radius:20px;font-weight:700;}
+.op11 .t11.g{background:#E8F5E9;color:#2E7D32;}
+.op11 .t11.r{background:#FFEBEE;color:#C62828;}
+
+/* =========================================
+   OPCIÓN 12 — GRAFITO + CYAN FRÍO (analítico)
+   ========================================= */
+.op12{background:#151C23;font-family:'Space Mono',monospace;}
+.op12 .bar{background:#1C2530;border-bottom:1px solid #263545;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op12 .logo12{width:22px;height:22px;border:2px solid #06B6D4;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#06B6D4;}
+.op12 .title12{font-size:9px;font-weight:700;color:#06B6D4;letter-spacing:1.5px;text-transform:uppercase;}
+.op12 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op12 .side12{background:#111820;border-right:1px solid #263545;padding:8px;}
+.op12 .pitem12{padding:4px 6px;margin-bottom:3px;font-size:7px;font-weight:700;color:#374B5C;cursor:pointer;text-transform:uppercase;letter-spacing:.5px;}
+.op12 .pitem12.on{color:#06B6D4;border-left:2px solid #06B6D4;}
+.op12 .main12{padding:10px;}
+.op12 .card12{background:#1C2530;border:1px solid #263545;border-left:2px solid #06B6D4;border-radius:3px;padding:8px;margin-bottom:6px;}
+.op12 .gauge-row{display:flex;gap:6px;}
+.op12 .gauge12{flex:1;background:#111820;border:1px solid #263545;border-radius:3px;padding:6px;text-align:center;}
+.op12 .gauge12 .val{font-size:16px;font-weight:700;color:#06B6D4;}
+.op12 .gauge12 .lbl{font-size:6px;color:#374B5C;text-transform:uppercase;letter-spacing:.8px;}
+.op12 .gauge12 .s{font-size:7px;font-weight:700;color:#F87171;}
+.op12 .proj12{font-size:8px;font-weight:700;color:#06B6D4;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;}
+.op12 .task12{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #263545;}
+.op12 .tn12{font-size:7px;color:#374B5C;flex:1;}
+.op12 .bp12{flex:1;height:3px;background:#263545;overflow:hidden;}
+.op12 .bf12{height:100%;background:#06B6D4;}
+.op12 .t12{font-size:7px;padding:1px 4px;font-weight:700;border:1px solid;}
+.op12 .t12.g{color:#34D399;border-color:#34D399;}
+.op12 .t12.r{color:#F87171;border-color:#F87171;}
+
+/* =========================================
+   OPCIÓN 13 — BLANCO PURO MINIMALISTA
+   ========================================= */
+.op13{background:#FAFAFA;font-family:'DM Sans',sans-serif;}
+.op13 .bar{background:#fff;border-bottom:1px solid #E5E5E5;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op13 .logo13{width:22px;height:22px;background:#171717;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;}
+.op13 .title13{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#171717;}
+.op13 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op13 .side13{background:#fff;border-right:1px solid #E5E5E5;padding:8px;}
+.op13 .pitem13{padding:4px 6px;border-radius:4px;margin-bottom:3px;font-size:8px;font-weight:500;color:#737373;cursor:pointer;}
+.op13 .pitem13.on{background:#F5F5F5;color:#171717;font-weight:700;border-left:2px solid #171717;}
+.op13 .main13{padding:10px;}
+.op13 .card13{background:#fff;border:1px solid #E5E5E5;border-radius:6px;padding:8px;margin-bottom:6px;}
+.op13 .gauge-row{display:flex;gap:6px;}
+.op13 .gauge13{flex:1;background:#FAFAFA;border:1px solid #E5E5E5;border-radius:4px;padding:6px;text-align:center;}
+.op13 .gauge13 .val{font-size:16px;font-weight:800;color:#171717;}
+.op13 .gauge13 .lbl{font-size:7px;color:#A3A3A3;text-transform:uppercase;}
+.op13 .gauge13 .s{font-size:7px;font-weight:700;color:#EF4444;}
+.op13 .proj13{font-size:10px;font-weight:700;color:#171717;margin-bottom:4px;}
+.op13 .task13{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #F5F5F5;}
+.op13 .tn13{font-size:8px;color:#737373;flex:1;}
+.op13 .bp13{flex:1;height:3px;background:#E5E5E5;border-radius:2px;overflow:hidden;}
+.op13 .bf13{height:100%;background:#171717;}
+.op13 .t13{font-size:7px;padding:2px 5px;border-radius:2px;font-weight:700;border:1px solid;}
+.op13 .t13.g{color:#166534;border-color:#BBF7D0;background:#F0FDF4;}
+.op13 .t13.r{color:#991B1B;border-color:#FECACA;background:#FEF2F2;}
+
+/* =========================================
+   OPCIÓN 14 — AZUL MARINO + ORO / LUJO INSTITUCIONAL
+   ========================================= */
+.op14{background:#020817;font-family:'DM Sans',sans-serif;}
+.op14 .bar{background:#03112B;border-bottom:1px solid #0D2B5E;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op14 .logo14{width:22px;height:22px;background:linear-gradient(135deg,#D4AF37,#B8960C);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#020817;}
+.op14 .title14{font-family:'Playfair Display',serif;font-size:12px;font-weight:700;color:#D4AF37;letter-spacing:.5px;}
+.op14 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op14 .side14{background:#020817;border-right:1px solid #0D2B5E;padding:8px;}
+.op14 .pitem14{padding:4px 6px;margin-bottom:3px;font-size:8px;font-weight:500;color:#1E3A6E;cursor:pointer;}
+.op14 .pitem14.on{color:#D4AF37;border-left:2px solid #D4AF37;padding-left:8px;}
+.op14 .main14{padding:10px;}
+.op14 .card14{background:#03112B;border:1px solid #0D2B5E;border-top:2px solid #D4AF37;border-radius:5px;padding:8px;margin-bottom:6px;}
+.op14 .gauge-row{display:flex;gap:6px;}
+.op14 .gauge14{flex:1;background:#020817;border:1px solid #0D2B5E;border-radius:4px;padding:6px;text-align:center;}
+.op14 .gauge14 .val{font-size:16px;font-weight:800;color:#D4AF37;}
+.op14 .gauge14 .lbl{font-size:7px;color:#1E3A6E;text-transform:uppercase;letter-spacing:.5px;}
+.op14 .gauge14 .s{font-size:7px;font-weight:700;color:#F87171;}
+.op14 .proj14{font-family:'Playfair Display',serif;font-size:11px;font-weight:700;color:#D4AF37;margin-bottom:4px;}
+.op14 .task14{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #0D2B5E;}
+.op14 .tn14{font-size:8px;color:#1E3A6E;flex:1;}
+.op14 .bp14{flex:1;height:4px;background:#0D2B5E;border-radius:2px;overflow:hidden;}
+.op14 .bf14{height:100%;background:linear-gradient(90deg,#B8960C,#D4AF37);}
+.op14 .t14{font-size:7px;padding:2px 5px;font-weight:700;border:1px solid;}
+.op14 .t14.g{color:#86efac;border-color:#166534;}
+.op14 .t14.r{color:#fca5a5;border-color:#991b1b;}
+
+/* =========================================
+   OPCIÓN 15 — LIMA/VERDE ENERGÉTICO
+   ========================================= */
+.op15{background:#0D1A00;font-family:'Barlow Condensed',sans-serif;}
+.op15 .bar{background:#152200;border-bottom:1px solid #2D4A00;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op15 .logo15{width:22px;height:22px;background:linear-gradient(135deg,#84CC16,#65A30D);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#0D1A00;}
+.op15 .title15{font-size:13px;font-weight:800;color:#84CC16;letter-spacing:1px;text-transform:uppercase;}
+.op15 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op15 .side15{background:#0A1200;border-right:1px solid #2D4A00;padding:8px;}
+.op15 .pitem15{padding:4px 6px;margin-bottom:3px;font-size:9px;font-weight:700;color:#3a5a00;cursor:pointer;text-transform:uppercase;}
+.op15 .pitem15.on{color:#84CC16;border-left:2px solid #84CC16;}
+.op15 .main15{padding:10px;}
+.op15 .card15{background:#152200;border:1px solid #2D4A00;border-top:2px solid #84CC16;border-radius:4px;padding:8px;margin-bottom:6px;}
+.op15 .gauge-row{display:flex;gap:6px;}
+.op15 .gauge15{flex:1;background:#0A1200;border:1px solid #2D4A00;border-radius:3px;padding:6px;text-align:center;}
+.op15 .gauge15 .val{font-size:18px;font-weight:700;color:#84CC16;}
+.op15 .gauge15 .lbl{font-size:7px;color:#3a5a00;text-transform:uppercase;}
+.op15 .gauge15 .s{font-size:8px;font-weight:700;color:#F87171;}
+.op15 .proj15{font-size:11px;font-weight:700;color:#84CC16;margin-bottom:4px;text-transform:uppercase;}
+.op15 .task15{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #2D4A00;}
+.op15 .tn15{font-size:8px;color:#3a5a00;flex:1;}
+.op15 .bp15{flex:1;height:4px;background:#2D4A00;border-radius:2px;overflow:hidden;}
+.op15 .bf15{height:100%;background:linear-gradient(90deg,#65A30D,#84CC16);}
+.op15 .t15{font-size:7px;padding:2px 5px;font-weight:700;border:1px solid;}
+.op15 .t15.g{color:#86efac;border-color:#166534;}
+.op15 .t15.r{color:#fca5a5;border-color:#991b1b;}
+
+/* =========================================
+   OPCIÓN 16 — ROSA/MAGENTA AUDAZ
+   ========================================= */
+.op16{background:#0F0008;font-family:'Nunito',sans-serif;}
+.op16 .bar{background:#180010;border-bottom:1px solid #3d0025;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op16 .logo16{width:22px;height:22px;background:linear-gradient(135deg,#EC4899,#BE185D);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;}
+.op16 .title16{font-size:11px;font-weight:800;color:#fff;} .op16 .title16 span{color:#EC4899;}
+.op16 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op16 .side16{background:#0c0008;border-right:1px solid #3d0025;padding:8px;}
+.op16 .pitem16{padding:4px 6px;border-radius:4px;margin-bottom:3px;font-size:8px;font-weight:700;color:#7f1d4a;cursor:pointer;}
+.op16 .pitem16.on{color:#EC4899;border-left:2px solid #EC4899;background:#EC489922;}
+.op16 .main16{padding:10px;}
+.op16 .card16{background:#180010;border:1px solid #3d0025;border-top:2px solid #EC4899;border-radius:6px;padding:8px;margin-bottom:6px;}
+.op16 .gauge-row{display:flex;gap:6px;}
+.op16 .gauge16{flex:1;background:#0c0008;border:1px solid #3d0025;border-radius:5px;padding:6px;text-align:center;}
+.op16 .gauge16 .val{font-size:16px;font-weight:800;color:#EC4899;}
+.op16 .gauge16 .lbl{font-size:7px;color:#7f1d4a;text-transform:uppercase;}
+.op16 .gauge16 .s{font-size:7px;font-weight:700;color:#F97316;}
+.op16 .proj16{font-size:10px;font-weight:800;color:#FBCFE8;margin-bottom:4px;}
+.op16 .task16{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #3d0025;}
+.op16 .tn16{font-size:8px;color:#7f1d4a;flex:1;}
+.op16 .bp16{flex:1;height:4px;background:#3d0025;border-radius:2px;overflow:hidden;}
+.op16 .bf16{height:100%;background:linear-gradient(90deg,#BE185D,#EC4899);}
+.op16 .t16{font-size:7px;padding:2px 5px;border-radius:3px;font-weight:700;}
+.op16 .t16.g{background:#14532D44;color:#86EFAC;border:1px solid #166534;}
+.op16 .t16.r{background:#7F1D1D44;color:#FCA5A5;border:1px solid #991B1B;}
+
+/* =========================================
+   OPCIÓN 17 — SLATE FRÍO + ÍNDIGO
+   ========================================= */
+.op17{background:#F1F5F9;font-family:'DM Sans',sans-serif;}
+.op17 .bar{background:#fff;border-bottom:2px solid #CBD5E1;padding:8px 12px;display:flex;align-items:center;gap:8px;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.op17 .logo17{width:22px;height:22px;background:linear-gradient(135deg,#4F46E5,#4338CA);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;}
+.op17 .title17{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#1E293B;} .op17 .title17 span{color:#4F46E5;}
+.op17 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op17 .side17{background:#fff;border-right:2px solid #CBD5E1;padding:8px;}
+.op17 .pitem17{padding:4px 6px;border-radius:5px;margin-bottom:3px;font-size:8px;font-weight:600;color:#64748B;cursor:pointer;}
+.op17 .pitem17.on{background:#EEF2FF;color:#4338CA;border-left:2px solid #4F46E5;}
+.op17 .main17{padding:10px;background:#F1F5F9;}
+.op17 .card17{background:#fff;border:1.5px solid #CBD5E1;border-radius:8px;padding:8px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.op17 .gauge-row{display:flex;gap:6px;}
+.op17 .gauge17{flex:1;background:#F8FAFC;border:1.5px solid #CBD5E1;border-radius:6px;padding:6px;text-align:center;}
+.op17 .gauge17 .val{font-size:16px;font-weight:800;color:#4F46E5;}
+.op17 .gauge17 .lbl{font-size:7px;color:#94A3B8;text-transform:uppercase;}
+.op17 .gauge17 .s{font-size:7px;font-weight:700;color:#EF4444;}
+.op17 .proj17{font-size:10px;font-weight:700;color:#1E293B;margin-bottom:4px;}
+.op17 .task17{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #F1F5F9;}
+.op17 .tn17{font-size:8px;color:#64748B;flex:1;}
+.op17 .bp17{flex:1;height:4px;background:#E2E8F0;border-radius:2px;overflow:hidden;}
+.op17 .bf17{height:100%;background:linear-gradient(90deg,#4338CA,#6366F1);border-radius:2px;}
+.op17 .t17{font-size:7px;padding:2px 6px;border-radius:20px;font-weight:700;}
+.op17 .t17.g{background:#DCFCE7;color:#166534;}
+.op17 .t17.r{background:#FEE2E2;color:#991B1B;}
+
+/* =========================================
+   OPCIÓN 18 — CARBÓN + NEON CYAN (TECH)
+   ========================================= */
+.op18{background:#0A0E14;font-family:'Oxanium',sans-serif;}
+.op18 .bar{background:#0E1520;border-bottom:1px solid #1A2640;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op18 .logo18{width:22px;height:22px;background:transparent;border:2px solid #00FFFF;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:7px;font-weight:900;color:#00FFFF;text-shadow:0 0 8px #00FFFF;}
+.op18 .title18{font-size:10px;font-weight:800;color:#00FFFF;letter-spacing:2px;text-transform:uppercase;text-shadow:0 0 8px #00FFFF44;}
+.op18 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op18 .side18{background:#080C12;border-right:1px solid #1A2640;padding:8px;}
+.op18 .pitem18{padding:4px 6px;margin-bottom:3px;font-size:7px;font-weight:700;color:#1A3050;cursor:pointer;text-transform:uppercase;letter-spacing:.8px;}
+.op18 .pitem18.on{color:#00FFFF;text-shadow:0 0 6px #00FFFF;border-left:2px solid #00FFFF;}
+.op18 .main18{padding:10px;}
+.op18 .card18{background:#0E1520;border:1px solid #1A2640;border-radius:4px;padding:8px;margin-bottom:6px;box-shadow:0 0 20px #00FFFF06;}
+.op18 .gauge-row{display:flex;gap:6px;}
+.op18 .gauge18{flex:1;background:#080C12;border:1px solid #1A2640;border-radius:3px;padding:6px;text-align:center;}
+.op18 .gauge18 .val{font-size:16px;font-weight:700;color:#00FFFF;text-shadow:0 0 8px #00FFFF66;}
+.op18 .gauge18 .lbl{font-size:6px;color:#1A3050;text-transform:uppercase;letter-spacing:1px;}
+.op18 .gauge18 .s{font-size:7px;font-weight:700;color:#FF4444;text-shadow:0 0 6px #FF444466;}
+.op18 .proj18{font-size:9px;font-weight:700;color:#00FFFF;margin-bottom:4px;letter-spacing:.5px;}
+.op18 .task18{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #1A2640;}
+.op18 .tn18{font-size:7px;color:#1A3050;flex:1;}
+.op18 .bp18{flex:1;height:3px;background:#1A2640;overflow:hidden;}
+.op18 .bf18{height:100%;background:#00FFFF;box-shadow:0 0 6px #00FFFF;}
+.op18 .t18{font-size:7px;padding:1px 4px;font-weight:700;border:1px solid;}
+.op18 .t18.g{color:#00FF88;border-color:#00FF88;text-shadow:0 0 4px #00FF8866;}
+.op18 .t18.r{color:#FF4444;border-color:#FF4444;}
+
+/* =========================================
+   OPCIÓN 19 — AZUL GUBERNAMENTAL CLÁSICO
+   ========================================= */
+.op19{background:#EBF3FA;font-family:'DM Sans',sans-serif;}
+.op19 .bar{background:#003876;border-bottom:none;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op19 .logo19{width:22px;height:22px;background:#FFB81C;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#003876;}
+.op19 .title19{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#fff;letter-spacing:.3px;}
+.op19 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op19 .side19{background:#fff;border-right:2px solid #C4D7EA;padding:8px;}
+.op19 .pitem19{padding:4px 6px;border-radius:3px;margin-bottom:3px;font-size:8px;font-weight:600;color:#5A7FA0;cursor:pointer;}
+.op19 .pitem19.on{background:#D6E8F5;color:#003876;border-left:2px solid #003876;font-weight:700;}
+.op19 .main19{padding:10px;}
+.op19 .card19{background:#fff;border:1.5px solid #C4D7EA;border-radius:5px;padding:8px;margin-bottom:6px;box-shadow:0 1px 4px rgba(0,56,118,.06);}
+.op19 .gauge-row{display:flex;gap:6px;}
+.op19 .gauge19{flex:1;background:#EBF3FA;border:1.5px solid #C4D7EA;border-radius:5px;padding:6px;text-align:center;}
+.op19 .gauge19 .val{font-size:16px;font-weight:800;color:#003876;}
+.op19 .gauge19 .lbl{font-size:7px;color:#7A98B0;text-transform:uppercase;}
+.op19 .gauge19 .s{font-size:7px;font-weight:700;color:#C0392B;}
+.op19 .proj19{font-size:10px;font-weight:700;color:#003876;margin-bottom:4px;}
+.op19 .task19{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #D6E8F5;}
+.op19 .tn19{font-size:8px;color:#5A7FA0;flex:1;}
+.op19 .bp19{flex:1;height:4px;background:#D6E8F5;border-radius:2px;overflow:hidden;}
+.op19 .bf19{height:100%;background:linear-gradient(90deg,#003876,#0057B7);}
+.op19 .t19{font-size:7px;padding:2px 5px;border-radius:3px;font-weight:700;}
+.op19 .t19.g{background:#E8F8EE;color:#1A6B3A;}
+.op19 .t19.r{background:#FEE8E8;color:#C0392B;}
+
+/* =========================================
+   OPCIÓN 20 — AURORA / GRADIENTE OSCURO
+   ========================================= */
+.op20{background:linear-gradient(135deg,#070B1A 0%,#0B1627 50%,#0A1020 100%);}
+.op20 .bar{background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.08);padding:8px 12px;display:flex;align-items:center;gap:8px;backdrop-filter:blur(10px);}
+.op20 .logo20{width:22px;height:22px;background:linear-gradient(135deg,#7C3AED,#3B82F6,#06B6D4);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#fff;}
+.op20 .title20{font-family:'Syne',sans-serif;font-size:11px;font-weight:800;background:linear-gradient(90deg,#A78BFA,#60A5FA,#34D399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.op20 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op20 .side20{background:rgba(255,255,255,.02);border-right:1px solid rgba(255,255,255,.06);padding:8px;}
+.op20 .pitem20{padding:4px 6px;border-radius:4px;margin-bottom:3px;font-size:8px;font-weight:600;color:#374151;cursor:pointer;}
+.op20 .pitem20.on{background:rgba(124,58,237,.2);border-left:2px solid #7C3AED;}
+.op20 .pitem20.on span{background:linear-gradient(90deg,#A78BFA,#60A5FA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.op20 .main20{padding:10px;}
+.op20 .card20{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:8px;margin-bottom:6px;backdrop-filter:blur(4px);}
+.op20 .gauge-row{display:flex;gap:6px;}
+.op20 .gauge20{flex:1;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:6px;padding:6px;text-align:center;}
+.op20 .gauge20 .val{font-size:16px;font-weight:800;background:linear-gradient(90deg,#60A5FA,#34D399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.op20 .gauge20 .lbl{font-size:7px;color:#374151;text-transform:uppercase;}
+.op20 .gauge20 .s{font-size:7px;font-weight:700;color:#F87171;}
+.op20 .proj20{font-size:10px;font-weight:700;color:#C4B5FD;margin-bottom:4px;}
+.op20 .task20{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.06);}
+.op20 .tn20{font-size:8px;color:#4B5563;flex:1;}
+.op20 .bp20{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;}
+.op20 .bf20{height:100%;background:linear-gradient(90deg,#7C3AED,#3B82F6,#06B6D4);}
+.op20 .t20{font-size:7px;padding:2px 5px;border-radius:3px;font-weight:700;}
+.op20 .t20.g{background:#16654322;color:#6EE7A0;border:1px solid #166543;}
+.op20 .t20.r{background:#99111122;color:#FCA5A5;border:1px solid #991111;}
+
+/* =========================================
+   OPCIÓN 21 — AZUL HIELO + PLATA (Analítico Premium)
+   ========================================= */
+.op21{background:#F0F4F8;font-family:'DM Sans',sans-serif;}
+.op21 .bar{background:linear-gradient(90deg,#1A3A5C,#1E4976);border-bottom:none;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op21 .logo21{width:22px;height:22px;background:#E8F4FD;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#1A3A5C;}
+.op21 .title21{font-family:'Syne',sans-serif;font-size:12px;font-weight:800;color:#E8F4FD;letter-spacing:.3px;}
+.op21 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op21 .side21{background:#fff;border-right:2px solid #D0DEE8;padding:8px;}
+.op21 .pitem21{padding:4px 6px;border-radius:4px;margin-bottom:3px;font-size:8px;font-weight:600;color:#6B8FA8;cursor:pointer;}
+.op21 .pitem21.on{background:#E3EEF7;color:#1A3A5C;border-left:2px solid #1A3A5C;font-weight:700;}
+.op21 .main21{padding:10px;}
+.op21 .card21{background:#fff;border:1.5px solid #D0DEE8;border-top:2px solid #2D6A9F;border-radius:6px;padding:8px;margin-bottom:6px;box-shadow:0 2px 6px rgba(26,58,92,.06);}
+.op21 .gauge-row{display:flex;gap:6px;}
+.op21 .gauge21{flex:1;background:#F0F4F8;border:1.5px solid #D0DEE8;border-radius:5px;padding:6px;text-align:center;}
+.op21 .gauge21 .val{font-size:16px;font-weight:800;color:#1A3A5C;}
+.op21 .gauge21 .lbl{font-size:7px;color:#8BA8C0;text-transform:uppercase;}
+.op21 .gauge21 .s{font-size:7px;font-weight:700;color:#DC2626;}
+.op21 .proj21{font-size:10px;font-weight:700;color:#1A3A5C;margin-bottom:4px;}
+.op21 .task21{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #E3EEF7;}
+.op21 .tn21{font-size:8px;color:#6B8FA8;flex:1;}
+.op21 .bp21{flex:1;height:4px;background:#D0DEE8;border-radius:2px;overflow:hidden;}
+.op21 .bf21{height:100%;background:linear-gradient(90deg,#1A3A5C,#2D6A9F);}
+.op21 .t21{font-size:7px;padding:2px 6px;border-radius:20px;font-weight:700;}
+.op21 .t21.g{background:#ECFDF5;color:#065F46;}
+.op21 .t21.r{background:#FEF2F2;color:#991B1B;}
+
+/* =========================================
+   OPCIÓN 22 — TIERRA / BARRO ARTESANAL
+   ========================================= */
+.op22{background:#2C1A0E;font-family:'Crimson Pro',serif;}
+.op22 .bar{background:#3A2212;border-bottom:2px solid #6B4226;padding:8px 12px;display:flex;align-items:center;gap:8px;}
+.op22 .logo22{width:22px;height:22px;background:#E8A87C;border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:900;color:#2C1A0E;}
+.op22 .title22{font-size:14px;font-weight:700;color:#E8A87C;letter-spacing:.3px;}
+.op22 .content{display:grid;grid-template-columns:80px 1fr;height:calc(100% - 38px);}
+.op22 .side22{background:#231508;border-right:2px solid #6B4226;padding:8px;}
+.op22 .pitem22{padding:4px 6px;margin-bottom:3px;font-size:9px;font-weight:600;color:#6B4226;cursor:pointer;}
+.op22 .pitem22.on{color:#E8A87C;border-left:2px solid #E8A87C;padding-left:8px;}
+.op22 .main22{padding:10px;}
+.op22 .card22{background:#3A2212;border:1.5px solid #6B4226;border-radius:5px;padding:8px;margin-bottom:6px;}
+.op22 .gauge-row{display:flex;gap:6px;}
+.op22 .gauge22{flex:1;background:#2C1A0E;border:1.5px solid #6B4226;border-radius:4px;padding:6px;text-align:center;}
+.op22 .gauge22 .val{font-size:18px;font-weight:700;color:#E8A87C;}
+.op22 .gauge22 .lbl{font-size:7px;color:#6B4226;text-transform:uppercase;letter-spacing:.5px;}
+.op22 .gauge22 .s{font-size:8px;font-weight:700;color:#F97316;}
+.op22 .proj22{font-size:12px;font-weight:700;color:#E8A87C;margin-bottom:4px;font-style:italic;}
+.op22 .task22{display:flex;align-items:center;gap:4px;padding:3px 0;border-bottom:1px solid #6B4226;}
+.op22 .tn22{font-size:8px;color:#6B4226;flex:1;}
+.op22 .bp22{flex:1;height:4px;background:#6B422644;border-radius:2px;overflow:hidden;}
+.op22 .bf22{height:100%;background:linear-gradient(90deg,#A0522D,#E8A87C);}
+.op22 .t22{font-size:7px;padding:2px 5px;font-weight:700;border:1px solid;}
+.op22 .t22.g{color:#86efac;border-color:#166534;}
+.op22 .t22.r{color:#fca5a5;border-color:#991b1b;}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <h1>Dashboard OTIC — <span>Opciones de Diseño</span></h1>
+  <p>22 propuestas de diseño. Cada tarjeta es una miniatura del estilo que tendría tu dashboard completo.</p>
+  <div class="instruction">👆 <strong>¿Cómo elegir?</strong> Dime el número (o números) que más te gusten. Puedo combinar elementos de varios. Pasa el mouse para resaltarlos.</div>
+</div>
+
+<div class="grid">
+
+  <!-- OP 1 -->
+  <div class="option">
+    <div class="option-num">01</div>
+    <div class="preview op1">
+      <div class="bar">
+        <div class="logo">OT</div>
+        <div class="title">Portafolio OTIC / <span>Dashboard</span></div>
+      </div>
+      <div class="content">
+        <div class="sidebar">
+          <div style="font-size:7px;color:#4B7577;text-transform:uppercase;margin-bottom:6px;font-weight:800;">Proyectos</div>
+          <div class="pitem">P1 Daruma</div>
+          <div class="pitem">P3 Google</div>
+          <div class="pitem on">P7 Microsoft</div>
+          <div class="pitem">P8 Antivirus</div>
+          <div class="pitem">P11 Oracle</div>
+        </div>
+        <div class="main">
+          <div class="card">
+            <div class="proj-title">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge"><div class="val">3</div><div class="lbl">Entrega Abogado</div><div class="status">● Crítico</div></div>
+              <div class="gauge"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="status" style="color:#FCD34D;">▲ Alerta</div></div>
+              <div class="gauge"><div class="val">31</div><div class="lbl">Radicación</div><div class="status" style="color:#6EE7A0;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="proj-title">TAREAS COMPROMETIDAS</div>
+            <div class="tasks">
+              <div class="task"><span class="task-name">Inventario licencias</span><div class="bar-prog"><div class="bar-fill" style="width:100%"></div></div><span class="tag g">Completa</span></div>
+              <div class="task"><span class="task-name">Solicitud cotización</span><div class="bar-prog"><div class="bar-fill" style="width:70%"></div></div><span class="tag r">Vencida</span></div>
+              <div class="task"><span class="task-name">Elaborar CDP</span><div class="bar-prog"><div class="bar-fill" style="width:40%"></div></div><span class="tag g">+11d</span></div>
+              <div class="task"><span class="task-name">Radicación docs</span><div class="bar-prog"><div class="bar-fill" style="width:10%"></div></div><span class="tag g">+16d</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Dark Navy Premium</h3><p>Azul profundo · Cyan eléctrico · Elegante y moderno</p></div>
+  </div>
+
+  <!-- OP 2 -->
+  <div class="option">
+    <div class="option-num">02</div>
+    <div class="preview op2">
+      <div class="bar">
+        <div class="logo2">OT</div>
+        <div class="title2">Portafolio OTIC / <span>Dashboard</span></div>
+      </div>
+      <div class="content">
+        <div class="side2">
+          <div style="font-size:7px;color:#94A3B8;text-transform:uppercase;margin-bottom:6px;font-weight:700;">Proyectos</div>
+          <div class="pitem2">P1 Daruma</div>
+          <div class="pitem2">P3 Google</div>
+          <div class="pitem2 on">P7 Microsoft</div>
+          <div class="pitem2">P8 Antivirus</div>
+        </div>
+        <div class="main2">
+          <div class="glass-card">
+            <div class="proj2">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge2"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="r">● Crítico</div></div>
+              <div class="gauge2"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="r" style="color:#F59E0B;">▲ Alerta</div></div>
+              <div class="gauge2"><div class="val">31</div><div class="lbl">Radicación</div><div class="r" style="color:#10B981;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="glass-card">
+            <div class="task2"><span class="tn">Inventario licencias</span><div class="bp"><div class="bf" style="width:100%"></div></div><span class="t2 g">Completa</span></div>
+            <div class="task2"><span class="tn">Solicitud cotización</span><div class="bp"><div class="bf" style="width:70%"></div></div><span class="t2 r">Vencida</span></div>
+            <div class="task2"><span class="tn">Elaborar CDP</span><div class="bp"><div class="bf" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Glass / Cristal Claro</h3><p>Glassmorphism · Violeta · Luminoso y limpio</p></div>
+  </div>
+
+  <!-- OP 3 -->
+  <div class="option">
+    <div class="option-num">03</div>
+    <div class="preview op3">
+      <div class="bar">
+        <div class="logo3">OT</div>
+        <div class="title3">OTIC // DASHBOARD_PORTAFOLIO</div>
+      </div>
+      <div class="content">
+        <div class="side3">
+          <div class="pitem3">P1_DARUMA</div>
+          <div class="pitem3">P3_GOOGLE</div>
+          <div class="pitem3 on">P7_MICROSOFT</div>
+          <div class="pitem3">P8_ANTIVIRUS</div>
+        </div>
+        <div class="main3">
+          <div class="card3">
+            <div class="proj3">// LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge3"><div class="val">3</div><div class="lbl">ABOGADO</div><div class="s">ERR</div></div>
+              <div class="gauge3"><div class="val">11</div><div class="lbl">MESA</div><div class="s" style="color:#FCD34D;">WRN</div></div>
+              <div class="gauge3"><div class="val">31</div><div class="lbl">RADICAC</div><div class="s" style="color:#00ff41;">OK</div></div>
+            </div>
+          </div>
+          <div class="card3">
+            <div class="task3"><span class="tn3">[01] inventario_licencias</span><div class="bp3"><div class="bf3" style="width:100%"></div></div><span class="t3">100%</span></div>
+            <div class="task3"><span class="tn3">[02] solicitud_cotizacion</span><div class="bp3"><div class="bf3" style="width:70%"></div></div><span class="t3 r">VNCDA</span></div>
+            <div class="task3"><span class="tn3">[03] elaborar_cdp</span><div class="bp3"><div class="bf3" style="width:40%"></div></div><span class="t3">+11d</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Terminal / Hacker Verde</h3><p>Neón verde · Monoespaciado · Analítico extremo</p></div>
+  </div>
+
+  <!-- OP 4 -->
+  <div class="option">
+    <div class="option-num">04</div>
+    <div class="preview op4">
+      <div class="bar">
+        <div class="logo4">OT</div>
+        <div class="title4">PORTAFOLIO OTIC — DASHBOARD</div>
+      </div>
+      <div class="content">
+        <div class="side4">
+          <div class="pitem4">P1 DARUMA</div>
+          <div class="pitem4">P3 GOOGLE</div>
+          <div class="pitem4 on">P7 MICROSOFT</div>
+          <div class="pitem4">P8 ANTIVIRUS</div>
+        </div>
+        <div class="main4">
+          <div class="card4">
+            <div class="proj4">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge4"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge4"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#FCD34D;">▲ Alerta</div></div>
+              <div class="gauge4"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#D4A017;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card4">
+            <div class="task4"><span class="tn4">Inventario licencias</span><div class="bp4"><div class="bf4" style="width:100%"></div></div><span class="t4 g">Completa</span></div>
+            <div class="task4"><span class="tn4">Solicitud cotización</span><div class="bp4"><div class="bf4" style="width:70%"></div></div><span class="t4 r">Vencida</span></div>
+            <div class="task4"><span class="tn4">Elaborar CDP</span><div class="bp4"><div class="bf4" style="width:40%"></div></div><span class="t4 g">+11d</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Cobre / Dorado Editorial</h3><p>Negro · Oro viejo · Lujo sobrio y clásico</p></div>
+  </div>
+
+  <!-- OP 5 -->
+  <div class="option">
+    <div class="option-num">05</div>
+    <div class="preview op5">
+      <div class="bar">
+        <div class="logo5">OT</div>
+        <div class="title5">Portafolio OTIC / <span>Dashboard</span></div>
+      </div>
+      <div class="content">
+        <div class="side5">
+          <div class="pitem5">P1 Daruma</div>
+          <div class="pitem5">P3 Google</div>
+          <div class="pitem5 on">P7 Microsoft</div>
+          <div class="pitem5">P8 Antivirus</div>
+        </div>
+        <div class="main5">
+          <div class="card5">
+            <div class="proj5">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge5"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge5"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#D97706;">▲ Alerta</div></div>
+              <div class="gauge5"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#16A34A;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card5">
+            <div class="task5"><span class="tn5">Inventario licencias</span><div class="bp5"><div class="bf5" style="width:100%"></div></div><span class="t5 g">Completa</span></div>
+            <div class="task5"><span class="tn5">Solicitud cotización</span><div class="bp5"><div class="bf5" style="width:70%"></div></div><span class="t5 r">Vencida</span></div>
+            <div class="task5"><span class="tn5">Elaborar CDP</span><div class="bp5"><div class="bf5" style="width:40%"></div></div><span class="t5 y">+11d</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Slate Moderno / Corporativo</h3><p>Blanco · Azul cielo · Profesional y neutro</p></div>
+  </div>
+
+  <!-- OP 6 -->
+  <div class="option">
+    <div class="option-num">06</div>
+    <div class="preview op6">
+      <div class="bar">
+        <div class="logo6">OT</div>
+        <div class="title6">Portafolio OTIC / <span>Dashboard</span></div>
+      </div>
+      <div class="content">
+        <div class="side6">
+          <div class="pitem6">P1 Daruma</div>
+          <div class="pitem6">P3 Google</div>
+          <div class="pitem6 on">P7 Microsoft</div>
+          <div class="pitem6">P8 Antivirus</div>
+        </div>
+        <div class="main6">
+          <div class="card6">
+            <div class="proj6">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge6"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge6"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#FBBF24;">▲ Alerta</div></div>
+              <div class="gauge6"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#4ADE80;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card6">
+            <div class="task6"><span class="tn6">Inventario licencias</span><div class="bp6"><div class="bf6" style="width:100%"></div></div><span class="t6 g">Completa</span></div>
+            <div class="task6"><span class="tn6">Solicitud cotización</span><div class="bp6"><div class="bf6" style="width:70%"></div></div><span class="t6 r">Vencida</span></div>
+            <div class="task6"><span class="tn6">Elaborar CDP</span><div class="bp6"><div class="bf6" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Violeta Midnight</h3><p>Negro profundo · Violeta · Oscuro y sofisticado</p></div>
+  </div>
+
+  <!-- OP 7 -->
+  <div class="option">
+    <div class="option-num">07</div>
+    <div class="preview op7">
+      <div class="bar">
+        <div class="logo7">OT</div>
+        <div class="title7">PORTAFOLIO OTIC — DASHBOARD</div>
+      </div>
+      <div class="content">
+        <div class="side7">
+          <div class="pitem7">P1 DARUMA</div>
+          <div class="pitem7">P3 GOOGLE</div>
+          <div class="pitem7 on">P7 MICROSOFT</div>
+          <div class="pitem7">P8 ANTIVIRUS</div>
+        </div>
+        <div class="main7">
+          <div class="card7">
+            <div class="proj7">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge7"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge7"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#FB923C;">▲ Alerta</div></div>
+              <div class="gauge7"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#4ADE80;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card7">
+            <div class="task7"><span class="tn7">Inventario licencias</span><div class="bp7"><div class="bf7" style="width:100%"></div></div><span class="t7 g">Completa</span></div>
+            <div class="task7"><span class="tn7">Solicitud cotización</span><div class="bp7"><div class="bf7" style="width:70%"></div></div><span class="t7 r">Vencida</span></div>
+            <div class="task7"><span class="tn7">Elaborar CDP</span><div class="bp7"><div class="bf7" style="width:40%"></div></div><span class="t7 g">+11d</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Rojo Energético</h3><p>Negro · Rojo intenso · Urgente y potente</p></div>
+  </div>
+
+  <!-- OP 8 -->
+  <div class="option">
+    <div class="option-num">08</div>
+    <div class="preview op8">
+      <div class="bar">
+        <div class="logo8">OT</div>
+        <div class="title8">Portafolio OTIC / <span>Dashboard</span></div>
+      </div>
+      <div class="content">
+        <div class="side8">
+          <div class="pitem8">P1 Daruma</div>
+          <div class="pitem8">P3 Google</div>
+          <div class="pitem8 on">P7 Microsoft</div>
+          <div class="pitem8">P8 Antivirus</div>
+        </div>
+        <div class="main8">
+          <div class="card8">
+            <div class="proj8">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge8"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge8"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#FBBF24;">▲ Alerta</div></div>
+              <div class="gauge8"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#14B8A6;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card8">
+            <div class="task8"><span class="tn8">Inventario licencias</span><div class="bp8"><div class="bf8" style="width:100%"></div></div><span class="t8 g">Completa</span></div>
+            <div class="task8"><span class="tn8">Solicitud cotización</span><div class="bp8"><div class="bf8" style="width:70%"></div></div><span class="t8 r">Vencida</span></div>
+            <div class="task8"><span class="tn8">Elaborar CDP</span><div class="bp8"><div class="bf8" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Teal Oscuro Refinado ⭐</h3><p>Evolución del mockup original · Teal premium</p></div>
+  </div>
+
+  <!-- OP 9 -->
+  <div class="option">
+    <div class="option-num">09</div>
+    <div class="preview op9">
+      <div class="bar">
+        <div class="logo9">OT</div>
+        <div class="title9">Portafolio OTIC — Dashboard de Gestión</div>
+      </div>
+      <div class="content">
+        <div class="side9">
+          <div class="pitem9">P1 Daruma</div>
+          <div class="pitem9">P3 Google</div>
+          <div class="pitem9 on">P7 Microsoft</div>
+          <div class="pitem9">P8 Antivirus</div>
+        </div>
+        <div class="main9">
+          <div class="card9">
+            <div class="proj9">Licencias Microsoft — P7</div>
+            <div class="gauge-row">
+              <div class="gauge9"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge9"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#78350F;">▲ Alerta</div></div>
+              <div class="gauge9"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#166534;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card9">
+            <div class="task9"><span class="tn9">Inventario licencias</span><div class="bp9"><div class="bf9" style="width:100%"></div></div><span class="t9 g">Completa</span></div>
+            <div class="task9"><span class="tn9">Solicitud cotización</span><div class="bp9"><div class="bf9" style="width:70%"></div></div><span class="t9 r">Vencida</span></div>
+            <div class="task9"><span class="tn9">Elaborar CDP</span><div class="bp9"><div class="bf9" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Papel / Editorial Beige</h3><p>Kraft · Dorado · Artesanal y cálido</p></div>
+  </div>
+
+  <!-- OP 10 -->
+  <div class="option">
+    <div class="option-num">10</div>
+    <div class="preview op10">
+      <div class="bar">
+        <div class="logo10">OT</div>
+        <div class="title10">PORTAFOLIO <span>OTIC</span></div>
+      </div>
+      <div class="content">
+        <div class="side10">
+          <div class="pitem10">P1 Daruma</div>
+          <div class="pitem10">P3 Google</div>
+          <div class="pitem10 on">P7 Microsoft</div>
+          <div class="pitem10">P8 Antivirus</div>
+        </div>
+        <div class="main10">
+          <div class="card10">
+            <div class="proj10">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge10"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge10"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#FBBF24;">▲ Alerta</div></div>
+              <div class="gauge10"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#4ADE80;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card10">
+            <div class="task10"><span class="tn10">Inventario licencias</span><div class="bp10"><div class="bf10" style="width:100%"></div></div><span class="t10 g">Completa</span></div>
+            <div class="task10"><span class="tn10">Solicitud cotización</span><div class="bp10"><div class="bf10" style="width:70%"></div></div><span class="t10 r">Vencida</span></div>
+            <div class="task10"><span class="tn10">Elaborar CDP</span><div class="bp10"><div class="bf10" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Negro + Naranja Futurista</h3><p>Oxanium · Naranja · Tecnológico e impactante</p></div>
+  </div>
+
+  <!-- OP 11 -->
+  <div class="option">
+    <div class="option-num">11</div>
+    <div class="preview op11">
+      <div class="bar">
+        <div class="logo11">OT</div>
+        <div class="title11">Portafolio OTIC / <span>Dashboard</span></div>
+      </div>
+      <div class="content">
+        <div class="side11">
+          <div class="pitem11">P1 Daruma</div>
+          <div class="pitem11">P3 Google</div>
+          <div class="pitem11 on">P7 Microsoft</div>
+          <div class="pitem11">P8 Antivirus</div>
+        </div>
+        <div class="main11">
+          <div class="card11">
+            <div class="proj11">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge11"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge11"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#D97706;">▲ Alerta</div></div>
+              <div class="gauge11"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#00897B;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card11">
+            <div class="task11"><span class="tn11">Inventario licencias</span><div class="bp11"><div class="bf11" style="width:100%"></div></div><span class="t11 g">Completa</span></div>
+            <div class="task11"><span class="tn11">Solicitud cotización</span><div class="bp11"><div class="bf11" style="width:70%"></div></div><span class="t11 r">Vencida</span></div>
+            <div class="task11"><span class="tn11">Elaborar CDP</span><div class="bp11"><div class="bf11" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Verde Agua Institucional</h3><p>Blanco · Verde esmeralda · Fresco y confiable</p></div>
+  </div>
+
+  <!-- OP 12 -->
+  <div class="option">
+    <div class="option-num">12</div>
+    <div class="preview op12">
+      <div class="bar">
+        <div class="logo12">OT</div>
+        <div class="title12">OTIC // PORTAFOLIO_MGMT</div>
+      </div>
+      <div class="content">
+        <div class="side12">
+          <div class="pitem12">P1_DARUMA</div>
+          <div class="pitem12">P3_GOOGLE</div>
+          <div class="pitem12 on">P7_MSFT</div>
+          <div class="pitem12">P8_AV_XDR</div>
+        </div>
+        <div class="main12">
+          <div class="card12">
+            <div class="proj12">LICENCIAS_MICROSOFT // P7</div>
+            <div class="gauge-row">
+              <div class="gauge12"><div class="val">3</div><div class="lbl">ABOGADO</div><div class="s">CRIT</div></div>
+              <div class="gauge12"><div class="val">11</div><div class="lbl">MESA</div><div class="s" style="color:#FCD34D;">ALRT</div></div>
+              <div class="gauge12"><div class="val">31</div><div class="lbl">RADIC.</div><div class="s" style="color:#34D399;">OK</div></div>
+            </div>
+          </div>
+          <div class="card12">
+            <div class="task12"><span class="tn12">inventario_licencias</span><div class="bp12"><div class="bf12" style="width:100%"></div></div><span class="t12 g">DONE</span></div>
+            <div class="task12"><span class="tn12">solicitud_cotizacion</span><div class="bp12"><div class="bf12" style="width:70%"></div></div><span class="t12 r">EXP</span></div>
+            <div class="task12"><span class="tn12">elaborar_cdp</span><div class="bp12"><div class="bf12" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Grafito + Cyan / Analítico</h3><p>Space Mono · Gris oscuro · Técnico y frío</p></div>
+  </div>
+
+  <!-- OP 13 -->
+  <div class="option">
+    <div class="option-num">13</div>
+    <div class="preview op13">
+      <div class="bar">
+        <div class="logo13">OT</div>
+        <div class="title13">Portafolio OTIC — Dashboard</div>
+      </div>
+      <div class="content">
+        <div class="side13">
+          <div class="pitem13">P1 Daruma</div>
+          <div class="pitem13">P3 Google</div>
+          <div class="pitem13 on">P7 Microsoft</div>
+          <div class="pitem13">P8 Antivirus</div>
+        </div>
+        <div class="main13">
+          <div class="card13">
+            <div class="proj13">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge13"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge13"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#92400E;">▲ Alerta</div></div>
+              <div class="gauge13"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#166534;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card13">
+            <div class="task13"><span class="tn13">Inventario licencias</span><div class="bp13"><div class="bf13" style="width:100%"></div></div><span class="t13 g">Completa</span></div>
+            <div class="task13"><span class="tn13">Solicitud cotización</span><div class="bp13"><div class="bf13" style="width:70%"></div></div><span class="t13 r">Vencida</span></div>
+            <div class="task13"><span class="tn13">Elaborar CDP</span><div class="bp13"><div class="bf13" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Blanco Minimalista Puro</h3><p>Negro · Sin color · Máxima legibilidad</p></div>
+  </div>
+
+  <!-- OP 14 -->
+  <div class="option">
+    <div class="option-num">14</div>
+    <div class="preview op14">
+      <div class="bar">
+        <div class="logo14">OT</div>
+        <div class="title14">Portafolio OTIC — Dashboard</div>
+      </div>
+      <div class="content">
+        <div class="side14">
+          <div class="pitem14">P1 Daruma</div>
+          <div class="pitem14">P3 Google</div>
+          <div class="pitem14 on">P7 Microsoft</div>
+          <div class="pitem14">P8 Antivirus</div>
+        </div>
+        <div class="main14">
+          <div class="card14">
+            <div class="proj14">Licencias Microsoft — P7</div>
+            <div class="gauge-row">
+              <div class="gauge14"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge14"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#FBBF24;">▲ Alerta</div></div>
+              <div class="gauge14"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#D4AF37;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card14">
+            <div class="task14"><span class="tn14">Inventario licencias</span><div class="bp14"><div class="bf14" style="width:100%"></div></div><span class="t14 g">Completa</span></div>
+            <div class="task14"><span class="tn14">Solicitud cotización</span><div class="bp14"><div class="bf14" style="width:70%"></div></div><span class="t14 r">Vencida</span></div>
+            <div class="task14"><span class="tn14">Elaborar CDP</span><div class="bp14"><div class="bf14" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Navy + Oro / Lujo Premium</h3><p>Azul marino · Dorado · Elegante institucional</p></div>
+  </div>
+
+  <!-- OP 15 -->
+  <div class="option">
+    <div class="option-num">15</div>
+    <div class="preview op15">
+      <div class="bar">
+        <div class="logo15">OT</div>
+        <div class="title15">PORTAFOLIO OTIC — DASHBOARD</div>
+      </div>
+      <div class="content">
+        <div class="side15">
+          <div class="pitem15">P1 DARUMA</div>
+          <div class="pitem15">P3 GOOGLE</div>
+          <div class="pitem15 on">P7 MICROSOFT</div>
+          <div class="pitem15">P8 ANTIVIRUS</div>
+        </div>
+        <div class="main15">
+          <div class="card15">
+            <div class="proj15">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge15"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge15"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#FACC15;">▲ Alerta</div></div>
+              <div class="gauge15"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#84CC16;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card15">
+            <div class="task15"><span class="tn15">Inventario licencias</span><div class="bp15"><div class="bf15" style="width:100%"></div></div><span class="t15 g">Completa</span></div>
+            <div class="task15"><span class="tn15">Solicitud cotización</span><div class="bp15"><div class="bf15" style="width:70%"></div></div><span class="t15 r">Vencida</span></div>
+            <div class="task15"><span class="tn15">Elaborar CDP</span><div class="bp15"><div class="bf15" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Lima / Verde Energético</h3><p>Negro · Verde lima · Fresco e impactante</p></div>
+  </div>
+
+  <!-- OP 16 -->
+  <div class="option">
+    <div class="option-num">16</div>
+    <div class="preview op16">
+      <div class="bar">
+        <div class="logo16">OT</div>
+        <div class="title16">Portafolio OTIC / <span>Dashboard</span></div>
+      </div>
+      <div class="content">
+        <div class="side16">
+          <div class="pitem16">P1 Daruma</div>
+          <div class="pitem16">P3 Google</div>
+          <div class="pitem16 on">P7 Microsoft</div>
+          <div class="pitem16">P8 Antivirus</div>
+        </div>
+        <div class="main16">
+          <div class="card16">
+            <div class="proj16">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge16"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge16"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#FB923C;">▲ Alerta</div></div>
+              <div class="gauge16"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#4ADE80;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card16">
+            <div class="task16"><span class="tn16">Inventario licencias</span><div class="bp16"><div class="bf16" style="width:100%"></div></div><span class="t16 g">Completa</span></div>
+            <div class="task16"><span class="tn16">Solicitud cotización</span><div class="bp16"><div class="bf16" style="width:70%"></div></div><span class="t16 r">Vencida</span></div>
+            <div class="task16"><span class="tn16">Elaborar CDP</span><div class="bp16"><div class="bf16" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Rosa / Magenta Audaz</h3><p>Negro · Magenta · Atrevido y diferente</p></div>
+  </div>
+
+  <!-- OP 17 -->
+  <div class="option">
+    <div class="option-num">17</div>
+    <div class="preview op17">
+      <div class="bar">
+        <div class="logo17">OT</div>
+        <div class="title17">Portafolio OTIC / <span>Dashboard</span></div>
+      </div>
+      <div class="content">
+        <div class="side17">
+          <div class="pitem17">P1 Daruma</div>
+          <div class="pitem17">P3 Google</div>
+          <div class="pitem17 on">P7 Microsoft</div>
+          <div class="pitem17">P8 Antivirus</div>
+        </div>
+        <div class="main17">
+          <div class="card17">
+            <div class="proj17">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge17"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge17"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#D97706;">▲ Alerta</div></div>
+              <div class="gauge17"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#16A34A;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card17">
+            <div class="task17"><span class="tn17">Inventario licencias</span><div class="bp17"><div class="bf17" style="width:100%"></div></div><span class="t17 g">Completa</span></div>
+            <div class="task17"><span class="tn17">Solicitud cotización</span><div class="bp17"><div class="bf17" style="width:70%"></div></div><span class="t17 r">Vencida</span></div>
+            <div class="task17"><span class="tn17">Elaborar CDP</span><div class="bp17"><div class="bf17" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Slate + Índigo</h3><p>Gris frío · Índigo · Claro y profesional</p></div>
+  </div>
+
+  <!-- OP 18 -->
+  <div class="option">
+    <div class="option-num">18</div>
+    <div class="preview op18">
+      <div class="bar">
+        <div class="logo18">OT</div>
+        <div class="title18">OTIC // DASHBOARD</div>
+      </div>
+      <div class="content">
+        <div class="side18">
+          <div class="pitem18">P1 DARUMA</div>
+          <div class="pitem18">P3 GOOGLE</div>
+          <div class="pitem18 on">P7 MSFT</div>
+          <div class="pitem18">P8 AV</div>
+        </div>
+        <div class="main18">
+          <div class="card18">
+            <div class="proj18">LICENCIAS MICROSOFT // P7</div>
+            <div class="gauge-row">
+              <div class="gauge18"><div class="val">3</div><div class="lbl">ABOGADO</div><div class="s">CRIT</div></div>
+              <div class="gauge18"><div class="val">11</div><div class="lbl">MESA</div><div class="s" style="color:#FACC15;">ALRT</div></div>
+              <div class="gauge18"><div class="val">31</div><div class="lbl">RADIC</div><div class="s" style="color:#00FF88;">OK</div></div>
+            </div>
+          </div>
+          <div class="card18">
+            <div class="task18"><span class="tn18">inventario_licencias</span><div class="bp18"><div class="bf18" style="width:100%"></div></div><span class="t18 g">DONE</span></div>
+            <div class="task18"><span class="tn18">solicitud_cotizacion</span><div class="bp18"><div class="bf18" style="width:70%"></div></div><span class="t18 r">EXP</span></div>
+            <div class="task18"><span class="tn18">elaborar_cdp</span><div class="bp18"><div class="bf18" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Carbón + Cyan Neón (Tech)</h3><p>Oxanium · Cyan brillante · Ultra tecnológico</p></div>
+  </div>
+
+  <!-- OP 19 -->
+  <div class="option">
+    <div class="option-num">19</div>
+    <div class="preview op19">
+      <div class="bar">
+        <div class="logo19">OT</div>
+        <div class="title19">Portafolio OTIC — Dashboard de Gestión</div>
+      </div>
+      <div class="content">
+        <div class="side19">
+          <div class="pitem19">P1 Daruma</div>
+          <div class="pitem19">P3 Google</div>
+          <div class="pitem19 on">P7 Microsoft</div>
+          <div class="pitem19">P8 Antivirus</div>
+        </div>
+        <div class="main19">
+          <div class="card19">
+            <div class="proj19">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge19"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge19"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#B7770A;">▲ Alerta</div></div>
+              <div class="gauge19"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#1A6B3A;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card19">
+            <div class="task19"><span class="tn19">Inventario licencias</span><div class="bp19"><div class="bf19" style="width:100%"></div></div><span class="t19 g">Completa</span></div>
+            <div class="task19"><span class="tn19">Solicitud cotización</span><div class="bp19"><div class="bf19" style="width:70%"></div></div><span class="t19 r">Vencida</span></div>
+            <div class="task19"><span class="tn19">Elaborar CDP</span><div class="bp19"><div class="bf19" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Azul Gubernamental Clásico</h3><p>Azul gobierno · Amarillo · Institucional oficial</p></div>
+  </div>
+
+  <!-- OP 20 -->
+  <div class="option">
+    <div class="option-num">20</div>
+    <div class="preview op20">
+      <div class="bar">
+        <div class="logo20">OT</div>
+        <div class="title20">Portafolio OTIC / Dashboard</div>
+      </div>
+      <div class="content">
+        <div class="side20">
+          <div class="pitem20"><span>P1 Daruma</span></div>
+          <div class="pitem20"><span>P3 Google</span></div>
+          <div class="pitem20 on"><span>P7 Microsoft</span></div>
+          <div class="pitem20"><span>P8 Antivirus</span></div>
+        </div>
+        <div class="main20">
+          <div class="card20">
+            <div class="proj20">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge20"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge20"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#FBBF24;">▲ Alerta</div></div>
+              <div class="gauge20"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#34D399;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card20">
+            <div class="task20"><span class="tn20">Inventario licencias</span><div class="bp20"><div class="bf20" style="width:100%"></div></div><span class="t20 g">Completa</span></div>
+            <div class="task20"><span class="tn20">Solicitud cotización</span><div class="bp20"><div class="bf20" style="width:70%"></div></div><span class="t20 r">Vencida</span></div>
+            <div class="task20"><span class="tn20">Elaborar CDP</span><div class="bp20"><div class="bf20" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Aurora / Gradiente Oscuro</h3><p>Multicolor · Violeta+Cyan · Moderno espectacular</p></div>
+  </div>
+
+  <!-- OP 21 -->
+  <div class="option">
+    <div class="option-num">21</div>
+    <div class="preview op21">
+      <div class="bar">
+        <div class="logo21">OT</div>
+        <div class="title21">Portafolio OTIC — Dashboard</div>
+      </div>
+      <div class="content">
+        <div class="side21">
+          <div class="pitem21">P1 Daruma</div>
+          <div class="pitem21">P3 Google</div>
+          <div class="pitem21 on">P7 Microsoft</div>
+          <div class="pitem21">P8 Antivirus</div>
+        </div>
+        <div class="main21">
+          <div class="card21">
+            <div class="proj21">LICENCIAS MICROSOFT — P7</div>
+            <div class="gauge-row">
+              <div class="gauge21"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge21"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#D97706;">▲ Alerta</div></div>
+              <div class="gauge21"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#065F46;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card21">
+            <div class="task21"><span class="tn21">Inventario licencias</span><div class="bp21"><div class="bf21" style="width:100%"></div></div><span class="t21 g">Completa</span></div>
+            <div class="task21"><span class="tn21">Solicitud cotización</span><div class="bp21"><div class="bf21" style="width:70%"></div></div><span class="t21 r">Vencida</span></div>
+            <div class="task21"><span class="tn21">Elaborar CDP</span><div class="bp21"><div class="bf21" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Azul Hielo + Plata Premium</h3><p>Navy header · Gris frío · Analítico de primer nivel</p></div>
+  </div>
+
+  <!-- OP 22 -->
+  <div class="option">
+    <div class="option-num">22</div>
+    <div class="preview op22">
+      <div class="bar">
+        <div class="logo22">OT</div>
+        <div class="title22">Portafolio OTIC — Dashboard</div>
+      </div>
+      <div class="content">
+        <div class="side22">
+          <div class="pitem22">P1 Daruma</div>
+          <div class="pitem22">P3 Google</div>
+          <div class="pitem22 on">P7 Microsoft</div>
+          <div class="pitem22">P8 Antivirus</div>
+        </div>
+        <div class="main22">
+          <div class="card22">
+            <div class="proj22">Licencias Microsoft — P7</div>
+            <div class="gauge-row">
+              <div class="gauge22"><div class="val">3</div><div class="lbl">Entrega Abog.</div><div class="s">● Crítico</div></div>
+              <div class="gauge22"><div class="val">11</div><div class="lbl">Mesa Trabajo</div><div class="s" style="color:#F97316;">▲ Alerta</div></div>
+              <div class="gauge22"><div class="val">31</div><div class="lbl">Radicación</div><div class="s" style="color:#E8A87C;">✓ OK</div></div>
+            </div>
+          </div>
+          <div class="card22">
+            <div class="task22"><span class="tn22">Inventario licencias</span><div class="bp22"><div class="bf22" style="width:100%"></div></div><span class="t22 g">Completa</span></div>
+            <div class="task22"><span class="tn22">Solicitud cotización</span><div class="bp22"><div class="bf22" style="width:70%"></div></div><span class="t22 r">Vencida</span></div>
+            <div class="task22"><span class="tn22">Elaborar CDP</span><div class="bp22"><div class="bf22" style="width:40%"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-label"><h3>Tierra / Barro Artesanal</h3><p>Marrón · Terracota · Cálido y único</p></div>
+  </div>
+
+</div>
+
+<div style="background:#111;padding:24px 40px;text-align:center;margin-top:2px;">
+  <p style="color:#555;font-size:13px;">⭐ El <strong style="color:#aaa;">08 — Teal Oscuro Refinado</strong> es la evolución del mockup original que ya tienes.  También puedo combinar colores de uno con la estructura de otro.</p>
+  <p style="color:#444;font-size:12px;margin-top:8px;">Dime el número (o números) favoritos y comenzamos a construir el dashboard completo.</p>
+</div>
+
+</body>
+</html>

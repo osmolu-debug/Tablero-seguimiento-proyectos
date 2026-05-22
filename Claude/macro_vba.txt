@@ -1,0 +1,221 @@
+
+'============================================================
+' PORTAFOLIO OTIC — Macro de Exportación a JSON
+' Instrucciones:
+'   1. Guarde el archivo como .xlsm (macro habilitado)
+'   2. Presione Alt+F11 → Insertar → Módulo
+'   3. Pegue TODO este código en el módulo
+'   4. Cierre el editor y ejecute desde Desarrollador → Macros
+'============================================================
+
+Sub ExportarDashboard()
+    Dim ws As Worksheet
+    Dim wsData As Worksheet
+    Dim jsonStr As String
+    Dim filePath As String
+    Dim proyectos() As String
+    Dim i As Integer, j As Integer
+    Dim lastRow As Long
+    
+    ' Ruta del archivo JSON (misma carpeta que el Excel)
+    filePath = ThisWorkbook.Path & "\datos_otic.json"
+    
+    On Error GoTo ErrorHandler
+    
+    ' =========================================================
+    ' 1. LEER DATA ORIGINAL
+    ' =========================================================
+    Set wsData = ThisWorkbook.Sheets("Data Original")
+    lastRow = wsData.Cells(wsData.Rows.Count, 1).End(xlUp).Row
+    
+    jsonStr = "{" & vbNewLine
+    jsonStr = jsonStr & """fecha_exportacion"": """ & Format(Now(), "YYYY-MM-DD HH:MM:SS") & """," & vbNewLine
+    jsonStr = jsonStr & """proyectos"": [" & vbNewLine
+    
+    Dim firstProj As Boolean
+    firstProj = True
+    
+    For i = 2 To lastRow
+        If wsData.Cells(i, 1).Value <> "" Then
+            Dim pid As String
+            pid = CStr(wsData.Cells(i, 1).Value)
+            
+            If Not firstProj Then
+                jsonStr = jsonStr & "," & vbNewLine
+            End If
+            firstProj = False
+            
+            ' Limpiar y escapar texto
+            Dim pNombre As String
+            Dim pSupervisor As String
+            Dim pEstructurador As String
+            Dim pAbogado As String
+            Dim pEvaluadores As String
+            
+            pNombre = LimpiarTexto(CStr(wsData.Cells(i, 3).Value))
+            pSupervisor = LimpiarTexto(CStr(wsData.Cells(i, 28).Value))
+            pEstructurador = LimpiarTexto(CStr(wsData.Cells(i, 25).Value))
+            pAbogado = LimpiarTexto(CStr(wsData.Cells(i, 26).Value))
+            pEvaluadores = LimpiarTexto(CStr(wsData.Cells(i, 27).Value))
+            
+            ' Fechas
+            Dim fAbogado As String, fMesa As String, fRadic As String
+            fAbogado = FormatFecha(wsData.Cells(i, 15).Value)
+            fMesa = FormatFecha(wsData.Cells(i, 18).Value)
+            fRadic = FormatFecha(wsData.Cells(i, 21).Value)
+            
+            ' Días restantes
+            Dim dAbogado As Long, dMesa As Long, dRadic As Long
+            dAbogado = IIf(IsNumeric(wsData.Cells(i, 16).Value), CLng(wsData.Cells(i, 16).Value), 0)
+            dMesa = IIf(IsNumeric(wsData.Cells(i, 19).Value), CLng(wsData.Cells(i, 19).Value), 0)
+            dRadic = IIf(IsNumeric(wsData.Cells(i, 22).Value), CLng(wsData.Cells(i, 22).Value), 0)
+            
+            ' Valor
+            Dim pValor As Long
+            pValor = IIf(IsNumeric(wsData.Cells(i, 9).Value), CLng(wsData.Cells(i, 9).Value), 0)
+            
+            jsonStr = jsonStr & "  {" & vbNewLine
+            jsonStr = jsonStr & "    ""id"": """ & pid & """," & vbNewLine
+            jsonStr = jsonStr & "    ""estado"": """ & LimpiarTexto(CStr(wsData.Cells(i, 2).Value)) & """," & vbNewLine
+            jsonStr = jsonStr & "    ""nombre"": """ & pNombre & """," & vbNewLine
+            jsonStr = jsonStr & "    ""sgc"": """ & LimpiarTexto(CStr(wsData.Cells(i, 4).Value)) & """," & vbNewLine
+            jsonStr = jsonStr & "    ""modalidad"": """ & LimpiarTexto(CStr(wsData.Cells(i, 5).Value)) & """," & vbNewLine
+            jsonStr = jsonStr & "    ""objeto"": """ & LimpiarTexto(CStr(wsData.Cells(i, 6).Value)) & """," & vbNewLine
+            jsonStr = jsonStr & "    ""valor"": " & pValor & "," & vbNewLine
+            jsonStr = jsonStr & "    ""supervisor"": """ & pSupervisor & """," & vbNewLine
+            jsonStr = jsonStr & "    ""estructurador"": """ & pEstructurador & """," & vbNewLine
+            jsonStr = jsonStr & "    ""abogado"": """ & pAbogado & """," & vbNewLine
+            jsonStr = jsonStr & "    ""evaluadores"": """ & pEvaluadores & """," & vbNewLine
+            jsonStr = jsonStr & "    ""fecha_abogado"": """ & fAbogado & """," & vbNewLine
+            jsonStr = jsonStr & "    ""dias_abogado"": " & dAbogado & "," & vbNewLine
+            jsonStr = jsonStr & "    ""fecha_mesa"": """ & fMesa & """," & vbNewLine
+            jsonStr = jsonStr & "    ""dias_mesa"": " & dMesa & "," & vbNewLine
+            jsonStr = jsonStr & "    ""fecha_radicacion"": """ & fRadic & """," & vbNewLine
+            jsonStr = jsonStr & "    ""dias_radicacion"": " & dRadic & "," & vbNewLine
+            
+            ' =====================================================
+            ' 2. LEER TAREAS DE LA HOJA DEL PROYECTO
+            ' =====================================================
+            Dim wsTareas As Worksheet
+            Dim tareasJson As String
+            tareasJson = "[]"
+            
+            On Error Resume Next
+            Set wsTareas = ThisWorkbook.Sheets(pid)
+            On Error GoTo ErrorHandler
+            
+            If Not wsTareas Is Nothing Then
+                Dim tareaArr As String
+                tareaArr = "["
+                Dim firstTarea As Boolean
+                firstTarea = True
+                
+                Dim lastTaskRow As Long
+                lastTaskRow = 18  ' Filas 4-18 = 15 tareas max
+                
+                For j = 4 To lastTaskRow
+                    If wsTareas.Cells(j, 4).Value <> "" Then
+                        If Not firstTarea Then tareaArr = tareaArr & ","
+                        firstTarea = False
+                        
+                        Dim tNombre As String
+                        tNombre = LimpiarTexto(CStr(wsTareas.Cells(j, 4).Value))
+                        
+                        Dim tFase As String
+                        tFase = LimpiarTexto(CStr(wsTareas.Cells(j, 3).Value))
+                        
+                        Dim tFin As String
+                        tFin = FormatFecha(wsTareas.Cells(j, 6).Value)
+                        
+                        Dim tInicio As String
+                        tInicio = FormatFecha(wsTareas.Cells(j, 5).Value)
+                        
+                        Dim tDias As Long
+                        tDias = IIf(IsNumeric(wsTareas.Cells(j, 7).Value), CLng(wsTareas.Cells(j, 7).Value), 0)
+                        
+                        Dim tAvance As Long
+                        tAvance = IIf(IsNumeric(wsTareas.Cells(j, 8).Value), CLng(wsTareas.Cells(j, 8).Value), 0)
+                        
+                        Dim tEstado As String
+                        tEstado = LimpiarTexto(CStr(wsTareas.Cells(j, 9).Value))
+                        
+                        tareaArr = tareaArr & vbNewLine & "      {"
+                        tareaArr = tareaArr & """num"": " & (j - 3) & ","
+                        tareaArr = tareaArr & """fase"": """ & tFase & ""","
+                        tareaArr = tareaArr & """nombre"": """ & tNombre & ""","
+                        tareaArr = tareaArr & """inicio"": """ & tInicio & ""","
+                        tareaArr = tareaArr & """fin"": """ & tFin & ""","
+                        tareaArr = tareaArr & """dias"": " & tDias & ","
+                        tareaArr = tareaArr & """avance"": " & tAvance & ","
+                        tareaArr = tareaArr & """estado"": """ & tEstado & """"
+                        tareaArr = tareaArr & "}"
+                    End If
+                Next j
+                
+                tareasJson = tareaArr & "]"
+                Set wsTareas = Nothing
+            End If
+            
+            ' Progreso general del proyecto
+            Dim progGeneral As Long
+            progGeneral = 0
+            On Error Resume Next
+            Set wsTareas = ThisWorkbook.Sheets(pid)
+            If Not wsTareas Is Nothing Then
+                Dim rProg As Range
+                Set rProg = wsTareas.Range("H19")
+                If IsNumeric(rProg.Value) Then
+                    progGeneral = CLng(rProg.Value)
+                End If
+                Set wsTareas = Nothing
+            End If
+            On Error GoTo ErrorHandler
+            
+            jsonStr = jsonStr & "    ""progreso_general"": " & progGeneral & "," & vbNewLine
+            jsonStr = jsonStr & "    ""tareas"": " & tareasJson & vbNewLine
+            jsonStr = jsonStr & "  }"
+        End If
+    Next i
+    
+    jsonStr = jsonStr & vbNewLine & "]" & vbNewLine & "}"
+    
+    ' =========================================================
+    ' 3. ESCRIBIR ARCHIVO JSON
+    ' =========================================================
+    Dim fileNum As Integer
+    fileNum = FreeFile()
+    Open filePath For Output As #fileNum
+    Print #fileNum, jsonStr
+    Close #fileNum
+    
+    MsgBox "✅ Dashboard exportado exitosamente!" & vbNewLine & vbNewLine & _
+           "Archivo: datos_otic.json" & vbNewLine & _
+           "Ubicación: " & filePath & vbNewLine & vbNewLine & _
+           "Ahora abra dashboard_otic.html en Chrome o Edge.", _
+           vbInformation, "Exportación Exitosa"
+    Exit Sub
+    
+ErrorHandler:
+    MsgBox "❌ Error al exportar: " & Err.Description, vbCritical, "Error"
+End Sub
+
+' =========================================================
+' Funciones auxiliares
+' =========================================================
+Function LimpiarTexto(texto As String) As String
+    Dim resultado As String
+    resultado = texto
+    resultado = Replace(resultado, Chr(10), ", ")
+    resultado = Replace(resultado, Chr(13), "")
+    resultado = Replace(resultado, """", "'")
+    resultado = Replace(resultado, "\", "/")
+    LimpiarTexto = Trim(resultado)
+End Function
+
+Function FormatFecha(valor As Variant) As String
+    If IsDate(valor) And Not IsEmpty(valor) Then
+        FormatFecha = Format(CDate(valor), "YYYY-MM-DD")
+    Else
+        FormatFecha = ""
+    End If
+End Function
