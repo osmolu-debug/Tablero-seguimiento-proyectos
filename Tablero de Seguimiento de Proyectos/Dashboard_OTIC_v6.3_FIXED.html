@@ -7172,13 +7172,13 @@ let iaHistory=[];
 
 function openAnalisisIA(){
   document.getElementById('modal-analisis').style.display='flex';
-  const saved=(window._oticApiKey||'');
+  const saved=(window._oticApiKey||localStorage.getItem('otic_ia_gemini')||'');
   if(saved) document.getElementById('ia-apikey').value=saved;
 }
 function closeAnalisisIA(){ document.getElementById('modal-analisis').style.display='none'; }
 function saveApiKey(){
   const k=document.getElementById('ia-apikey').value.trim();
-  if(k) window._oticApiKey=k;
+  if(k){ window._oticApiKey=k; localStorage.setItem('otic_ia_gemini',k); }
 }
 
 function buildContext(){
@@ -7188,7 +7188,7 @@ function buildContext(){
   return `PROYECTO: ${p.name} (${p.contrato})
 CONTRATISTA: ${p.contratista} | SUPERVISOR: ${p.lider_sdm||p.supervisor||'SDM OTIC'}
 INICIO: ${p.inicio} | FIN: ${p.fin}
-AVANCE REAL: ${p.realPct}% | PLANEADO: ${p.planPct}% | BRECHA: ${brecha>=0?'+':''}${brecha}%
+AVANCE REAL: ${p.realPct}% | PLANEADO: ${p.planPct}% | BRECHA: ${brecha>=0?'+':''}${parseFloat(brecha.toFixed(1))}%
 ESTADO: ${p.statusLabel||p.status}
 HITOS COMPLETADOS: ${(p.hitos_done||[]).length} | HITOS PRÓXIMOS: ${(p.hitos_next||[]).length} | HITOS ATRASADOS: ${(p.hitos_late||[]).length}
 HITOS ATRASADOS: ${(p.hitos_late||[]).join('; ')||'Ninguno'}
@@ -7212,7 +7212,7 @@ async function sendIA(){
   const userMsg=document.getElementById('ia-input').value.trim();
   if(!userMsg){alert('Escriba una pregunta primero');return;}
   if(!apiKey){
-    document.getElementById('ia-chat').innerHTML+='<div style="background:#E8F0FE;border:1px solid #4285F4;border-radius:8px;padding:10px 14px;font-size:12px;color:#1a1a1a;margin:4px 0">🔑 Ingrese su API Key de Claude en el campo de arriba.<br>Obténgala gratis en <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#1A73E8">console.anthropic.com</a> → Settings → API Keys → Create Key.</div>';
+    document.getElementById('ia-chat').innerHTML+='<div style="background:#E8F0FE;border:1px solid #4285F4;border-radius:8px;padding:10px 14px;font-size:12px;color:#1a1a1a;margin:4px 0">🔑 Ingrese su API Key de Gemini en el campo de arriba.<br>Obténgala gratis en <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#1A73E8">aistudio.google.com/app/apikey</a> → Create API Key.</div>';
     return;
   }
   saveApiKey();
@@ -7231,7 +7231,7 @@ async function sendIA(){
     const gemBody=JSON.stringify({
       system_instruction:{parts:[{text:sys}]},
       contents:[...gemHistory,{role:'user',parts:[{text:userMsg}]}],
-      generationConfig:{maxOutputTokens:2500,temperature:0.4}
+      generationConfig:{maxOutputTokens:8192,temperature:0.4}
     });
     // Retry automático hasta 3 intentos si hay alta demanda
     let d=null;
