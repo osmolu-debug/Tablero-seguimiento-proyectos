@@ -1,0 +1,7 @@
+# Claude Code — configuración interna
+.claude/
+
+# Archivos temporales
+*.tmp
+Thumbs.db
+.DS_Store
