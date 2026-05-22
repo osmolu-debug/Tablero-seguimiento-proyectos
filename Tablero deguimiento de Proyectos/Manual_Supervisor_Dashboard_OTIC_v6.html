@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual del Supervisor — Dashboard OTIC SDM v6.0</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; color: #1e293b; font-size: 14px; line-height: 1.6; }
+
+  .cover { background: linear-gradient(135deg, #0D2137 0%, #1a4a7a 100%); color: #fff; padding: 60px 40px; text-align: center; }
+  .cover .logo { background: #2a9d8f; display: inline-block; padding: 12px 20px; border-radius: 8px; font-weight: 900; font-size: 22px; letter-spacing: 2px; margin-bottom: 24px; }
+  .cover h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .cover .sub { font-size: 16px; color: #94c5f0; margin-bottom: 6px; }
+  .cover .version { font-size: 12px; color: #64a0cc; margin-top: 16px; }
+
+  .toc { background: #fff; border-left: 4px solid #2a9d8f; margin: 24px auto; max-width: 900px; padding: 24px 32px; border-radius: 8px; box-shadow: 0 1px 6px rgba(0,0,0,.08); }
+  .toc h2 { color: #0D2137; margin-bottom: 16px; font-size: 16px; }
+  .toc ol { padding-left: 20px; }
+  .toc li { margin: 6px 0; }
+  .toc a { color: #1a4a7a; text-decoration: none; }
+  .toc a:hover { text-decoration: underline; }
+
+  .section { background: #fff; max-width: 900px; margin: 20px auto; border-radius: 10px; box-shadow: 0 1px 6px rgba(0,0,0,.08); overflow: hidden; }
+  .section-header { background: #0D2137; color: #fff; padding: 16px 28px; display: flex; align-items: center; gap: 12px; }
+  .section-header .num { background: #2a9d8f; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; flex-shrink: 0; }
+  .section-header h2 { font-size: 17px; font-weight: 600; }
+  .section-body { padding: 24px 28px; }
+
+  .step { display: flex; gap: 16px; margin: 16px 0; }
+  .step-num { background: #1a4a7a; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; margin-top: 2px; }
+  .step-body h4 { color: #0D2137; font-size: 14px; margin-bottom: 4px; }
+  .step-body p { color: #475569; }
+
+  .alert { border-radius: 8px; padding: 14px 18px; margin: 14px 0; display: flex; gap: 12px; align-items: flex-start; }
+  .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .alert.tip { background: #ecfdf5; border-left: 4px solid #10b981; }
+  .alert.warning { background: #fffbeb; border-left: 4px solid #f59e0b; }
+  .alert.danger { background: #fef2f2; border-left: 4px solid #ef4444; }
+  .alert.info { background: #eff6ff; border-left: 4px solid #3b82f6; }
+  .alert-body strong { display: block; margin-bottom: 4px; color: #1e293b; }
+  .alert-body p, .alert-body ul { color: #475569; }
+  .alert-body ul { padding-left: 18px; margin-top: 4px; }
+
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+  th { background: #0D2137; color: #fff; padding: 10px 12px; text-align: left; font-weight: 600; }
+  td { padding: 9px 12px; border-bottom: 1px solid #e2e8f0; vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .tag-fill { background: #fef9c3; color: #854d0e; border: 1px solid #fbbf24; }
+  .tag-lock { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; }
+  .tag-req { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin: 14px 0; }
+  .kpi-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px; }
+  .kpi-card .kpi-name { font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 6px; }
+  .kpi-card .kpi-val { font-size: 22px; font-weight: 700; color: #0D2137; }
+  .kpi-card .kpi-desc { font-size: 12px; color: #64748b; margin-top: 4px; }
+  .kpi-card.green { border-color: #10b981; background: #ecfdf5; }
+  .kpi-card.green .kpi-val { color: #065f46; }
+  .kpi-card.red { border-color: #ef4444; background: #fef2f2; }
+  .kpi-card.red .kpi-val { color: #991b1b; }
+  .kpi-card.yellow { border-color: #f59e0b; background: #fffbeb; }
+  .kpi-card.yellow .kpi-val { color: #92400e; }
+
+  .flow { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 14px 0; }
+  .flow-step { background: #0D2137; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+  .flow-arrow { color: #2a9d8f; font-size: 18px; font-weight: 700; }
+
+  .val-panel { border-radius: 8px; padding: 12px 16px; margin: 10px 0; }
+  .val-red { background: #fef2f2; border: 1px solid #fca5a5; }
+  .val-yellow { background: #fffbeb; border: 1px solid #fbbf24; }
+  .val-green { background: #ecfdf5; border: 1px solid #6ee7b7; }
+  .val-blue { background: #eff6ff; border: 1px solid #93c5fd; }
+  .val-title { font-weight: 700; margin-bottom: 4px; font-size: 13px; }
+  .val-red .val-title { color: #991b1b; }
+  .val-yellow .val-title { color: #92400e; }
+  .val-green .val-title { color: #065f46; }
+  .val-blue .val-title { color: #1e40af; }
+
+  .shortcut { display: inline-block; background: #1e293b; color: #e2e8f0; padding: 2px 8px; border-radius: 4px; font-family: monospace; font-size: 12px; }
+
+  h3 { color: #0D2137; font-size: 15px; margin: 20px 0 10px; }
+  p { margin: 8px 0; color: #334155; }
+  ul, ol { padding-left: 20px; margin: 8px 0; }
+  li { margin: 5px 0; color: #475569; }
+  strong { color: #1e293b; }
+  hr { border: none; border-top: 1px solid #e2e8f0; margin: 20px 0; }
+
+  .footer { text-align: center; color: #94a3b8; font-size: 12px; padding: 32px; }
+</style>
+</head>
+<body>
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="logo">OTIC</div>
+  <h1>Manual del Supervisor</h1>
+  <div class="sub">Dashboard de Seguimiento de Proyectos — SDM v6.0</div>
+  <div class="sub">Secretaría Distrital de Movilidad</div>
+  <div class="version">Guía paso a paso · Versión 1.0 · Mayo 2026</div>
+</div>
+
+<!-- TABLA DE CONTENIDO -->
+<div class="toc">
+  <h2>📋 Contenido</h2>
+  <ol>
+    <li><a href="#s1">¿Qué es el tablero y cómo funciona?</a></li>
+    <li><a href="#s2">Paso 1 — Crear un proyecto nuevo</a></li>
+    <li><a href="#s3">Paso 2 — La plantilla Excel del proveedor</a></li>
+    <li><a href="#s4">Paso 3 — Cargar el Excel en el tablero</a></li>
+    <li><a href="#s5">Paso 4 — Interpretar la validación</a></li>
+    <li><a href="#s6">Paso 5 — Entender los KPIs y el tablero</a></li>
+    <li><a href="#s7">Paso 6 — Guardar el HTML (¡muy importante!)</a></li>
+    <li><a href="#s8">Paso 7 — Control de Cambios</a></li>
+    <li><a href="#s9">Paso 8 — Portafolio gerencial</a></li>
+    <li><a href="#s10">Proceso semanal resumido</a></li>
+    <li><a href="#s11">Errores frecuentes y soluciones</a></li>
+  </ol>
+</div>
+
+<!-- SECCIÓN 1 -->
+<div class="section" id="s1">
+  <div class="section-header"><div class="num">1</div><h2>¿Qué es el tablero y cómo funciona?</h2></div>
+  <div class="section-body">
+    <p>El <strong>Dashboard OTIC SDM v6.0</strong> es un archivo HTML que se abre en el navegador (Chrome o Edge recomendado). Permite hacer seguimiento minucioso a contratos de la OTIC: el proveedor entrega un Excel cada semana, el supervisor lo carga al tablero, y el sistema genera KPIs, curva S, cronograma y alertas automáticamente.</p>
+
+    <h3>Flujo general de trabajo</h3>
+    <div class="flow">
+      <div class="flow-step">📁 Abrir tablero</div><div class="flow-arrow">→</div>
+      <div class="flow-step">✚ Crear proyecto</div><div class="flow-arrow">→</div>
+      <div class="flow-step">📊 Cargar Excel S01</div><div class="flow-arrow">→</div>
+      <div class="flow-step">🔒 BL congelada</div><div class="flow-arrow">→</div>
+      <div class="flow-step">💾 Guardar HTML</div><div class="flow-arrow">→</div>
+      <div class="flow-step">📊 Cargar Excel S02, S03…</div><div class="flow-arrow">→</div>
+      <div class="flow-step">💾 Guardar HTML</div>
+    </div>
+
+    <div class="alert tip">
+      <div class="alert-icon">💡</div>
+      <div class="alert-body">
+        <strong>Concepto clave — Línea Base (BL)</strong>
+        <p>La primera vez que carga un Excel, el sistema congela la <strong>Línea Base</strong>: las fechas y duraciones originales del contrato. Todas las semanas siguientes comparan el avance real contra esa BL. La BL nunca cambia sola — solo un Control de Cambios aprobado puede modificarla.</p>
+      </div>
+    </div>
+
+    <div class="alert info">
+      <div class="alert-icon">📁</div>
+      <div class="alert-body">
+        <strong>El tablero vive en un archivo HTML</strong>
+        <p>Cada vez que hace cambios o carga un Excel, debe hacer clic en <strong>"Guardar HTML"</strong> para descargar la versión actualizada. Este archivo descargado contiene todos los datos embebidos — puede enviarlo por correo, abrirlo en cualquier computador, o compartirlo sin depender de internet ni de servidores.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECCIÓN 2 -->
+<div class="section" id="s2">
+  <div class="section-header"><div class="num">2</div><h2>Paso 1 — Crear un proyecto nuevo</h2></div>
+  <div class="section-body">
+    <p>Solo se hace <strong>una vez</strong> por contrato. Al abrir el tablero por primera vez verá la pantalla vacía con el mensaje "Sin proyectos activos".</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Haga clic en el botón "+ Proyecto" de la barra superior</h4>
+        <p>Se abrirá un formulario de creación. No se asuste si el tablero parece vacío — es normal al inicio.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Complete los campos del formulario</h4>
+        <table>
+          <tr><th>Campo</th><th>Ejemplo</th><th>Descripción</th></tr>
+          <tr><td><strong>Nombre del proyecto</strong></td><td>Sistema de Gestión Documental</td><td>Nombre oficial del objeto contractual</td></tr>
+          <tr><td><strong>Número de contrato</strong></td><td>CTO 2026-0001</td><td>Número exacto del contrato SDM</td></tr>
+          <tr><td><strong>Contratista</strong></td><td>TECNOSOFT SAS</td><td>Razón social del proveedor</td></tr>
+          <tr><td><strong>Supervisor OTIC</strong></td><td>Juan Pérez — SDM OTIC</td><td>Nombre del supervisor asignado</td></tr>
+          <tr><td><strong>Valor del contrato</strong></td><td>120000000</td><td>Valor en pesos, sin puntos ni comas</td></tr>
+          <tr><td><strong>Fecha inicio</strong></td><td>01/05/2026</td><td>Fecha de inicio del contrato (DD/MM/AAAA)</td></tr>
+          <tr><td><strong>Fecha fin</strong></td><td>31/10/2026</td><td>Fecha de terminación contractual</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Haga clic en "Guardar" y vea la pestaña del proyecto creada</h4>
+        <p>Aparecerá una nueva pestaña con el nombre del proyecto. Los KPIs mostrarán "—" porque aún no hay datos — eso es correcto.</p>
+      </div>
+    </div>
+
+    <div class="alert warning">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-body">
+        <strong>Guarde el HTML inmediatamente después de crear el proyecto</strong>
+        <p>Haga clic en <strong>"Guardar HTML"</strong> para que el proyecto quede guardado en el archivo. Si cierra el navegador sin hacerlo, perderá el proyecto creado.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECCIÓN 3 -->
+<div class="section" id="s3">
+  <div class="section-header"><div class="num">3</div><h2>Paso 2 — La plantilla Excel del proveedor</h2></div>
+  <div class="section-body">
+    <p>La plantilla Excel es el documento que el <strong>proveedor (contratista) llena cada semana</strong> y envía al supervisor. Tiene 4 hojas. El supervisor entrega la plantilla al proveedor al inicio del contrato — el proveedor la completa y la devuelve semanalmente.</p>
+
+    <div class="alert info">
+      <div class="alert-icon">📌</div>
+      <div class="alert-body">
+        <strong>Número de actividades — es variable</strong>
+        <p>La plantilla puede tener <strong>cualquier número de actividades</strong> según la complejidad del contrato. No está limitada a 17 filas. Puede tener 10, 30, 50 o más actividades. Lo importante es respetar los tipos de fila (PROYECTO, FASE, ACTIVIDAD, HITO) y no modificar las columnas de Línea Base.</p>
+      </div>
+    </div>
+
+    <h3>Hoja 1 — INSTRUCCIONES_PMP</h3>
+    <p>Explica la metodología de cálculo (método PMP, igual que MS Project). El proveedor puede consultarla pero no la modifica.</p>
+
+    <h3>Hoja 2 — IDENTIFICACION</h3>
+    <p>Contiene 3 secciones:</p>
+    <table>
+      <tr><th>Sección</th><th>¿Quién la llena?</th><th>Campos</th></tr>
+      <tr>
+        <td><strong>A. Datos del proyecto</strong></td>
+        <td><span class="tag tag-lock">🔒 No modificar</span></td>
+        <td>Nombre, contrato, contratista, supervisor, fechas BL, valor</td>
+      </tr>
+      <tr>
+        <td><strong>B. Información del reporte ★</strong></td>
+        <td><span class="tag tag-fill">✏️ Proveedor llena</span></td>
+        <td>
+          <ul>
+            <li><strong>Período / Semana ★</strong> — Ej: "Semana 04 — Agosto 2026"</li>
+            <li><strong>Fecha de corte ★</strong> — Fecha a la que reporta (DD/MM/AAAA). Ej: 30/08/2026</li>
+            <li><strong>Responsable técnico ★</strong> — Nombre e cargo del responsable</li>
+            <li><strong>Correo de contacto ★</strong> — Correo del responsable</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>C. Observaciones generales ★</strong></td>
+        <td><span class="tag tag-fill">✏️ Proveedor llena</span></td>
+        <td>Texto libre con: actividades del período, bloqueos activos, compromisos próxima semana. Aparecerá en la sección "Análisis a la fecha" del tablero.</td>
+      </tr>
+    </table>
+
+    <h3>Hoja 3 — AVANCE_ACTIVIDADES <span class="tag tag-req">Principal</span></h3>
+    <p>Es la hoja más importante. Contiene el cronograma completo. Las columnas están divididas en dos grupos:</p>
+
+    <table>
+      <tr><th>Columna</th><th>¿Quién la llena?</th><th>Descripción</th></tr>
+      <tr><td>EDT</td><td><span class="tag tag-lock">🔒 No modificar</span></td><td>Código jerárquico: 1, 1.1, 1.2, ★1.H…</td></tr>
+      <tr><td>Nombre de tarea</td><td><span class="tag tag-lock">🔒 No modificar</span></td><td>Nombre oficial de la actividad</td></tr>
+      <tr><td>Tipo</td><td><span class="tag tag-lock">🔒 No modificar</span></td><td>PROYECTO / FASE / ACTIVIDAD / HITO</td></tr>
+      <tr><td>Comienzo 🔒</td><td><span class="tag tag-lock">🔒 No modificar</span></td><td>Fecha inicio de la Línea Base</td></tr>
+      <tr><td>Fin 🔒</td><td><span class="tag tag-lock">🔒 No modificar</span></td><td>Fecha fin de la Línea Base</td></tr>
+      <tr><td>Días</td><td><span class="tag tag-lock">🔒 No modificar</span></td><td>Duración calculada</td></tr>
+      <tr><td><strong>% esperado ★</strong></td><td><span class="tag tag-fill">✏️ Proveedor llena</span></td><td>Solo en la fila PROYECTO (fila resumen). Porcentaje planeado según cronograma a la fecha de corte. Solo se llena en la fila del PROYECTO — el sistema calcula el resto.</td></tr>
+      <tr><td><strong>% completado ★</strong></td><td><span class="tag tag-fill">✏️ Proveedor llena</span></td><td>Porcentaje real de avance de cada ACTIVIDAD (0–100). No llenar en FASES ni HITOS — el sistema los calcula. <strong>No puede ser negativo ni mayor a 100.</strong></td></tr>
+      <tr><td><strong>Estado ★</strong></td><td><span class="tag tag-fill">✏️ Proveedor llena</span></td><td>Completado / En progreso / No Iniciado / Bloqueado</td></tr>
+      <tr><td><strong>Observaciones ★</strong></td><td><span class="tag tag-fill">✏️ Proveedor llena</span></td><td>Nota breve de la actividad. Solo en ACTIVIDADES con avance o bloqueos.</td></tr>
+    </table>
+
+    <div class="alert warning">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-body">
+        <strong>Reglas importantes para el proveedor al llenar AVANCE_ACTIVIDADES</strong>
+        <ul>
+          <li><strong>NO modificar</strong> las columnas grises (Comienzo, Fin, Días): son la Línea Base congelada.</li>
+          <li>El <strong>% completado</strong> solo se llena en filas tipo ACTIVIDAD — nunca en FASE ni HITO.</li>
+          <li>Los valores deben estar entre <strong>0 y 100</strong>. Un valor negativo o mayor a 100 genera error.</li>
+          <li>Si una actividad aún no inicia, dejar <strong>0</strong> (no en blanco).</li>
+          <li>Si una actividad cambia de fecha (por CC aprobado), actualizar las columnas Comienzo/Fin <strong>solo si el supervisor aprobó el CC previo</strong>.</li>
+          <li>Las filas de FASE e HITO se calculan automáticamente — no se deben llenar.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Hoja 4 — EVENTOS</h3>
+    <p>El proveedor registra aquí eventos del período: riesgos, bloqueos, solicitudes de cambio (CC). Cada evento en una fila.</p>
+
+    <table>
+      <tr><th>Columna</th><th>Valores válidos / Ejemplo</th></tr>
+      <tr><td><strong>#</strong></td><td>Número consecutivo: 1, 2, 3…</td></tr>
+      <tr><td><strong>Fecha</strong></td><td>DD/MM/AAAA. Ej: 15/08/2026</td></tr>
+      <tr><td><strong>Tipo</strong></td><td><code>TIEMPO</code> · <code>COSTO</code> · <code>ALCANCE</code> · <code>RIESGO</code> · <code>BLOQUEO</code></td></tr>
+      <tr><td><strong>Descripción</strong></td><td>Descripción clara del evento. Ej: "CC-001 aprobado: prórroga 7 días en act. 2.1 por cambio de versión de plataforma."</td></tr>
+      <tr><td><strong>Actividad(es) afectada(s)</strong></td><td>EDT de la actividad. Ej: "2.1 Diseño de arquitectura"</td></tr>
+      <tr><td><strong>Causa / Origen</strong></td><td>Ej: "Cambio de versión de plataforma confirmado por TI SDM"</td></tr>
+      <tr><td><strong>Impacto estimado</strong></td><td>Ej: "Retraso de 7 días en fin de act. 2.1"</td></tr>
+      <tr><td><strong>Plan de acción</strong></td><td>Ej: "Otrosí No. 1 firmado. Nueva fecha fin: 07/07/2026"</td></tr>
+    </table>
+
+    <div class="alert tip">
+      <div class="alert-icon">💡</div>
+      <div class="alert-body">
+        <strong>Los eventos del Excel aparecen automáticamente en el tablero</strong>
+        <p>Si el proveedor registra correctamente un evento de tipo TIEMPO, COSTO o ALCANCE en la hoja EVENTOS, el tablero lo auto-registra como Control de Cambios al importar. Los eventos de tipo RIESGO o BLOQUEO aparecen en la sección "Riesgos Activos" y en el panel de Gestión.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECCIÓN 4 -->
+<div class="section" id="s4">
+  <div class="section-header"><div class="num">4</div><h2>Paso 3 — Cargar el Excel en el tablero</h2></div>
+  <div class="section-body">
+    <p>Este proceso se repite <strong>cada semana</strong> cuando el proveedor entrega su reporte. Consta de 3 pasos dentro del tablero.</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Abra el archivo HTML guardado de la semana anterior</h4>
+        <p>Siempre trabaje sobre el HTML guardado la semana anterior (el que descargó con "Guardar HTML"), no sobre el archivo fuente original. El HTML guardado ya contiene todos los datos acumulados.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Haga clic en "✓ Carga Excel" en la barra superior</h4>
+        <p>Se abre el modal de carga. Verá 3 pestañas en la parte superior: <strong>1 · Cargar Excel → 2 · Validación → 3 · Confirmar</strong>.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Paso 1 — Cargar Excel: arrastre el archivo o haga clic para buscarlo</h4>
+        <p>Seleccione el archivo <code>.xlsx</code> que envió el proveedor. El sistema lo leerá automáticamente y pasará al Paso 2.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Paso 2 — Validación: revise los resultados</h4>
+        <p>El sistema valida los datos. Vea la <a href="#s5">Sección 5</a> para saber qué significa cada mensaje.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Paso 3 — Confirmar: haga clic en "✓ Importar y actualizar tablero"</h4>
+        <p>Solo si la validación lo permite. El tablero se actualiza con los datos nuevos. Aparece un mensaje verde de confirmación (toast).</p>
+      </div>
+    </div>
+
+    <div class="alert danger">
+      <div class="alert-icon">🚫</div>
+      <div class="alert-body">
+        <strong>Primera carga = Línea Base (¡no repetir!)</strong>
+        <p>La <strong>primera vez</strong> que carga el Excel de un contrato, el sistema congela la Línea Base. Las fechas del cronograma quedan bloqueadas permanentemente como referencia. A partir de la semana 2, el sistema solo actualiza el porcentaje real — las fechas BL no cambian solas.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECCIÓN 5 -->
+<div class="section" id="s5">
+  <div class="section-header"><div class="num">5</div><h2>Paso 4 — Interpretar la validación (Paso 2)</h2></div>
+  <div class="section-body">
+    <p>Después de cargar el Excel, el sistema analiza los datos y muestra varios paneles. Aprenda a leerlos:</p>
+
+    <div class="val-panel val-green">
+      <div class="val-title">✅ "XX filas OK. Sin errores críticos."</div>
+      <p>Todos los datos tienen formato correcto. Puede continuar a Confirmar.</p>
+    </div>
+
+    <div class="val-panel val-red">
+      <div class="val-title">✗ Error(es) — "Corrija los valores en el Excel y vuelva a cargar"</div>
+      <p>Hay datos inválidos. Los más comunes:</p>
+      <ul>
+        <li><strong>Valor negativo</strong>: una actividad reportó % menor a 0. El proveedor debe corregirlo a 0 mínimo.</li>
+        <li><strong>Valor mayor a 100%</strong>: una actividad reportó más del 100%. El proveedor debe corregirlo a 100 máximo.</li>
+        <li><strong>Fecha posterior al corte</strong>: una actividad reporta avance pero su fecha de inicio es futura.</li>
+      </ul>
+      <p><em>Acción: devuelva el Excel al proveedor para corrección y vuelva a cargarlo.</em></p>
+    </div>
+
+    <div class="val-panel val-yellow">
+      <div class="val-title">⚠️ Advertencia(s) — "Revise; puede continuar si los valores son intencionales"</div>
+      <p>Hay datos sospechosos pero el sistema permite continuar si el supervisor lo aprueba. Ejemplos: actividad que reporta avance con fecha futura (puede ser intencional), padre con % diferente al promedio hijos. Puede continuar con precaución.</p>
+    </div>
+
+    <div class="val-panel val-blue">
+      <div class="val-title">🔒 "Línea base bloqueada" — Auditoría de integridad</div>
+      <p>El sistema compara las actividades actuales con la BL original y detecta cambios de duración. No bloquea la importación — es informativo para el supervisor.</p>
+    </div>
+
+    <div class="val-panel val-red">
+      <div class="val-title">🚫 "Importación bloqueada — Cambio de fechas detectado"</div>
+      <p>El Excel tiene fechas de actividades diferentes a la BL congelada y no hay un CC de Tiempo aprobado. <strong>Acción requerida:</strong> registre primero un Control de Cambios de Tiempo (ver Sección 8) y luego vuelva a intentar la carga.</p>
+    </div>
+
+    <div class="val-panel val-green">
+      <div class="val-title">✅ "Cambio de fechas autorizado — CC de tiempo aprobado registrado"</div>
+      <p>Hay un CC de Tiempo registrado que cubre los cambios de fecha. La importación puede proceder normalmente.</p>
+    </div>
+
+    <h3>Vista previa de datos</h3>
+    <p>Antes de confirmar, el sistema muestra una tabla con las primeras actividades y sus valores. Verifique que los porcentajes parezcan razonables antes de hacer clic en Confirmar.</p>
+
+    <h3>Paso 3 — Resumen antes de confirmar</h3>
+    <p>El paso final muestra un resumen: número de actividades, eventos detectados, fecha de corte, % real del campo resumen del Excel. Si todo se ve bien, haga clic en <strong>"✓ Importar y actualizar tablero"</strong>.</p>
+  </div>
+</div>
+
+<!-- SECCIÓN 6 -->
+<div class="section" id="s6">
+  <div class="section-header"><div class="num">6</div><h2>Paso 5 — Entender los KPIs y el tablero</h2></div>
+  <div class="section-body">
+    <p>Después de importar, el tablero muestra toda la información del contrato organizada en 3 paneles (01, 02, 03).</p>
+
+    <h3>Franja de KPIs superiores</h3>
+    <div class="kpi-grid">
+      <div class="kpi-card green">
+        <div class="kpi-name">Avance Real</div>
+        <div class="kpi-val">54.6%</div>
+        <div class="kpi-desc">% real de avance ponderado por duración de actividades (método PMP). Calculado automáticamente — no viene directo del Excel.</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-name">Brecha</div>
+        <div class="kpi-val">-13.5%</div>
+        <div class="kpi-desc">Real menos Planeado. Negativo = atraso. Positivo = adelanto. Se muestra con 1 decimal.</div>
+      </div>
+      <div class="kpi-card yellow">
+        <div class="kpi-name">SPI</div>
+        <div class="kpi-val">0.80</div>
+        <div class="kpi-desc">Índice de desempeño. 1.0 = exactamente en tiempo. &lt;0.85 = riesgo. &gt;1.0 = adelantado.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-name">Hitos</div>
+        <div class="kpi-val">1/3</div>
+        <div class="kpi-desc">Hitos completados vs total. Los hitos próximos (hasta 2 semanas) aparecen debajo en el panel izquierdo.</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-name">Fecha Fin Contrato</div>
+        <div class="kpi-val">15 dic 2026</div>
+        <div class="kpi-desc">Fecha contractual vigente. Se actualiza automáticamente cuando se registra un CC de Tiempo (prórroga).</div>
+      </div>
+    </div>
+
+    <h3>Estado del proyecto (semáforo)</h3>
+    <table>
+      <tr><th>Estado</th><th>Color</th><th>Cuándo aparece</th></tr>
+      <tr><td><strong>En tiempo</strong></td><td style="background:#ecfdf5">🟢 Verde</td><td>Brecha ≥ 0% y SPI ≥ 1.0</td></tr>
+      <tr><td><strong>Leve atraso</strong></td><td style="background:#fffbeb">🟡 Amarillo</td><td>Real ≥ 90% del Planeado (brecha leve)</td></tr>
+      <tr><td><strong>En riesgo</strong></td><td style="background:#fef2f2">🔴 Rojo</td><td>Real &lt; 90% del Planeado o SPI &lt; 0.85</td></tr>
+    </table>
+
+    <h3>Panel 02 — Curva S & Gestión (pestañas)</h3>
+    <ul>
+      <li><strong>Curva S & Gestión</strong>: Gráfico de avance real vs planeado semana a semana. El punto azul es el corte actual. Al pasar el cursor sobre un punto ve el valor. La línea naranja es la BL planeada — la azul es el avance real.</li>
+      <li><strong>Cronograma</strong>: Todas las actividades con % completado, % planeado, SPI y semáforo por actividad. Muestra qué actividades están atrasadas individualmente.</li>
+      <li><strong>Ficha contractual</strong>: Datos del contrato. Se llena al crear el proyecto.</li>
+      <li><strong>Cambios</strong>: Historial de todos los Controles de Cambio registrados (CC1, CC2…) con tipo, descripción, documento y trazabilidad de fechas.</li>
+      <li><strong>Preparar reunión</strong>: Genera un resumen para presentar en reuniones de seguimiento.</li>
+    </ul>
+
+    <h3>Panel 03 — Temas Relevantes</h3>
+    <p>Muestra el historial de actualizaciones del contrato. Cada importación genera una tarjeta con: fecha, avance real, avance planeado, SPI, brecha, eventos y cambios. Aparece la observación del proveedor con el análisis del período. Haga clic en cualquier tarjeta para editarla o agregar notas del supervisor.</p>
+
+    <h3>Panel 01 — Información del proyecto</h3>
+    <p>Muestra: estado del proyecto (semáforo), avance real, planeado, brecha, supervisor, fechas, hitos cumplidos y próximos. Los riesgos y bloqueos activos aparecen en la sección inferior del panel 02.</p>
+  </div>
+</div>
+
+<!-- SECCIÓN 7 -->
+<div class="section" id="s7">
+  <div class="section-header"><div class="num">7</div><h2>Paso 6 — Guardar el HTML (¡CRÍTICO!)</h2></div>
+  <div class="section-body">
+    <div class="alert danger">
+      <div class="alert-icon">🚫</div>
+      <div class="alert-body">
+        <strong>Si no guarda, pierde todo el trabajo de la sesión</strong>
+        <p>El tablero es un archivo HTML que se abre en el navegador. Si cierra la ventana sin guardar, o presiona F5 (recargar), los cambios y datos cargados en esa sesión se pierden. Siempre guarde al final de cada sesión.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Haga clic en "💾 Guardar HTML" en la barra superior</h4>
+        <p>El navegador descarga un archivo con nombre como: <code>Dashboard_OTIC_v6_20260521_1proy.html</code>. El nombre incluye la fecha del día.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Guarde el archivo en una carpeta organizada</h4>
+        <p>Se recomienda una carpeta por contrato, con subcarpetas por semana. Ejemplo: <code>CTO2026-0001 / Semana04 / Dashboard_S04.html</code></p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>La próxima semana, abra el archivo guardado (no el original)</h4>
+        <p>El archivo guardado contiene todos los datos embebidos. Al abrirlo, el tablero carga directamente sin preguntar nada — todos los proyectos, CCs e historial están ahí.</p>
+      </div>
+    </div>
+
+    <div class="alert tip">
+      <div class="alert-icon">💡</div>
+      <div class="alert-body">
+        <strong>Backup automático en el navegador</strong>
+        <p>El tablero guarda automáticamente en el navegador (localStorage) cada vez que importa o registra algo. Si abre el archivo fuente original y hay datos guardados en el navegador, el sistema preguntará: <em>"¿Desea restaurar los proyectos guardados?"</em> — haga clic en <strong>Aceptar</strong> para recuperarlos. Luego guarde el HTML inmediatamente.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECCIÓN 8 -->
+<div class="section" id="s8">
+  <div class="section-header"><div class="num">8</div><h2>Paso 7 — Control de Cambios (CC)</h2></div>
+  <div class="section-body">
+    <p>El módulo de Control de Cambios permite registrar modificaciones aprobadas al contrato. <strong>Solo registre CCs que cuenten con acto administrativo aprobado</strong> (otrosí, acta de suspensión, resolución). Hay 3 tipos:</p>
+
+    <table>
+      <tr><th>Tipo</th><th>Cuándo usarlo</th><th>Efecto en el tablero</th></tr>
+      <tr>
+        <td><strong>⏱ Tiempo</strong><br>Prórroga / Suspensión</td>
+        <td>Cuando el contrato se amplía o suspende. Requiere nueva fecha fin.</td>
+        <td>Actualiza la <strong>Fecha Fin Contrato</strong> en todos los KPIs y el cronograma.</td>
+      </tr>
+      <tr>
+        <td><strong>💰 Costo</strong><br>Adición / Reducción</td>
+        <td>Cuando el valor del contrato cambia.</td>
+        <td>Actualiza el <strong>Valor del Portafolio</strong> y la ficha contractual.</td>
+      </tr>
+      <tr>
+        <td><strong>📐 Alcance</strong><br>Actividades / Entregables</td>
+        <td>Cuando se agregan, eliminan o restructuran actividades.</td>
+        <td>Registra el cambio en el historial. Las actividades se actualizan en el próximo Excel.</td>
+      </tr>
+    </table>
+
+    <h3>Cómo registrar un CC de Tiempo (prórroga)</h3>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Haga clic en "⚡ Control cambios" en la barra superior</h4>
+        <p>Se abre el modal con la pestaña "+ Registrar cambio".</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Seleccione el tipo "Tiempo"</h4>
+        <p>Aparecerá la <strong>fecha fin actual</strong> pre-llenada automáticamente. Solo debe ingresar la nueva fecha fin.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Complete el formulario</h4>
+        <table>
+          <tr><th>Campo</th><th>Ejemplo</th></tr>
+          <tr><td><strong>Nueva fecha fin ★</strong></td><td>15/12/2026 (formato DD/MM/AAAA)</td></tr>
+          <tr><td>Descripción / Título ★</td><td>Prórroga 45 días por retraso en integración</td></tr>
+          <tr><td>Causa / Origen</td><td>Sincronización con sistemas legados tomó más tiempo</td></tr>
+          <tr><td>Documento soporte ★</td><td>Otrosí No. 2</td></tr>
+          <tr><td>Aprobado por</td><td>Supervisor OTIC / Nombre del funcionario</td></tr>
+          <tr><td>Fecha de aprobación ★</td><td>01/09/2026</td></tr>
+        </table>
+        <p>El sistema calculará los <strong>días de prórroga</strong> automáticamente al seleccionar la nueva fecha.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Haga clic en "✓ Registrar cambio" y confirme el diálogo</h4>
+        <p>El sistema muestra un resumen: <em>"Este CC extiende la fecha fin en X días"</em>. Haga clic en <strong>Aceptar</strong>.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Verifique: la fecha fin del contrato se actualiza en toda la interfaz</h4>
+        <p>El KPI "Fecha Fin Contrato", el panel izquierdo y el cronograma muestran inmediatamente la nueva fecha. En la pestaña "Cambios" aparecerá el nuevo CC con número consecutivo (CC1, CC2…).</p>
+      </div>
+    </div>
+
+    <div class="alert warning">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-body">
+        <strong>CC requerido antes de reimportar si el Excel cambió fechas</strong>
+        <p>Si el proveedor entrega un Excel con fechas de actividades diferentes a la BL, el tablero bloqueará la importación con un panel rojo. Debe registrar primero el CC de Tiempo aprobado, y luego volver a intentar la carga. El sistema reconocerá el CC y permitirá la importación.</p>
+      </div>
+    </div>
+
+    <h3>Historial de cambios</h3>
+    <p>En la pestaña <strong>"Cambios"</strong> del panel central puede ver todos los CCs registrados, con su tipo, descripción, documento soporte, fecha y la trazabilidad visual de la fecha anterior tachada y la nueva fecha resaltada. El contador en la parte superior muestra cuántos CCs hay por tipo.</p>
+  </div>
+</div>
+
+<!-- SECCIÓN 9 -->
+<div class="section" id="s9">
+  <div class="section-header"><div class="num">9</div><h2>Paso 8 — Portafolio Gerencial</h2></div>
+  <div class="section-body">
+    <p>El tablero incluye dos vistas de portafolio para gestión gerencial:</p>
+
+    <h3>Consolidador Maestro</h3>
+    <p>Acceso: botón <strong>"Consolidar"</strong> en la barra superior. Permite importar varios archivos HTML de diferentes supervisores y consolidar los KPIs de todos los contratos en una sola vista. Cada supervisor exporta su dashboard con "Guardar HTML" y lo envía. El consolidador une todos.</p>
+
+    <h3>Vista Gerencial (PIN protegida)</h3>
+    <p>Acceso: teclado <span class="shortcut">Shift + Ctrl + G</span> en cualquier parte del tablero. Solicita un PIN de acceso. Muestra:</p>
+    <ul>
+      <li>Resumen del portafolio: proyectos activos, en riesgo, con alertas</li>
+      <li>Avance promedio ponderado del portafolio</li>
+      <li>Valor total del portafolio ejecutado vs total</li>
+      <li>Semáforo RAG (Rojo/Ámbar/Verde) por proyecto</li>
+      <li>Hitos próximos de todos los proyectos (90 días)</li>
+      <li>Alertas que requieren decisión gerencial (escalamiento)</li>
+    </ul>
+
+    <div class="alert tip">
+      <div class="alert-icon">💡</div>
+      <div class="alert-body">
+        <strong>El sistema genera alertas automáticas de escalamiento</strong>
+        <p>Cuando un proyecto tiene SPI menor a 0.85 o brecha superior al -10%, el portafolio genera automáticamente una alerta: <em>"Considere reunión de escalamiento"</em>. Esto ayuda a identificar proyectos que requieren intervención inmediata sin revisar cada uno manualmente.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECCIÓN 10 -->
+<div class="section" id="s10">
+  <div class="section-header"><div class="num">10</div><h2>Proceso semanal resumido</h2></div>
+  <div class="section-body">
+    <p>Una vez el proyecto está activo y la Línea Base establecida, el proceso semanal es:</p>
+
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h4>Recibir el Excel del proveedor</h4>
+        <p>El proveedor llena las columnas amarillas (% esperado, % completado, Estado, Observaciones) y las hojas IDENTIFICACION y EVENTOS, y envía el archivo.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h4>Abrir el HTML guardado de la semana anterior</h4>
+        <p>Doble clic en el archivo descargado la semana pasada. Carga directamente con todos los datos históricos.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h4>Si hay CC aprobados pendientes, registrarlos primero</h4>
+        <p>Antes de importar el Excel, registre cualquier CC de Tiempo, Costo o Alcance que haya sido aprobado en el período.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h4>Cargar el Excel del proveedor ("✓ Carga Excel")</h4>
+        <p>Revisar la validación, corregir si hay errores, confirmar la importación.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h4>Revisar los KPIs y el tablero actualizado</h4>
+        <p>Verificar avance, brecha, SPI, hitos próximos, riesgos activos y análisis del proveedor.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h4>Hacer clic en "💾 Guardar HTML"</h4>
+        <p>Descargar el archivo actualizado y guardarlo en la carpeta de seguimiento del contrato.</p>
+      </div>
+    </div>
+
+    <div class="alert tip">
+      <div class="alert-icon">⏱️</div>
+      <div class="alert-body">
+        <strong>Tiempo estimado por sesión semanal: 10–15 minutos</strong>
+        <p>Una vez familiarizado con el proceso, la carga semanal toma muy poco tiempo. La mayoría del tiempo es revisar la información que el sistema genera automáticamente.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECCIÓN 11 -->
+<div class="section" id="s11">
+  <div class="section-header"><div class="num">11</div><h2>Errores frecuentes y soluciones</h2></div>
+  <div class="section-body">
+    <table>
+      <tr><th>Síntoma</th><th>Causa probable</th><th>Solución</th></tr>
+      <tr>
+        <td>El tablero muestra "Sin proyectos activos" al abrir</td>
+        <td>Abrió el archivo fuente original en lugar del HTML guardado</td>
+        <td>Abra el archivo descargado con "Guardar HTML". Si el navegador pregunta por restaurar backup, haga clic en Aceptar.</td>
+      </tr>
+      <tr>
+        <td>"Importación bloqueada — Cambio de fechas detectado"</td>
+        <td>El Excel tiene fechas diferentes a la BL y no hay CC de Tiempo registrado</td>
+        <td>Registre primero el CC de Tiempo en "⚡ Control cambios", luego vuelva a cargar el Excel.</td>
+      </tr>
+      <tr>
+        <td>Error: "Valor negativo en actividad X"</td>
+        <td>El proveedor ingresó un % negativo</td>
+        <td>Devuelva el Excel al proveedor. El valor debe ser entre 0 y 100. Vuelva a cargar el Excel corregido.</td>
+      </tr>
+      <tr>
+        <td>Error: "Valor &gt;100% en actividad X"</td>
+        <td>El proveedor ingresó un % mayor a 100</td>
+        <td>Devuelva el Excel. El máximo es 100%. Vuelva a cargar el Excel corregido.</td>
+      </tr>
+      <tr>
+        <td>Los KPIs no cambian después de importar</td>
+        <td>No se hizo clic en "✓ Importar y actualizar tablero" en el Paso 3</td>
+        <td>Repita la carga y asegúrese de llegar al Paso 3 y confirmar.</td>
+      </tr>
+      <tr>
+        <td>Pérdida de datos al presionar F5 o recargar</td>
+        <td>Se recargó el archivo fuente original (que siempre inicia vacío)</td>
+        <td>No presione F5. Trabaje siempre desde el HTML guardado. Si hay backup en el navegador, use el diálogo de restauración.</td>
+      </tr>
+      <tr>
+        <td>La fecha de prórroga no se calcula al ingresar fecha fin</td>
+        <td>Formato de fecha incorrecto</td>
+        <td>Use siempre el formato DD/MM/AAAA (ej: 15/12/2026). No use AAAA-MM-DD.</td>
+      </tr>
+      <tr>
+        <td>El campo "Días de prórroga" queda vacío en el CC</td>
+        <td>No se seleccionó la fecha o se ingresó en formato incorrecto</td>
+        <td>Use el selector de fecha del campo o escriba en formato DD/MM/AAAA. El cálculo es automático.</td>
+      </tr>
+      <tr>
+        <td>La curva S muestra el planeado diferente al KPI</td>
+        <td>El tooltip de la curva muestra el planeado en un punto de tiempo anterior a la fecha de corte</td>
+        <td>Normal. Pase el cursor hasta el punto correspondiente a la fecha de corte del Excel — debe coincidir con el KPI.</td>
+      </tr>
+      <tr>
+        <td>El archivo Excel no sube / error de lectura</td>
+        <td>El archivo está abierto en Excel o tiene formato incorrecto</td>
+        <td>Cierre el archivo en Excel antes de subirlo. Use archivos .xlsx (no .xls ni .csv).</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+<div class="footer">
+  Manual del Supervisor — Dashboard OTIC SDM v6.0 · Secretaría Distrital de Movilidad<br>
+  Generado en mayo 2026 · Para soporte técnico contacte al equipo OTIC
+</div>
+
+</body>
+</html>

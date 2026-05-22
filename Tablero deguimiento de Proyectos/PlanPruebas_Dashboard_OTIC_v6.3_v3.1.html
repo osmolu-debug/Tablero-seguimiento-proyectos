@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan de Pruebas v3 — Dashboard OTIC SDM v6.2 FIXED</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#EEF0F4;color:#1a1a1a;padding:24px}
+.shell{max-width:1500px;margin:0 auto}
+h1{background:#0D2137;color:#fff;padding:18px 24px;border-radius:10px 10px 0 0;font-size:16px}
+.sub{background:#1a3350;color:rgba(255,255,255,.7);padding:8px 24px;font-size:11px}
+.meta{background:#fff;padding:12px 24px;border-bottom:1px solid #E0E2E6;display:flex;gap:16px;flex-wrap:wrap;font-size:11px;align-items:center}
+.meta label{font-weight:700;color:#0D2137}
+.meta input{padding:4px 8px;border:1px solid #C8CAD0;border-radius:4px;font-size:11px;font-family:Arial,sans-serif}
+.summary{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:#E0E2E6;border:1px solid #E0E2E6;margin-bottom:20px}
+.kpi{background:#fff;padding:14px 18px;text-align:center}
+.kpi-n{font-size:28px;font-weight:700;color:#0D2137}
+.kpi-l{font-size:10px;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+.kpi-n.crit{color:#A32D2D} .kpi-n.alta{color:#BA7517} .kpi-n.trap{color:#7B1FA2}
+.modulos{margin-bottom:20px}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:11px}
+th{background:#1a3350;color:#fff;padding:9px 12px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border:1px solid #0D2137}
+td{padding:8px 12px;border:1px solid #E0E2E6;vertical-align:top;line-height:1.5}
+tr:nth-child(even) td{background:#F9FAFB}
+.tc-id{font-weight:700;color:#185FA5;white-space:nowrap}
+.badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:9px;font-weight:700;white-space:nowrap}
+.b-crit{background:#FCEBEB;color:#A32D2D}
+.b-alta{background:#FAEEDA;color:#BA7517}
+.b-media{background:#E6F1FB;color:#185FA5}
+.b-baja{background:#EAF3DE;color:#3B6D11}
+.b-trampa{background:#F3E5F5;color:#7B1FA2}
+.mod-hdr{background:#185FA5;color:#fff;padding:8px 14px;font-size:11px;font-weight:700;letter-spacing:.04em;border-top:3px solid #0D2137}
+.seq-hdr{background:#0F6E56;color:#fff;padding:8px 14px;font-size:11px;font-weight:700}
+.trap-hdr{background:#7B1FA2;color:#fff;padding:8px 14px;font-size:11px;font-weight:700}
+tr.trampa td{background:#F9F0FF!important}
+tr.trampa .tc-id{color:#7B1FA2}
+.note{background:#FFF8E1;border-left:4px solid #FFC000;padding:10px 14px;font-size:11px;margin-bottom:16px;border-radius:0 6px 6px 0;line-height:1.6}
+.note-fix{background:#E8F5E9;border-left:4px solid #2E7D32;padding:10px 14px;font-size:11px;margin-bottom:16px;border-radius:0 6px 6px 0;line-height:1.6}
+@media print{body{background:#fff;padding:0}.shell{max-width:100%}h1{border-radius:0}.save-btn,.export-btn,.reset-btn{display:none}}
+
+.result-sel{font-size:10px;border:1px solid #C8CAD0;border-radius:4px;padding:2px 4px;width:90px;background:#fff;cursor:pointer;font-family:Arial,sans-serif}
+.result-sel.pasa{background:#E8F5E9;border-color:#4CAF50;color:#2E7D32;font-weight:700}
+.result-sel.falla{background:#FFEBEE;border-color:#E53935;color:#B71C1C;font-weight:700}
+.result-sel.parcial{background:#FFF8E1;border-color:#FFC107;color:#E65100;font-weight:700}
+.result-sel.pendiente{background:#F5F5F5;color:#9E9E9E}
+.obs-area{width:100%;font-size:10px;font-family:Arial,sans-serif;border:1px dashed #C8CAD0;border-radius:4px;padding:4px 6px;resize:vertical;min-height:42px;background:#FFFDE7;color:#1a1a1a;line-height:1.4}
+.obs-area:focus{border-color:#FFC107;outline:none;background:#fff}
+.obs-area::placeholder{color:#BDBDBD;font-style:italic}
+.save-btn{position:fixed;bottom:20px;right:20px;background:#0F6E56;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-family:Arial,sans-serif;font-weight:700;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:999}
+.save-btn:hover{background:#0D2137}
+.export-btn{position:fixed;bottom:20px;right:170px;background:#185FA5;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-family:Arial,sans-serif;font-weight:700;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:999}
+.export-btn:hover{background:#0D2137}
+.reset-btn{position:fixed;bottom:20px;right:330px;background:#A32D2D;color:#fff;border:none;padding:10px 20px;border-radius:8px;cursor:pointer;font-family:Arial,sans-serif;font-weight:700;font-size:12px;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:999}
+.reset-btn:hover{background:#6F1F1F}
+.progress-bar-wrap{background:#E0E2E6;border-radius:99px;height:12px;margin:8px 0 4px;overflow:hidden}
+.progress-bar-fill{height:100%;border-radius:99px;background:#0F6E56;transition:width .4s}
+.stats-row{display:flex;gap:12px;font-size:11px;margin-bottom:16px;flex-wrap:wrap;background:#fff;padding:12px 24px;border-bottom:1px solid #E0E2E6}
+.stat-chip{padding:4px 12px;border-radius:99px;font-weight:700}
+.stat-chip.pasa{background:#E8F5E9;color:#2E7D32}
+.stat-chip.falla{background:#FFEBEE;color:#B71C1C}
+.stat-chip.parcial{background:#FFF8E1;color:#E65100}
+.stat-chip.pend{background:#F5F5F5;color:#9E9E9E}
+.toast{position:fixed;top:20px;right:20px;background:#0F6E56;color:#fff;padding:10px 18px;border-radius:6px;font-size:12px;font-weight:700;box-shadow:0 4px 12px rgba(0,0,0,.2);z-index:1000;opacity:0;transition:opacity .3s}
+.toast.show{opacity:1}
+.code-inline{background:#F0F0F0;padding:1px 6px;border-radius:3px;font-family:Consolas,monospace;font-size:10px;color:#0D2137}
+.fix-tag{display:inline-block;background:#0F6E56;color:#fff;padding:1px 6px;border-radius:3px;font-size:9px;font-weight:700;margin-left:4px}
+</style>
+<script>
+const STORAGE_KEY='plan_pruebas_otic_v3_v62';
+
+function saveResults(){
+  const data={};
+  document.querySelectorAll('.result-sel').forEach(s=>{data[s.dataset.id]=s.value});
+  document.querySelectorAll('.obs-area').forEach(a=>{data['obs_'+a.dataset.id]=a.value});
+  data['_meta_fecha']=document.getElementById('inp-fecha')?.value||'';
+  data['_meta_analista']=document.getElementById('inp-analista')?.value||'';
+  data['_meta_navegador']=document.getElementById('inp-navegador')?.value||'';
+  localStorage.setItem(STORAGE_KEY,JSON.stringify(data));
+  showToast('✓ Progreso guardado');
+  updateStats();
+}
+
+function loadResults(){
+  try{
+    const data=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+    document.querySelectorAll('.result-sel').forEach(s=>{if(data[s.dataset.id]){s.value=data[s.dataset.id];applyColor(s)}});
+    document.querySelectorAll('.obs-area').forEach(a=>{if(data['obs_'+a.dataset.id])a.value=data['obs_'+a.dataset.id]});
+    if(data['_meta_fecha'])document.getElementById('inp-fecha').value=data['_meta_fecha'];
+    if(data['_meta_analista'])document.getElementById('inp-analista').value=data['_meta_analista'];
+    if(data['_meta_navegador'])document.getElementById('inp-navegador').value=data['_meta_navegador'];
+  }catch(e){console.warn('No previous data')}
+  updateStats();
+}
+
+function resetResults(){
+  if(!confirm('¿Borrar TODOS los resultados de pruebas?\nEsta acción no se puede deshacer.'))return;
+  localStorage.removeItem(STORAGE_KEY);
+  document.querySelectorAll('.result-sel').forEach(s=>{s.value='pendiente';applyColor(s)});
+  document.querySelectorAll('.obs-area').forEach(a=>{a.value=''});
+  ['inp-fecha','inp-analista','inp-navegador'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});
+  showToast('✓ Resultados borrados');
+  updateStats();
+}
+
+function applyColor(sel){
+  sel.className='result-sel '+sel.value;
+}
+
+function updateStats(){
+  const sels=document.querySelectorAll('.result-sel');
+  let pasa=0,falla=0,parcial=0,pend=0;
+  sels.forEach(s=>{
+    if(s.value==='pasa')pasa++;
+    else if(s.value==='falla')falla++;
+    else if(s.value==='parcial')parcial++;
+    else pend++;
+  });
+  const total=sels.length;
+  document.getElementById('stat-pasa').textContent='✓ '+pasa+' Pasa';
+  document.getElementById('stat-falla').textContent='✗ '+falla+' Falla';
+  document.getElementById('stat-parcial').textContent='⚠ '+parcial+' Parcial';
+  document.getElementById('stat-pend').textContent='○ '+pend+' Pendiente';
+  const pct=total?Math.round(((pasa+falla+parcial)/total)*100):0;
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('progress-label').textContent=pct+'% completado ('+(pasa+falla+parcial)+'/'+total+')';
+}
+
+function exportToHTML(){
+  saveResults();
+  const clone=document.documentElement.cloneNode(true);
+  clone.querySelectorAll('.save-btn,.export-btn,.reset-btn').forEach(b=>b.remove());
+  // Reemplazar selects con texto
+  clone.querySelectorAll('.result-sel').forEach(s=>{
+    const span=document.createElement('span');
+    const val=s.value;
+    span.textContent=val==='pasa'?'✓ Pasa':val==='falla'?'✗ Falla':val==='parcial'?'⚠ Parcial':'○ Pendiente';
+    span.className='badge '+(val==='pasa'?'b-baja':val==='falla'?'b-crit':val==='parcial'?'b-alta':'b-media');
+    s.replaceWith(span);
+  });
+  clone.querySelectorAll('.obs-area').forEach(a=>{
+    const div=document.createElement('div');
+    div.textContent=a.value||'(sin observaciones)';
+    div.style.cssText='font-size:10px;padding:4px 6px;background:#FFFDE7;border:1px dashed #C8CAD0;border-radius:4px;min-height:30px;white-space:pre-wrap';
+    a.replaceWith(div);
+  });
+  const html='<!DOCTYPE html>'+clone.outerHTML;
+  const blob=new Blob([html],{type:'text/html'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='ResultadosPruebas_OTIC_v6.2_'+new Date().toISOString().split('T')[0]+'.html';
+  a.click();
+  showToast('✓ Reporte exportado');
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.result-sel').forEach(s=>{
+    s.addEventListener('change',()=>{applyColor(s);saveResults()});
+  });
+  document.querySelectorAll('.obs-area').forEach(a=>{
+    a.addEventListener('blur',saveResults);
+  });
+  ['inp-fecha','inp-analista','inp-navegador'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.addEventListener('blur',saveResults);
+  });
+  loadResults();
+});
+</script>
+</head>
+<body>
+<div class="shell">
+
+<h1>📋 Plan de Pruebas v3.1 — Dashboard OTIC SDM v6.3 FIXED (PMP)</h1>
+<div class="sub">Cálculo PMP ponderado por duración · 9 bugs corregidos · Plantillas con campo resumen y curva S coherente</div>
+
+<div class="meta">
+  <label>Fecha:</label><input type="date" id="inp-fecha">
+  <label>Analista:</label><input type="text" id="inp-analista" placeholder="Tu nombre" style="width:180px">
+  <label>Navegador:</label><input type="text" id="inp-navegador" placeholder="Chrome / Edge / Firefox" style="width:180px">
+  <label>HTML:</label><span class="code-inline">Dashboard_OTIC_v6.3_FIXED.html</span>
+</div>
+
+<div class="stats-row">
+  <span class="stat-chip pasa" id="stat-pasa">✓ 0 Pasa</span>
+  <span class="stat-chip falla" id="stat-falla">✗ 0 Falla</span>
+  <span class="stat-chip parcial" id="stat-parcial">⚠ 0 Parcial</span>
+  <span class="stat-chip pend" id="stat-pend">○ 0 Pendiente</span>
+  <div style="flex:1;min-width:200px">
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+    <div id="progress-label" style="font-size:10px;color:#6b7280">0% completado</div>
+  </div>
+</div>
+
+<div class="summary">
+  <div class="kpi"><div class="kpi-n">28</div><div class="kpi-l">TCs Totales</div></div>
+  <div class="kpi"><div class="kpi-n">6</div><div class="kpi-l">Bloques</div></div>
+  <div class="kpi"><div class="kpi-n crit">8</div><div class="kpi-l">Bugs Corregidos</div></div>
+  <div class="kpi"><div class="kpi-n alta">4</div><div class="kpi-l">Plantillas</div></div>
+  <div class="kpi"><div class="kpi-n trap">5</div><div class="kpi-l">Trampas S03</div></div>
+  <div class="kpi"><div class="kpi-n" style="color:#0F6E56">2</div><div class="kpi-l">CC en S04</div></div>
+</div>
+
+<div class="note">
+  <strong>⚠ Antes de empezar:</strong> Limpia el localStorage del navegador. Abre el HTML, F12 → Console → ejecuta:
+  <span class="code-inline">localStorage.removeItem('otic_data_v6'); localStorage.removeItem('otic_save_ts'); location.reload();</span>
+  Verifica que el dashboard arranca <strong>completamente vacío</strong>, sin proyectos.
+</div>
+
+<div class="note-fix" style="background:#E3F2FD;border-left-color:#1565C0">
+  <strong>📊 Cálculo PMP (v6.3):</strong> El dashboard ahora calcula %Real y %Planeado <strong>ponderado por duración de actividades</strong> (igual que MS Project), ignorando el campo resumen del Excel. Las plantillas v3 traen una hoja <span class="code-inline">INSTRUCCIONES_PMP</span> que documenta la fórmula al contratista. Use las plantillas en <span class="code-inline">/outputs/PlantillaProveedor_*.xlsx</span> — no las anteriores.
+</div>
+
+<div class="note-fix">
+  <strong>✓ Bugs corregidos en v6.2:</strong>
+  <span class="fix-tag">H-14</span> Timezone validación
+  <span class="fix-tag">H-15</span> Auto-poblado Ficha
+  <span class="fix-tag">H-22</span> CC desde Excel
+  <span class="fix-tag">B-1</span> CC manual no daña p.fin
+  <span class="fix-tag">B-2</span> Tooltip curva con decimal
+  <span class="fix-tag">B-3</span> Rollup fases recalcula
+  <span class="fix-tag">B-4</span> Curva real conserva historial
+  <span class="fix-tag">O-04</span> Sin demo ARANDA
+</div>
+
+<!-- =================== BLOQUE 1 - SEMANA 01 =================== -->
+<div class="modulos">
+<div class="seq-hdr">🟢 BLOQUE 1 — Primera carga: Semana 01 (PlantillaProveedor_CTO2026-0001_Semana01.xlsx)</div>
+<table>
+<thead>
+<tr><th style="width:60px">TC</th><th style="width:170px">Caso</th><th>Pasos y resultado esperado</th><th style="width:100px">Resultado</th><th style="width:200px">Observaciones</th></tr>
+</thead>
+<tbody>
+
+<tr>
+<td class="tc-id">TC-1.1</td>
+<td>Carga limpia<br><span class="badge b-crit">CRÍTICO</span></td>
+<td>
+<strong>Acción:</strong> Click "Carga Excel" → arrastrar Semana01.xlsx<br><br>
+<strong>Esperado en Step 2:</strong><br>
+✓ "17 filas detectadas. Sin errores críticos."<br>
+✓ "<strong>1</strong> advertencia(s). Revise antes de importar."<br>
+✓ Advertencia legítima: actividad <strong>1.2</strong> reporta 15% inicia 02/05/2026 (post-corte 01/05/2026)<br>
+✗ <strong>NO</strong> debe aparecer warning sobre 1.1 <span class="fix-tag">H-14</span>
+</td>
+<td><select class="result-sel pendiente" data-id="tc-1-1"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-1-1" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-1.2</td>
+<td>KPIs post-importación<br><span class="badge b-crit">CRÍTICO</span></td>
+<td>
+<strong>Acción:</strong> Confirmar → "Importar y actualizar tablero"<br><br>
+<strong>Esperado en KPIs:</strong><br>
+✓ Avance Real <strong>1%</strong> (cálculo PMP ponderado por duración)<br>
+✓ Avance Planeado <strong>0%</strong> (corte el primer día — actividades apenas inician)<br>
+✓ Brecha <strong>+1%</strong> · SPI alto (real > plan)<br>
+✓ Hitos completados <strong>0/3</strong> · "3 próximos"<br>
+✓ Fecha fin: <strong>31/10/2026</strong> · TECNOSOFT SAS<br>
+✓ Badge <strong>🔒 BL</strong> visible<br>
+<em>Nota PMP: dashboard ignora campo resumen Excel y calcula desde actividades</em>
+</td>
+<td><select class="result-sel pendiente" data-id="tc-1-2"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-1-2" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-1.3</td>
+<td>Ficha Contractual auto-poblada<br><span class="badge b-crit">CRÍTICO</span> <span class="fix-tag">H-15</span></td>
+<td>
+<strong>Acción:</strong> Click pestaña "Ficha contractual"<br><br>
+<strong>Esperado:</strong><br>
+✓ Líder secretaría: <strong>Juan Pérez — SDM OTIC</strong><br>
+✓ Líder contratista: <strong>Ing. Roberto Silva — TECNOSOFT SAS</strong><br>
+✓ Contrato: <strong>CTO 2026-0001</strong><br>
+✓ Valor total: <strong>$ 120.000.000</strong><br>
+✓ Inicio 01/05/2026 · Fin 31/10/2026
+</td>
+<td><select class="result-sel pendiente" data-id="tc-1-3"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-1-3" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-1.4</td>
+<td>Cronograma post-S01<br><span class="badge b-alta">ALTO</span></td>
+<td>
+<strong>Acción:</strong> Pestaña "Cronograma" → expandir vista completa<br><br>
+<strong>Esperado:</strong><br>
+✓ Header: "Fin: <strong>31/10/2026</strong>" (NO 15/07/2026)<br>
+✓ Fila 0 PROYECTO: %comp <strong>~1%</strong>, %plan <strong>~0%</strong> (PMP)<br>
+✓ Fase 1: rollup ponderado de hijas<br>
+✓ Act 1.1: 100/100 verde<br>
+✓ Act 1.2: 15/20 SPI 0.75 rojo<br>
+✓ 3 hitos con ★ visibles (31/05, 31/08, 31/10)
+</td>
+<td><select class="result-sel pendiente" data-id="tc-1-4"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-1-4" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-1.5</td>
+<td>Tooltip Curva S<br><span class="badge b-media">MEDIO</span> <span class="fix-tag">B-2</span></td>
+<td>
+<strong>Acción:</strong> Curva S → pasar mouse sobre punto azul único (~01/05/2026)<br><br>
+<strong>Esperado:</strong><br>
+✓ Tooltip muestra "Real: <strong>1.2%</strong>" o similar (decimal visible)<br>
+✗ NO debe mostrar "Real: 0%"<br>
+✓ Línea naranja (BL) acumula en cada semana siguiendo PMP
+</td>
+<td><select class="result-sel pendiente" data-id="tc-1-5"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-1-5" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-1.6</td>
+<td>Riesgos activos S01<br><span class="badge b-baja">BAJO</span></td>
+<td>
+<strong>Acción:</strong> Scroll → "RIESGOS ACTIVOS"<br><br>
+<strong>Esperado:</strong><br>
+✓ 1 evento <strong>[BLOQUEO]</strong>: "Pendiente acceso a repositorio TI..."<br>
+✓ Actividad afectada: 1.3<br>
+✓ Plan de acción visible
+</td>
+<td><select class="result-sel pendiente" data-id="tc-1-6"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-1-6" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<!-- =================== BLOQUE 2 - SEMANA 02 =================== -->
+<div class="modulos">
+<div class="seq-hdr">🔵 BLOQUE 2 — Reporte periódico: Semana 02 (PlantillaProveedor_CTO2026-0001_Semana02.xlsx)</div>
+<table>
+<thead>
+<tr><th style="width:60px">TC</th><th style="width:170px">Caso</th><th>Pasos y resultado esperado</th><th style="width:100px">Resultado</th><th style="width:200px">Observaciones</th></tr>
+</thead>
+<tbody>
+
+<tr>
+<td class="tc-id">TC-2.1</td>
+<td>Carga S02<br><span class="badge b-alta">ALTO</span></td>
+<td>
+<strong>Acción:</strong> Carga Excel → Semana02.xlsx<br><br>
+<strong>Esperado en Step 2:</strong><br>
+✓ "17 filas detectadas. Sin errores críticos."<br>
+✓ Banner azul: "Línea base bloqueada 19/05/2026 — solo se actualizará el % real"<br>
+✗ NO debe aparecer modal "Excel diferente"
+</td>
+<td><select class="result-sel pendiente" data-id="tc-2-1"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-2-1" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-2.2</td>
+<td>KPIs post-S02<br><span class="badge b-crit">CRÍTICO</span></td>
+<td>
+<strong>Acción:</strong> Importar<br><br>
+<strong>Esperado (cálculo PMP):</strong><br>
+✓ Avance Real <strong>17%</strong> · Plan <strong>19%</strong><br>
+✓ Brecha <strong>-2pp</strong> · SPI ≈ <strong>0.87</strong><br>
+✓ Status: "Leve atraso" o similar<br>
+✓ Hitos completados <strong>1/3</strong> (★1.H cumplido)<br>
+✓ HITO 1 "Diagnóstico aprobado" en CUMPLIDOS<br>
+✓ Fecha fin sigue <strong>31/10/2026</strong><br>
+✓ Card "📊 Actualización validada"<br>
+<em>Nota: Fase 1 entera al 100% vale ~16% del proyecto, +1% de la 2.1 = 17% real</em>
+</td>
+<td><select class="result-sel pendiente" data-id="tc-2-2"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-2-2" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-2.3</td>
+<td>Curva S — 2 puntos<br><span class="badge b-crit">CRÍTICO</span> <span class="fix-tag">B-4</span></td>
+<td>
+<strong>Acción:</strong> Curva S → observar línea azul<br><br>
+<strong>Esperado:</strong><br>
+✓ Línea azul tiene <strong>2 puntos visibles</strong>: ~01/05 (1%) y ~07/06 (17%)<br>
+✓ Línea no salta — transición visible entre semanas<br>
+✓ Tooltip último punto: "Real: 17%" o similar<br>
+✓ Curva BL (naranja) en 07/06 muestra ~19%
+</td>
+<td><select class="result-sel pendiente" data-id="tc-2-3"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-2-3" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-2.4</td>
+<td>Cronograma post-S02<br><span class="badge b-alta">ALTO</span></td>
+<td>
+<strong>Esperado:</strong><br>
+✓ Fase 1 al <strong>100%/100%</strong><br>
+✓ Act 1.1 al 1.4: todas 100% verde<br>
+✓ ★1.H al 100%<br>
+✓ Fase 2: comp ~5% (solo 2.1 al 5%), plan ~10-20%<br>
+✓ Fase 3: 0%/0%<br>
+✓ Fila PROYECTO: ~17% comp · ~19% plan
+</td>
+<td><select class="result-sel pendiente" data-id="tc-2-4"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-2-4" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-2.5</td>
+<td>Riesgos activos S02<br><span class="badge b-baja">BAJO</span></td>
+<td>
+<strong>Esperado:</strong><br>
+✓ Panel muestra eventos de S02 (no S01)<br>
+✓ 1 BLOQUEO resuelto + 1 RIESGO nuevo<br>
+✓ RIESGO sobre cambio de versión plataforma
+</td>
+<td><select class="result-sel pendiente" data-id="tc-2-5"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-2-5" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<!-- =================== BLOQUE 3 - SEMANA 03 TRAMPAS =================== -->
+<div class="modulos">
+<div class="trap-hdr">🟣 BLOQUE 3 — Trampas detectadas: Semana 03 (PlantillaProveedor_CTO2026-0001_Semana03_TRAMPAS.xlsx)</div>
+<table>
+<thead>
+<tr><th style="width:60px">TC</th><th style="width:170px">Caso</th><th>Pasos y resultado esperado</th><th style="width:100px">Resultado</th><th style="width:200px">Observaciones</th></tr>
+</thead>
+<tbody>
+
+<tr class="trampa">
+<td class="tc-id">TC-3.1</td>
+<td>Detecta 5 trampas<br><span class="badge b-trampa">TRAMPA</span></td>
+<td>
+<strong>Acción:</strong> Carga Excel → Semana03_TRAMPAS.xlsx<br><br>
+<strong>Esperado en Step 2:</strong><br>
+✓ "3 advertencia(s). Revise antes de importar."<br>
+✓ "1 error, 2 advertencias"<br>
+✓ <strong>Error</strong> en 2.2: "Valor NEGATIVO ... reportó -5%"<br>
+✓ <strong>Warning</strong> en 2.1: "Valor > 100% ... reportó 110%"<br>
+✓ <strong>Warning</strong> en 2.3: "reporta 30% pero inicia 01/08/2026 (post-corte 15/07/2026)"
+</td>
+<td><select class="result-sel pendiente" data-id="tc-3-1"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-3-1" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr class="trampa">
+<td class="tc-id">TC-3.2</td>
+<td>Importación bloqueada<br><span class="badge b-trampa">TRAMPA</span></td>
+<td>
+<strong>Esperado:</strong><br>
+✓ Panel ROJO: "Importación bloqueada · Cambio de fechas detectado"<br>
+✓ Detecta cambios en 1.2 y 2.1<br>
+✓ Botón "Ir a Control de Cambios" visible<br>
+✓ Botón "Importar" desactivado o bloqueado
+</td>
+<td><select class="result-sel pendiente" data-id="tc-3-2"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-3-2" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-3.3</td>
+<td>Registrar CC manual (Caso A: reprogramación)<br><span class="badge b-crit">CRÍTICO</span> <span class="fix-tag">B-1</span></td>
+<td>
+<strong>Acción:</strong> Click "Ir a Control de Cambios" → "+ Nuevo cambio"<br><br>
+<strong>Llenar:</strong><br>
+• Tipo: <strong>Tiempo</strong><br>
+• Descripción: <span class="code-inline">CC-001: Reprogramación de 1.2 y 2.1 por cambio de versión de plataforma</span><br>
+• Causa: <span class="code-inline">Cambio de versión confirmado por TI SDM</span><br>
+• Documento: <span class="code-inline">Acta del Comité de Cambios 15/07/2026</span><br>
+• Aprobado por: tu nombre<br>
+• Fecha aprobación: <strong>15/07/2026</strong><br>
+• Nueva fecha fin: <strong>31/10/2026</strong> (MISMA actual)<br><br>
+<strong>Esperado al guardar:</strong><br>
+✓ Toast "✓ CC registrado · Reprogramación interna · p.fin no cambia"<br>
+✓ Fecha fin sigue <strong>31/10/2026</strong><br>
+✓ Console muestra: "CC es reprogramación interna"
+</td>
+<td><select class="result-sel pendiente" data-id="tc-3-3"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-3-3" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-3.4</td>
+<td>Reimportar S03<br><span class="badge b-alta">ALTO</span></td>
+<td>
+<strong>Acción:</strong> Carga Excel → S03 TRAMPAS nuevamente<br><br>
+<strong>Esperado:</strong><br>
+✓ Verde: "Cambio de fechas autorizado — CC de tiempo aprobado registrado..."<br>
+✓ Siguen mostrándose warnings 110%, -5%, futura (son trampas distintas)<br>
+✓ Botón "Importar" habilitado
+</td>
+<td><select class="result-sel pendiente" data-id="tc-3-4"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-3-4" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-3.5</td>
+<td>KPIs post-S03<br><span class="badge b-crit">CRÍTICO</span> <span class="fix-tag">B-1</span></td>
+<td>
+<strong>Acción:</strong> Importar<br><br>
+<strong>Esperado (PMP):</strong><br>
+✓ Avance Real <strong>39%</strong> · Plan <strong>42%</strong><br>
+✓ Brecha <strong>-3pp</strong> · SPI ≈ <strong>0.93</strong> "Leve atraso"<br>
+✓ Hitos 1/3<br>
+✓ <strong>Fecha fin: 31/10/2026</strong> (NO 15/07/2026)<br>
+✓ Curva S muestra <strong>3 puntos</strong>: 01/05 (1%), 07/06 (17%), 15/07 (39%)<br>
+<em>Nota: Fase 1 vale 16% + Fase 2 (100, 0, 30) ponderado da +23% = 39%</em>
+</td>
+<td><select class="result-sel pendiente" data-id="tc-3-5"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-3-5" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-3.6</td>
+<td>Cronograma post-S03<br><span class="badge b-crit">CRÍTICO</span> <span class="fix-tag">B-3</span></td>
+<td>
+<strong>Esperado:</strong><br>
+✓ Header: "Fin: <strong>31/10/2026</strong>"<br>
+✓ Fila 0 PROYECTO: comp <strong>39%</strong>, plan <strong>42%</strong><br>
+✓ Fase 1: 100%/100%<br>
+✓ Fase 2: comp ≈ <strong>43%</strong>, plan ≈ <strong>49%</strong> (cálculo ponderado correcto)<br>
+✓ Act 2.1: 100%/100% (capeado de 110)<br>
+✓ Act 2.2: <strong>0%</strong>/50% (corregido de -5%)<br>
+✓ Act 2.3: <strong>30%</strong>/0%<br>
+✓ Fase 3: 0%/0%
+</td>
+<td><select class="result-sel pendiente" data-id="tc-3-6"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-3-6" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<!-- =================== BLOQUE 4 - SEMANA 04 =================== -->
+<div class="modulos">
+<div class="seq-hdr">🟠 BLOQUE 4 — CC desde Excel: Semana 04 (PlantillaProveedor_CTO2026-0001_Semana04.xlsx)</div>
+<table>
+<thead>
+<tr><th style="width:60px">TC</th><th style="width:170px">Caso</th><th>Pasos y resultado esperado</th><th style="width:100px">Resultado</th><th style="width:200px">Observaciones</th></tr>
+</thead>
+<tbody>
+
+<tr>
+<td class="tc-id">TC-4.1</td>
+<td>Carga S04<br><span class="badge b-alta">ALTO</span></td>
+<td>
+<strong>Acción:</strong> Carga Excel → Semana04.xlsx<br><br>
+<strong>Esperado:</strong><br>
+✓ "17 filas detectadas. Sin errores críticos."<br>
+✓ Auditoría menciona cambios de duración 2.1 y 2.2 (los CC del Excel)<br>
+✓ Banner verde indicando que se aplicarán CC del Excel
+</td>
+<td><select class="result-sel pendiente" data-id="tc-4-1"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-4-1" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-4.2</td>
+<td>KPIs post-S04<br><span class="badge b-crit">CRÍTICO</span></td>
+<td>
+<strong>Acción:</strong> Importar<br><br>
+<strong>Esperado (PMP):</strong><br>
+✓ Avance Real <strong>55%</strong> · Plan <strong>68%</strong><br>
+✓ Brecha <strong>-13pp</strong> "Atraso moderado"<br>
+✓ SPI ≈ <strong>0.81</strong><br>
+✓ Hitos <strong>1/3</strong><br>
+✓ Fecha fin sigue <strong>31/10/2026</strong><br>
+✓ Status: rojo o naranja<br>
+<em>Nota: Fase 1 (16%) + Fase 2 (100%, 75%, 40%) ponderado da el 55% real</em>
+</td>
+<td><select class="result-sel pendiente" data-id="tc-4-2"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-4-2" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-4.3</td>
+<td>Curva S — 4 puntos<br><span class="badge b-crit">CRÍTICO</span> <span class="fix-tag">B-4</span></td>
+<td>
+<strong>Esperado en curva real (azul):</strong><br>
+✓ <strong>4 puntos visibles</strong>: ~01/05 (1%), ~07/06 (17%), ~15/07 (39%), ~30/08 (55%)<br>
+✓ Tooltip sobre cada punto muestra su valor histórico<br>
+✓ NO debe haberse reescrito los puntos previos<br>
+✓ Curva BL (naranja) en 30/08 muestra ~68%
+</td>
+<td><select class="result-sel pendiente" data-id="tc-4-3"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-4-3" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-4.4</td>
+<td>Cronograma post-S04 — CC aplicados<br><span class="badge b-crit">CRÍTICO</span> <span class="fix-tag">H-22</span></td>
+<td>
+<strong>Esperado:</strong><br>
+✓ Fase 2 fechas BL actualizadas: <strong>01/06 → 07/09/2026</strong><br>
+✓ Act 2.1 fechas BL: <strong>01/06 → 07/07/2026</strong><br>
+✓ Act 2.2 fechas BL: <strong>08/07 → 28/07/2026</strong><br>
+✓ Pestaña Cambios muestra <strong>3 CCs</strong>: CC manual S03 + 2 auto del Excel<br>
+✓ Console: "CC auto-registrado desde Excel: CC-001..." y "CC-002..."
+</td>
+<td><select class="result-sel pendiente" data-id="tc-4-4"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-4-4" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-4.5</td>
+<td>Eventos S04<br><span class="badge b-media">MEDIO</span></td>
+<td>
+<strong>Esperado:</strong><br>
+✓ Riesgos activos muestra <strong>1 RIESGO</strong> (sincronización masiva)<br>
+✓ Los 2 CC ya NO aparecen en Riesgos (están en pestaña Cambios)<br>
+✓ Análisis a la fecha menciona CC-001 y CC-002 aprobados
+</td>
+<td><select class="result-sel pendiente" data-id="tc-4-5"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-4-5" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<!-- =================== BLOQUE 5 - CC PRÓRROGA (CASO B) =================== -->
+<div class="modulos">
+<div class="seq-hdr">🔴 BLOQUE 5 — CC manual con prórroga del proyecto (Caso B — Opción 1)</div>
+<div class="note" style="margin-top:8px">
+  <strong>Nota:</strong> Estos TC simulan un escenario donde el CC manual extiende la fecha fin del proyecto. Con la Opción 1, el CC <strong>solo documenta la decisión</strong>; las fechas BL de actividades llegarán con el próximo Excel del proveedor.
+</div>
+<table>
+<thead>
+<tr><th style="width:60px">TC</th><th style="width:170px">Caso</th><th>Pasos y resultado esperado</th><th style="width:100px">Resultado</th><th style="width:200px">Observaciones</th></tr>
+</thead>
+<tbody>
+
+<tr>
+<td class="tc-id">TC-5.1</td>
+<td>Registrar CC con prórroga<br><span class="badge b-crit">CRÍTICO</span> <span class="fix-tag">B-1</span></td>
+<td>
+<strong>Acción:</strong> Pestaña Cambios → "+ Nuevo cambio"<br><br>
+<strong>Llenar:</strong><br>
+• Tipo: <strong>Tiempo</strong><br>
+• Descripción: <span class="code-inline">CC-003 Prueba: prórroga 15 días por incidente externo</span><br>
+• Causa: <span class="code-inline">Prueba de validación Caso B</span><br>
+• Documento: <span class="code-inline">TEST</span><br>
+• Aprobado por: tu nombre<br>
+• Fecha aprobación: hoy<br>
+• Nueva fecha fin: <strong>15/11/2026</strong> (POSTERIOR al fin actual)<br><br>
+<strong>Esperado:</strong><br>
+✓ Aparece <strong>confirm()</strong>: "⚠ Este CC extiende la fecha fin del proyecto en 15 días..."<br>
+✓ Tras dar Aceptar, toast: "✓ CC registrado · Fecha fin actualizada · Las fechas BL se aplicarán con el próximo Excel"
+</td>
+<td><select class="result-sel pendiente" data-id="tc-5-1"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-5-1" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-5.2</td>
+<td>Estado tras CC prórroga<br><span class="badge b-crit">CRÍTICO</span></td>
+<td>
+<strong>Esperado:</strong><br>
+✓ KPI "Fecha fin contrato" muestra <strong>15/11/2026</strong> (actualizada)<br>
+✓ Cronograma: header sigue mostrando 31/10/2026 en última actividad ★3.H<br>
+✓ Pestaña Cambios: aparece CC-003 con "afecta_fin_proyecto: true" y "dias_extension: 15"<br>
+✓ NO hay error en console
+</td>
+<td><select class="result-sel pendiente" data-id="tc-5-2"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-5-2" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-5.3</td>
+<td>Cancelar al confirmar<br><span class="badge b-media">MEDIO</span></td>
+<td>
+<strong>Acción:</strong> Crear otro CC con nueva fecha 30/11/2026. Al aparecer el <strong>confirm()</strong>, dar <strong>Cancelar</strong>.<br><br>
+<strong>Esperado:</strong><br>
+✓ Toast: "CC cancelado"<br>
+✓ NO se registra CC<br>
+✓ Fecha fin sigue siendo la que estaba (15/11/2026 de TC-5.1)
+</td>
+<td><select class="result-sel pendiente" data-id="tc-5-3"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-5-3" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<!-- =================== BLOQUE 6 - PERSISTENCIA =================== -->
+<div class="modulos">
+<div class="seq-hdr">💾 BLOQUE 6 — Persistencia y exportación</div>
+<table>
+<thead>
+<tr><th style="width:60px">TC</th><th style="width:170px">Caso</th><th>Pasos y resultado esperado</th><th style="width:100px">Resultado</th><th style="width:200px">Observaciones</th></tr>
+</thead>
+<tbody>
+
+<tr>
+<td class="tc-id">TC-6.1</td>
+<td>Guardar HTML autónomo<br><span class="badge b-alta">ALTO</span></td>
+<td>
+<strong>Acción:</strong> Click "💾 Guardar HTML"<br><br>
+<strong>Esperado:</strong><br>
+✓ Se descarga archivo HTML<br>
+✓ Al abrirlo en nueva pestaña, todos los datos persisten<br>
+✓ Cronograma, KPIs, CCs, eventos: todo intacto
+</td>
+<td><select class="result-sel pendiente" data-id="tc-6-1"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-6-1" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-6.2</td>
+<td>Backup localStorage<br><span class="badge b-media">MEDIO</span> <span class="fix-tag">H-20</span></td>
+<td>
+<strong>Acción:</strong> Cerrar pestaña SIN descargar. Reabrir el HTML original.<br><br>
+<strong>Esperado:</strong><br>
+✓ Aparece confirm(): "Este dashboard está vacío, pero hay 1 proyecto(s)..."<br>
+✓ Aceptar → restaura datos completos<br>
+✓ Cancelar → dashboard arranca vacío, backup intacto
+</td>
+<td><select class="result-sel pendiente" data-id="tc-6-2"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-6-2" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+<tr>
+<td class="tc-id">TC-6.3</td>
+<td>Consolidador<br><span class="badge b-baja">BAJO</span></td>
+<td>
+<strong>Acción:</strong> Click "Consolidar" → arrastrar el HTML descargado de TC-6.1<br><br>
+<strong>Esperado:</strong><br>
+✓ Tabla muestra proyecto con nombre correcto<br>
+✓ KPIs consolidados visibles<br>
+✓ NO muestra "ARANDA — Licencias ITSM" ni residuos del demo
+</td>
+<td><select class="result-sel pendiente" data-id="tc-6-3"><option value="pendiente">○ Pendiente</option><option value="pasa">✓ Pasa</option><option value="falla">✗ Falla</option><option value="parcial">⚠ Parcial</option></select></td>
+<td><textarea class="obs-area" data-id="tc-6-3" placeholder="Observaciones..."></textarea></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<button class="reset-btn" onclick="resetResults()">🗑 Limpiar</button>
+<button class="export-btn" onclick="exportToHTML()">📥 Exportar Reporte</button>
+<button class="save-btn" onclick="saveResults()">💾 Guardar</button>
+
+<div id="toast" class="toast"></div>
+
+</div>
+</body>
+</html>
