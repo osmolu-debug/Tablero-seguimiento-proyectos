@@ -5201,6 +5201,7 @@ let cpStep=0, cpParsed=null, cpErrors=0, cpColMap={};
 
 function openCargaProveedor(){
   const p=PROJECTS[activeP];
+  if(!p){ toast('⚠ Crea un proyecto primero con + Proyecto antes de cargar el Excel del proveedor.'); return; }
   document.getElementById('carga-subtitle').textContent=p.name+' — '+p.contrato;
   cpStep=0;cpParsed=null;cpErrors=0;
   ['0','1','2'].forEach(i=>{
