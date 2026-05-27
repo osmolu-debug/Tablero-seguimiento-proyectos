@@ -120,11 +120,28 @@ tbody td:last-child{border-right:none;}
 .act-btns{display:flex;gap:3px;opacity:0;transition:opacity .15s;pointer-events:none;}
 tr:hover .act-btns{opacity:1;pointer-events:all;}
 .abt{border:none;border-radius:5px;padding:3px 8px;font-size:10px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;}
+.est-edit-btn{background:none;border:none;cursor:pointer;padding:0 2px;font-size:11px;opacity:0;vertical-align:middle;transition:opacity .15s;}
+tr:hover .est-edit-btn{opacity:.6;}
+tr:hover .est-edit-btn:hover{opacity:1;}
 .abt.rad{background:var(--pbg);color:var(--pur);border:1.5px solid var(--pbd);}
 .abt.rad:hover{background:var(--pur);color:#fff;}
 .abt.liqb{background:#FFF3E0;color:#E65100;border:1.5px solid #FFCC80;}
 .abt.liqb:hover{background:#E65100;color:#fff;}
 .abt.undo{background:#F3F4F6;color:#6B7280;border:1.5px solid #D1D5DB;}
+.abt.editb{background:#E8F4F8;color:#1A6F8A;border:1.5px solid #90CAE0;}
+.abt.editb:hover{background:#1A6F8A;color:#fff;}
+.editpr-ov{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1100;display:none;align-items:center;justify-content:center;}
+.editpr-ov.show{display:flex;}
+.editpr-box{background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);width:min(640px,96vw);max-height:90vh;overflow-y:auto;}
+.editpr-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 10px;border-bottom:1.5px solid var(--bdr);position:sticky;top:0;background:#fff;z-index:1;}
+.editpr-title{font-size:13px;font-weight:900;color:var(--dark);}
+.editpr-body{padding:16px 20px;display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;}
+.editpr-full{grid-column:1/-1;}
+.editpr-lbl{font-size:11px;font-weight:700;color:var(--muted);margin-bottom:3px;}
+.editpr-inp{width:100%;padding:6px 9px;border:1.5px solid var(--bdr);border-radius:6px;font-size:12px;font-family:inherit;color:var(--dark);box-sizing:border-box;}
+.editpr-inp:focus{outline:none;border-color:var(--tl2);}
+.editpr-section{grid-column:1/-1;font-size:10px;font-weight:900;color:var(--tl);text-transform:uppercase;letter-spacing:.5px;margin-top:4px;padding-top:8px;border-top:1px solid var(--bdr);}
+.editpr-foot{padding:12px 20px;display:flex;justify-content:flex-end;gap:8px;border-top:1.5px solid var(--bdr);position:sticky;bottom:0;background:#fff;}
 
 /* CHARTS SIDE */
 .side{display:flex;flex-direction:column;gap:10px;width:260px;flex-shrink:0;overflow-y:auto;}
@@ -181,6 +198,9 @@ tr:hover .act-btns{opacity:1;pointer-events:all;}
 .bita-btn.edit:hover{background:#00695C;color:#fff;}
 .bita-btn.del{background:#FEF0F0;color:#E03E3E;border:1px solid #FFCDD2;}
 .bita-btn.del:hover{background:#E03E3E;color:#fff;}
+.inf-edit-btn{background:#E0F2F1;color:#00695C;border:1px solid #80CBC4;border-radius:4px;padding:1px 7px;font-size:9.5px;font-weight:700;cursor:pointer;font-family:inherit;margin-left:6px;white-space:nowrap;}
+.inf-edit-btn:hover{background:#00695C;color:#fff;}
+@media print{.inf-edit-btn{display:none!important;}}
 .bita-item:last-child{border-bottom:none;}
 .bita-date{font-weight:800;color:var(--muted);width:75px;flex-shrink:0;}
 .bita-user{font-weight:700;color:var(--tl);width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10.5px;}
@@ -409,7 +429,7 @@ tr:hover .act-btns{opacity:1;pointer-events:all;}
 .eq-vbar-lbl{font-size:7.5px;color:var(--muted);font-weight:700;text-align:center;max-width:28px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 @media print{
   .hdr,.fbar,.krow,.view:not(#v-informe){display:none!important;}
-  #v-informe{display:flex!important;position:fixed!important;top:0;left:0;width:100vw;height:100vh;overflow:visible!important;}
+  #v-informe{display:block!important;position:static!important;width:100%;height:auto!important;overflow:visible!important;}
   .inf-slide{padding:12px 20px 10px;}
   @page{size:landscape;margin:8mm;}
 }
@@ -425,6 +445,27 @@ tr:hover .act-btns{opacity:1;pointer-events:all;}
   table{min-width:700px;}
   .scards{grid-template-columns:repeat(2,1fr);}
   #v-resumen,#v-liq{padding:8px!important;}
+
+  /* Botón Guardar — flotante fijo esquina inferior derecha en tablet/móvil */
+  #vbadge{display:none;}
+  #btnGuardar{
+    position:fixed!important;
+    bottom:18px!important;
+    right:16px!important;
+    z-index:450!important;
+    padding:11px 20px!important;
+    font-size:13px!important;
+    font-weight:900!important;
+    border-radius:50px!important;
+    box-shadow:0 4px 20px rgba(0,105,92,.45)!important;
+  }
+
+  /* Informe — scroll horizontal en tablas */
+  #v-informe{height:auto!important;overflow-y:auto!important;}
+  #infPreList{overflow-x:auto;-webkit-overflow-scrolling:touch;display:block;}
+  #infPreList table{min-width:560px;}
+  #infLiqGrid{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  #infLiqGrid table{min-width:600px;}
 }
 
 @media (max-width:768px){
@@ -491,6 +532,28 @@ tr:hover .act-btns{opacity:1;pointer-events:all;}
   .confirm-box{width:92vw;}
   .inf-cfg-box{width:95vw;max-height:92vh;}
   .alerta-abg-panel{width:95vw;margin:0 auto;}
+
+  /* Botón Guardar — flotante fijo esquina inferior derecha */
+  #vbadge{display:none;}
+  #btnGuardar{
+    position:fixed!important;
+    bottom:18px!important;
+    right:16px!important;
+    z-index:450!important;
+    padding:11px 20px!important;
+    font-size:13px!important;
+    font-weight:900!important;
+    border-radius:50px!important;
+    box-shadow:0 4px 20px rgba(0,105,92,.45)!important;
+  }
+
+  /* Informe — tablas con scroll horizontal en móvil */
+  #v-informe{height:auto!important;overflow-y:auto!important;}
+  .inf-slide{padding:8px!important;}
+  #infPreList{overflow-x:auto;-webkit-overflow-scrolling:touch;display:block;}
+  #infPreList table{min-width:560px;}
+  #infLiqGrid{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  #infLiqGrid table{min-width:600px;}
 }
 </style>
 </head>
@@ -1932,6 +1995,7 @@ function calcDiasEntreFechas(fPlan, fReal) {
 // ── BITÁCORA: permisos editar/eliminar ──────────────────────────
 function puedeEditarBita(modulo, nota) {
   if (GS_ROLE === 'admin') return true;
+  if (GS_ROLE === 'pos') return true; // Paola Corredor prepara informes, edita cualquier comentario
   // Solo puede editar su propia nota
   if (!nota || !nota.usuario) return false;
   return nota.usuario.toLowerCase() === GS_EMAIL.toLowerCase();
@@ -1975,12 +2039,12 @@ function showConfirm(ico, msg, txt, btnLabel, btnClass) {
   });
 }
 
-function showEditModal(valorActual) {
+function showEditModal(valorActual, titulo) {
   _modalModo = 'edit';
   return new Promise(function(resolve) {
     _modalResolve = resolve;
     document.getElementById('confirmIco').textContent   = '✏️';
-    document.getElementById('confirmMsg').textContent   = 'Editar nota';
+    document.getElementById('confirmMsg').textContent   = titulo || 'Editar nota';
     document.getElementById('confirmOkBtn').textContent = 'Guardar';
     document.getElementById('confirmOkBtn').className   = 'confirm-btn ok-edit';
     var txt = document.getElementById('confirmTxt');
@@ -2030,6 +2094,149 @@ function editarBita(idx, context, ev) {
       if (context === 'pre') renderResumen();
       else renderLiq();
       toast('✅ Nota actualizada en Sheets', 'ok');
+    });
+  });
+}
+
+function editarEstructurador(projId, ev) {
+  if (ev) ev.stopPropagation();
+  var p = DATA.activos.find(function(x) { return x.id === projId; });
+  if (!p) return;
+  showEditModal(p.estructurador || '', 'Cambiar Estructurador').then(function(nuevoValor) {
+    if (nuevoValor === false || !nuevoValor.trim()) return;
+    var normalizado = normName(nuevoValor.trim());
+    var anterior = p.estructurador;
+    p.estructurador = normalizado;
+    persistPreField(projId, 'estructurador', normalizado, function(ok, err) {
+      if (!ok) {
+        p.estructurador = anterior;
+        toast('❌ No se pudo guardar: ' + (err||'error desconocido'), 'err');
+        renderResumen();
+        return;
+      }
+      renderResumen();
+      toast('✅ Estructurador actualizado en Sheets', 'ok');
+    });
+  });
+}
+
+function persistPreField(rowId, field, value, cb) {
+  if (!GS_CONNECTED || !APPS_SCRIPT_URL) { if (cb) cb(true); return; }
+  var payload = { action: 'updatePreField', rowId: rowId, field: field, value: value };
+  if (typeof google !== 'undefined' && google.script && google.script.run) {
+    google.script.run
+      .withSuccessHandler(function(d) {
+        if (d && d.error) { if (cb) cb(false, d.error); return; }
+        if (cb) cb(true);
+      })
+      .withFailureHandler(function(e) { if (cb) cb(false, e.message); })
+      .updatePreFieldFromClient(rowId, field, value);
+  } else {
+    fetch(APPS_SCRIPT_URL, { method: 'POST', body: JSON.stringify(payload), redirect: 'follow' })
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.error) { if (cb) cb(false, d.error); return; }
+        if (cb) cb(true);
+      })
+      .catch(function(e) { if (cb) cb(false, e.message); });
+  }
+}
+
+var _editPrId = '';
+var _editPrOrig = {};
+
+function openEditProyecto(projId) {
+  var p = DATA.activos.find(function(x) { return x.id === projId; });
+  if (!p) return;
+  _editPrId = projId;
+  _editPrOrig = {
+    nombre: p.nombre||'', supervisor: p.supervisor||'', cargo: p.cargo||'',
+    abogado: p.abogado||'', estructurador: p.estructurador||'',
+    fPlanAbg: p.fPlanAbg||'', fPlanMesa: p.fPlanMesa||'', fPlanRad: p.fPlanRad||'',
+    fTermContrato: p.fTermContrato||'', valor: p.valor||0,
+    cdp: p.cdp||'', fase: p.fase||'', modalidad: p.modalidad||'', lineaPaa: p.lineaPaa||''
+  };
+  document.getElementById('editPrId').textContent          = projId;
+  document.getElementById('ep_nombre').value               = p.nombre||'';
+  document.getElementById('ep_supervisor').value           = p.supervisor||'';
+  document.getElementById('ep_cargo').value                = p.cargo||'';
+  document.getElementById('ep_abogado').value              = p.abogado||'';
+  document.getElementById('ep_estructurador').value        = p.estructurador||'';
+  document.getElementById('ep_fPlanAbg').value             = fmtDateInput(p.fPlanAbg);
+  document.getElementById('ep_fPlanMesa').value            = fmtDateInput(p.fPlanMesa);
+  document.getElementById('ep_fPlanRad').value             = fmtDateInput(p.fPlanRad);
+  document.getElementById('ep_fTermContrato').value        = fmtDateInput(p.fTermContrato);
+  document.getElementById('ep_valor').value                = p.valor||0;
+  document.getElementById('ep_cdp').value                  = p.cdp||'';
+  document.getElementById('ep_fase').value                 = p.fase||'';
+  document.getElementById('ep_modalidad').value            = p.modalidad||'';
+  document.getElementById('ep_lineaPaa').value             = fmtDateInput(p.lineaPaa);
+  document.getElementById('editPrOv').classList.add('show');
+}
+
+function cerrarEditProyecto() {
+  document.getElementById('editPrOv').classList.remove('show');
+}
+
+function guardarEditProyecto() {
+  var p = DATA.activos.find(function(x) { return x.id === _editPrId; });
+  if (!p) return;
+  var nuevos = {
+    nombre:        document.getElementById('ep_nombre').value.trim(),
+    supervisor:    normName(document.getElementById('ep_supervisor').value.trim()),
+    cargo:         normName(document.getElementById('ep_cargo').value.trim()),
+    abogado:       normName(document.getElementById('ep_abogado').value.trim()),
+    estructurador: normName(document.getElementById('ep_estructurador').value.trim()),
+    fPlanAbg:      fmtD(document.getElementById('ep_fPlanAbg').value),
+    fPlanMesa:     fmtD(document.getElementById('ep_fPlanMesa').value),
+    fPlanRad:      fmtD(document.getElementById('ep_fPlanRad').value),
+    fTermContrato: fmtD(document.getElementById('ep_fTermContrato').value),
+    valor:         parseFloat(document.getElementById('ep_valor').value)||0,
+    cdp:           document.getElementById('ep_cdp').value.trim(),
+    fase:          document.getElementById('ep_fase').value.trim(),
+    modalidad:     document.getElementById('ep_modalidad').value.trim(),
+    lineaPaa:      fmtD(document.getElementById('ep_lineaPaa').value)
+  };
+  var cambios = Object.keys(nuevos).filter(function(k) {
+    return String(nuevos[k]) !== String(_editPrOrig[k]);
+  });
+  if (!cambios.length) { toast('Sin cambios para guardar', 'ok'); cerrarEditProyecto(); return; }
+  var btn = document.getElementById('editPrSaveBtn');
+  btn.disabled = true; btn.textContent = 'Guardando...';
+  var pendientes = cambios.length;
+  var errores = [];
+  cambios.forEach(function(k) {
+    persistPreField(_editPrId, k, nuevos[k], function(ok, err) {
+      if (!ok) errores.push(k + ': ' + (err||'error'));
+      pendientes--;
+      if (pendientes === 0) {
+        btn.disabled = false; btn.textContent = '💾 Guardar cambios';
+        if (errores.length) {
+          toast('⚠️ No se guardaron: ' + errores.join(', '), 'err');
+        } else {
+          cambios.forEach(function(k) { p[k] = nuevos[k]; });
+          cerrarEditProyecto();
+          renderResumen();
+          toast('✅ ' + cambios.length + ' campo' + (cambios.length > 1 ? 's' : '') + ' actualizado' + (cambios.length > 1 ? 's' : '') + ' en Sheets', 'ok');
+        }
+      }
+    });
+  });
+}
+
+function editarInformeEstado(contratoKey, ev) {
+  if (ev) ev.stopPropagation();
+  var bits = DATA.bits.filter(function(b) { return b.contrato === contratoKey; });
+  if (!bits.length) { toast('Sin novedades registradas en este contrato', 'err'); return; }
+  var b = bits[0]; // más reciente
+  showEditModal(b.novedad || '').then(function(nuevoTexto) {
+    if (!nuevoTexto) return;
+    persistBitaEdit(b, { novedad: nuevoTexto }, function(ok, err) {
+      if (!ok) { toast('❌ No se pudo editar: ' + (err || 'error desconocido'), 'err'); return; }
+      var gIdx = DATA.bits.indexOf(b);
+      if (gIdx >= 0) DATA.bits[gIdx].novedad = nuevoTexto;
+      renderInforme();
+      toast('✅ Estado actualizado en el informe', 'ok');
     });
   });
 }
@@ -2172,7 +2379,7 @@ function renderResumen() {
         '</div>' +
         (bitsSortedPre.length ? bitsSortedPre.map(function(b) {
           var gIdx = DATA.bits.indexOf(b);
-          var canEdit = esHoy(b.fecha) && puedeEditarBita('Precontractual', b);
+          var canEdit = (GS_ROLE === 'pos' || esHoy(b.fecha)) && puedeEditarBita('Precontractual', b);
           var acc = canEdit
             ? '<div class="bita-actions">'
               + '<button class="bita-btn edit" onclick="editarBita('+gIdx+',\'pre\',event)">✏️ Editar</button>'
@@ -2190,7 +2397,7 @@ function renderResumen() {
       '<td><span class="tog' + (exp?' open':'') + '" id="togP_' + key + '">▶</span></td>' +
       '<td style="font-weight:900;color:var(--tl);font-size:11px;white-space:nowrap">' + p.id + '</td>' +
       '<td style="font-weight:700;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + p.nombre + '">' + p.nombre + '</td>' +
-      '<td style="font-size:11px;color:var(--muted)">' + (p.estructurador||'—') + '</td>' +
+      '<td style="font-size:11px;color:var(--muted)" onclick="event.stopPropagation()">' + (p.estructurador||'—') + ((GS_ROLE==='admin'||GS_ROLE==='pre') ? ' <button class="est-edit-btn" onclick="editarEstructurador(\''+p.id+'\',event)" title="Cambiar estructurador">✏️</button>' : '') + '</td>' +
       '<td>' + pillHTML(p.semEst) + '</td>' +
       '<td style="font-weight:900;color:' + col + ';font-size:14px;text-align:center">' + disp + '</td>' +
       hitoCelda(p.fPlanAbg,  p.fRealAbg,  p.estAbg,  p.id, 'abg') +
@@ -2205,6 +2412,7 @@ function renderResumen() {
       '<td onclick="event.stopPropagation()" style="white-space:nowrap">' +
         '<div class="act-btns">' + radBtn +
         '<button class="abt liqb" onclick="openModalLiq(\'' + p.id + '\',event)">📦 Pos.</button>' +
+        ((GS_ROLE==='admin'||GS_ROLE==='pre') ? '<button class="abt editb" onclick="openEditProyecto(\''+p.id+'\')">✏️ Editar</button>' : '') +
         '</div>' +
       '</td>' +
     '</tr>' + bitHtml;
@@ -2669,7 +2877,7 @@ function renderLiq() {
           '</div>' +
           (bitsSorted.length ? bitsSorted.map(function(b) {
             var gIdx = DATA.bits.indexOf(b);
-            var canEdit = esHoy(b.fecha) && puedeEditarBita('Poscontractual', b);
+            var canEdit = (GS_ROLE === 'pos' || esHoy(b.fecha)) && puedeEditarBita('Poscontractual', b);
             var acc = canEdit
               ? '<div class="bita-actions">'
                 + '<button class="bita-btn edit" onclick="editarBita('+gIdx+',\'liq\',event)">✏️ Editar</button>'
@@ -2690,7 +2898,7 @@ function renderLiq() {
         '<td style="font-size:11px">' + (l.ano||'') + '</td>' +
         '<td style="font-weight:700;font-size:11px">' + (l.contrato||'—') + '</td>' +
         '<td style="font-size:11px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + (l.contratista||'') + '">' + (l.contratista||'—') + '</td>' +
-        '<td style="font-size:10.5px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:normal;word-break:break-word;line-height:1.4;" title="' + (l.descObj||'') + '">' + (l.descObj||'—') + '</td>' +
+        '<td style="font-size:10.5px;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:help;" title="' + (l.descObj||'') + '">' + (l.descObj||'—') + '</td>' +
         '<td onclick="event.stopPropagation()" style="font-size:10.5px;cursor:pointer" ondblclick="editLiqField(' + realIdx + ',\'secop\',this)" title="Doble clic para editar Estado SECOP">' + (l.secop||'—') + ' <span style="color:var(--tl);font-size:9px">✏️</span></td>' +
         '<td onclick="event.stopPropagation()" style="font-size:10.5px;cursor:pointer" ondblclick="editLiqField(' + realIdx + ',\'estado\',this)" title="Doble clic para editar Estado Actual">' + (l.estado||'—') + ' <span style="color:var(--tl);font-size:9px">✏️</span></td>' +
         abgCel + asigCel +
@@ -3642,7 +3850,7 @@ function renderInforme() {
   var SEM_LBL = { rd:'Crítico', yl:'Alerta', gn:'En Tiempo', pu:'Radicado', gr:'—' };
   var SEM_BG  = { rd:'#FFEBEE', yl:'#FFF8E1', gn:'#E8F5E9', pu:'#EDE7F6', gr:'#F5F5F5' };
 
-  // Tabla formato documento oficial — LÍNEA PAA / ABREVIADO / F.RADICACIÓN / CDP / VALOR / ESTADO
+  // Tabla formato documento oficial — ABREVIADO / LÍNEA PAA / MODALIDAD / F.RADICACIÓN / OBSERVACIÓN
   var thS = 'padding:7px 10px;font-size:9.5px;font-weight:800;color:#fff;background:#1A5C8A;text-align:left;border:1px solid #14487A;white-space:nowrap;';
   var listEl = document.getElementById('infPreList');
   if (!preFil.length) {
@@ -3653,27 +3861,25 @@ function renderInforme() {
       '<thead><tr style="background:#1A5C8A;">' +
         '<th style="' + thS + 'width:90px;">LÍNEA PAA</th>' +
         '<th style="' + thS + '">ABREVIADO</th>' +
-        '<th style="' + thS + 'width:130px;">FECHA RADICACIÓN A CONTRATACIÓN</th>' +
-        '<th style="' + thS + 'width:70px;">CDP</th>' +
-        '<th style="' + thS + 'width:110px;">VALOR CDP</th>' +
-        '<th style="' + thS + '">ESTADO</th>' +
+        '<th style="' + thS + '">MODALIDAD DE SELECCIÓN</th>' +
+        '<th style="' + thS + 'width:130px;text-align:center;">FECHA RADICACIÓN CONTRATACIÓN</th>' +
+        '<th style="' + thS + '">OBSERVACIÓN</th>' +
       '</tr></thead><tbody>' +
       preFil.map(function(p, i) {
-        var estado = getLastBita(p.idProy||p.id) || p.obs || '—';
-        var abrev  = (p.nombre||'—').toUpperCase();
-        var lineaPaa = p.lineaPaa || p.idProy || p.id || '—';
-        var cdp    = p.cdp || 'Pendiente';
-        var valor  = p.valor ? fmtMoney(p.valor) : 'Pendiente';
-        var fRad   = p.fPlanRad || '—';
-        var rowBg  = i % 2 === 0 ? '#fff' : '#F4F9F8';
-        var tdS    = 'padding:6px 10px;border:1px solid #D0DDD9;vertical-align:top;';
+        var estado    = getLastBita(p.idProy||p.id) || p.obs || '—';
+        var abrev     = (p.nombre||'—').toUpperCase();
+        var lineaPaa  = p.idProy || p.id || '—';
+        var modalidad = p.modalidad || '—';
+        var fRad      = p.fPlanRad || '—';
+        var rowBg     = i % 2 === 0 ? '#fff' : '#F4F9F8';
+        var tdS       = 'padding:6px 10px;border:1px solid #D0DDD9;vertical-align:top;';
         return '<tr style="background:' + rowBg + '">' +
           '<td style="' + tdS + 'font-weight:800;color:#1A5C8A;text-align:center;">' + lineaPaa + '</td>' +
           '<td style="' + tdS + 'font-weight:700;color:#1C2E2A;">' + abrev + '</td>' +
+          '<td style="' + tdS + 'color:#2E4A48;">' + modalidad + '</td>' +
           '<td style="' + tdS + 'text-align:center;color:#2E4A48;">' + fRad + '</td>' +
-          '<td style="' + tdS + 'text-align:center;color:#2E4A48;">' + cdp + '</td>' +
-          '<td style="' + tdS + 'text-align:right;color:#1C2E2A;font-weight:700;">' + valor + '</td>' +
-          '<td style="' + tdS + 'color:#2C3E38;line-height:1.5;">' + estado + '</td>' +
+          '<td style="' + tdS + 'color:#2C3E38;line-height:1.5;">' + estado +
+            (GS_ROLE === 'pos' ? ' <button class="inf-edit-btn" onclick="editarInformeEstado(\'' + (p.idProy||p.id) + '\',event)">✏️ Editar</button>' : '') + '</td>' +
         '</tr>';
       }).join('') +
       '</tbody></table>';
@@ -3753,7 +3959,8 @@ function renderInforme() {
           '<td style="' + tdL + 'font-weight:600;color:#1C2E2A;">' + (l.contratista||'—') + '</td>' +
           '<td style="' + tdL + 'color:#2C3E38;line-height:1.5;">' + obj + '</td>' +
           '<td style="' + tdL + 'text-align:center;font-weight:700;color:#C45000;">' + (l.comp||'N/A') + '</td>' +
-          '<td style="' + tdL + 'color:#2C3E38;line-height:1.5;">' + estado + '</td>' +
+          '<td style="' + tdL + 'color:#2C3E38;line-height:1.5;">' + estado +
+            (GS_ROLE === 'pos' ? ' <button class="inf-edit-btn" onclick="editarInformeEstado(\'' + l.contrato + '\',event)">✏️ Editar</button>' : '') + '</td>' +
         '</tr>';
       }).join('') +
       '</tbody></table>';
@@ -4375,6 +4582,80 @@ function exportJSON() {
     <div class="confirm-foot">
       <button class="confirm-btn cancel" onclick="confirmResolve(false)">Cancelar</button>
       <button class="confirm-btn ok-del" id="confirmOkBtn" onclick="confirmResolve(true)">Eliminar</button>
+    </div>
+  </div>
+</div>
+<!-- MODAL EDITAR PROYECTO -->
+<div class="editpr-ov" id="editPrOv">
+  <div class="editpr-box">
+    <div class="editpr-hdr">
+      <div class="editpr-title">✏️ Editar proyecto — <span id="editPrId"></span></div>
+      <button class="confirm-btn cancel" onclick="cerrarEditProyecto()" style="padding:4px 10px;font-size:11px;">✕ Cerrar</button>
+    </div>
+    <div class="editpr-body">
+      <div class="editpr-full">
+        <div class="editpr-lbl">Nombre del proyecto</div>
+        <input class="editpr-inp" id="ep_nombre" type="text">
+      </div>
+      <div class="editpr-section">Responsables</div>
+      <div>
+        <div class="editpr-lbl">Supervisor</div>
+        <input class="editpr-inp" id="ep_supervisor" type="text">
+      </div>
+      <div>
+        <div class="editpr-lbl">Apoyo supervisión</div>
+        <input class="editpr-inp" id="ep_cargo" type="text">
+      </div>
+      <div>
+        <div class="editpr-lbl">Abogado</div>
+        <input class="editpr-inp" id="ep_abogado" type="text">
+      </div>
+      <div>
+        <div class="editpr-lbl">Estructurador</div>
+        <input class="editpr-inp" id="ep_estructurador" type="text">
+      </div>
+      <div class="editpr-section">Fechas plan</div>
+      <div>
+        <div class="editpr-lbl">F. Plan Abogado</div>
+        <input class="editpr-inp" id="ep_fPlanAbg" type="date">
+      </div>
+      <div>
+        <div class="editpr-lbl">F. Plan Mesa de trabajo</div>
+        <input class="editpr-inp" id="ep_fPlanMesa" type="date">
+      </div>
+      <div>
+        <div class="editpr-lbl">F. Plan Radicación</div>
+        <input class="editpr-inp" id="ep_fPlanRad" type="date">
+      </div>
+      <div>
+        <div class="editpr-lbl">F. Terminación contrato</div>
+        <input class="editpr-inp" id="ep_fTermContrato" type="date">
+      </div>
+      <div class="editpr-section">Información</div>
+      <div>
+        <div class="editpr-lbl">Valor</div>
+        <input class="editpr-inp" id="ep_valor" type="number" min="0">
+      </div>
+      <div>
+        <div class="editpr-lbl">CDP</div>
+        <input class="editpr-inp" id="ep_cdp" type="text">
+      </div>
+      <div>
+        <div class="editpr-lbl">Fase</div>
+        <input class="editpr-inp" id="ep_fase" type="text">
+      </div>
+      <div>
+        <div class="editpr-lbl">Modalidad de selección</div>
+        <input class="editpr-inp" id="ep_modalidad" type="text">
+      </div>
+      <div>
+        <div class="editpr-lbl">Línea PAA</div>
+        <input class="editpr-inp" id="ep_lineaPaa" type="date">
+      </div>
+    </div>
+    <div class="editpr-foot">
+      <button class="confirm-btn cancel" onclick="cerrarEditProyecto()">Cancelar</button>
+      <button class="btn-sv" id="editPrSaveBtn" onclick="guardarEditProyecto()">💾 Guardar cambios</button>
     </div>
   </div>
 </div>

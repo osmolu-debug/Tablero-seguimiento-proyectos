@@ -106,6 +106,7 @@ function doPost(e) {
     if (action === 'saveAll' && role==='pos')                   return jsonOut(saveAll({ pos: data.pos }));
 
     // ⚠️ saveBit masivo queda deshabilitado: la bitácora ya NO se reescribe.
+    if (action === 'updatePreField' && (role==='admin'||role==='pre')) return jsonOut(updatePreField(data.rowId, data.field, data.value));
     if (action === 'saveBit') {
       return jsonOut({ ok: true, msg: 'saveBit ya no es necesario: la bitácora se persiste fila por fila.', deprecated: true });
     }
@@ -200,6 +201,42 @@ function saveAll(data) {
   return { ok: r1.ok && r2.ok, pre: r1, pos: r2 };
 }
 
+// ── ACTUALIZACIÓN PUNTUAL DE UN CAMPO EN PRECONTRACTUAL ─────────
+var PRE_FIELD_COL = {
+  'nombre':        3,
+  'supervisor':    4,
+  'cargo':         5,
+  'abogado':       6,
+  'estructurador': 7,
+  'fPlanAbg':      8,
+  'fPlanMesa':     12,
+  'fPlanRad':      16,
+  'valor':         22,
+  'cdp':           23,
+  'fase':          24,
+  'modalidad':     28,
+  'obs':           29,
+  'fTermContrato': 30,
+  'lineaPaa':      31
+};
+
+function updatePreField(rowId, field, value) {
+  var col = PRE_FIELD_COL[field];
+  if (!col) return { ok: false, error: 'Campo no editable: ' + field };
+  var sh = getSheet('Precontractual');
+  var lastRow = sh.getLastRow();
+  if (lastRow < 4) return { ok: false, error: 'Sin datos en Precontractual' };
+  var ids = sh.getRange(4, 1, lastRow - 3, 1).getValues();
+  for (var i = 0; i < ids.length; i++) {
+    if (String(ids[i][0]).trim() === String(rowId).trim()) {
+      sh.getRange(i + 4, col).setValue(value);
+      SpreadsheetApp.flush();
+      return { ok: true, msg: 'Campo actualizado', rowId: rowId, field: field };
+    }
+  }
+  return { ok: false, error: 'Proyecto no encontrado: ' + rowId };
+}
+
 // ⚠️ COMPATIBILIDAD: saveBit masivo queda como no-op explícito.
 // Los clientes con HTML viejo en caché podrían seguir invocándolo;
 // devolvemos OK silencioso (la bitácora YA está persistida fila por fila)
@@ -261,7 +298,7 @@ function editBitOne(match, update, email, role) {
 
     // Permiso: admin edita cualquiera. Otros, solo SUS notas.
     var dueno = String(sh.getRange(rowIdx, 5).getValue() || '').toLowerCase();
-    if (role !== 'admin' && dueno !== email) {
+    if (role !== 'admin' && role !== 'pos' && dueno !== email) {
       return { ok: false, error: 'Sin permiso para editar nota de otro usuario' };
     }
 
@@ -376,4 +413,11 @@ function deleteBitOneFromClient(match) {
   var email = getUserEmail();
   var role  = ROLES[email] || 'readonly';
   return deleteBitOne(match, email, role);
+}
+
+function updatePreFieldFromClient(rowId, field, value) {
+  var email = getUserEmail();
+  var role  = ROLES[email] || 'readonly';
+  if (role !== 'admin' && role !== 'pre') return { ok: false, error: 'Sin permiso (rol: ' + role + ')' };
+  return updatePreField(rowId, field, value);
 }
