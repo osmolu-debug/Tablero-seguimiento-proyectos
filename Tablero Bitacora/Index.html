@@ -3837,13 +3837,12 @@ function renderInforme() {
     hoy.toLocaleDateString('es-CO', {weekday:'long', day:'2-digit', month:'long', year:'numeric'});
 
   // ── PRECONTRACTUAL: gráfica barras + lista fichas ──
-  var semOrder = {rd:0, yl:1, gn:2, pu:3, gr:4};
   var preFil = DATA.activos.slice()
     .filter(function(p) { return INF_SEL_PRE === null || INF_SEL_PRE.indexOf(p.id) >= 0; })
     .sort(function(a, b) {
-      var so = (semOrder[a.semEst]||4) - (semOrder[b.semEst]||4);
-      if (so !== 0) return so;
-      return (a.semEst==='pu'?999:(a.diasMesa||999)) - (b.semEst==='pu'?999:(b.diasMesa||999));
+      var da = diasToDate(a.fPlanRad);
+      var db = diasToDate(b.fPlanRad);
+      return (da !== null ? da : 9999) - (db !== null ? db : 9999);
     });
 
   var SEM_COL = { rd:'#C62828', yl:'#D98B00', gn:'#1A9E60', pu:'#5E35B1', gr:'#9DBFBA' };
