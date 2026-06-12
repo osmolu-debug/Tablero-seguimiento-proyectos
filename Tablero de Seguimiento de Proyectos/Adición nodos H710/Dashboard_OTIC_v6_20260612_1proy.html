@@ -630,7 +630,7 @@ body{font-family:Arial,sans-serif;background:#EEF0F4;color:#1a1a1a;min-height:10
 .gpct-fill{height:100%;border-radius:3px}
 .gpct-fill.gc-ok{background:#1D9E75}.gpct-fill.gc-warn{background:#BA7517}.gpct-fill.gc-risk{background:#A32D2D}.gpct-fill.gc-done{background:#185FA5}.gpct-fill.gc-blocked{background:#C8CAD0}
 </style>
-<style>@keyframes ia-pulse{0%,100%{opacity:1}50%{opacity:.3}}</style></head>
+<style>@keyframes ia-pulse{0%,100%{opacity:1}50%{opacity:.3}}</style><style>@keyframes ia-pulse{0%,100%{opacity:1}50%{opacity:.3}}</style></head>
 <body>
 <div class="shell">
 
@@ -640,11 +640,11 @@ body{font-family:Arial,sans-serif;background:#EEF0F4;color:#1a1a1a;min-height:10
     <div class="brand-badge">OTIC</div>
     <div>
       <div class="topbar-title">Dashboard Seguimiento Proyectos — OTIC SDM v6.0</div>
-      <div class="topbar-sub">Secretaría Distrital de Movilidad &nbsp;·&nbsp; <span id="today">martes, 12 de mayo de 2026</span> &nbsp;<span class="save-chip" id="save-chip" style="display: none;">✓ Guardado</span></div>
+      <div class="topbar-sub">Secretaría Distrital de Movilidad &nbsp;·&nbsp; <span id="today">viernes, 12 de junio de 2026</span> &nbsp;<span class="save-chip" id="save-chip" style="display: none;">✓ Guardado</span></div>
     </div>
   </div>
   <div class="topbar-right">
-    <span id="bl-badge" style="display: inline-block; font-size: 9px; padding: 3px 9px; border-radius: 99px; background: rgba(29, 158, 117, 0.25); color: rgb(159, 225, 203); font-weight: 700; border: 1px solid rgba(29, 158, 117, 0.35);" title="Línea base congelada desde 12/5/2026. Solo cambia con Control de Cambios aprobado.">🔒 BL</span>
+    <span id="bl-badge" style="display: inline-block; font-size: 9px; padding: 3px 9px; border-radius: 99px; background: rgba(29, 158, 117, 0.25); color: rgb(159, 225, 203); font-weight: 700; border: 1px solid rgba(29, 158, 117, 0.35);" title="Línea base congelada desde 12/6/2026. Solo cambia con Control de Cambios aprobado.">🔒 BL</span>
     <button class="tbtn tbtn-ghost" onclick="openAddProject()" style="color:#fff!important">+ Proyecto</button>
     <button class="tbtn tbtn-ghost" onclick="openCargaProveedor()" style="color:#fff!important">↙ Carga Excel</button>
     <button class="tbtn tbtn-ghost" onclick="descargarPlantilla()" style="color:#fff!important" title="Descargar plantilla Excel para el proveedor">⬇ Plantilla</button>
@@ -663,18 +663,18 @@ body{font-family:Arial,sans-serif;background:#EEF0F4;color:#1a1a1a;min-height:10
 </div>
 
 <!-- PROJECT TABS -->
-<div class="proj-tabs-bar" id="proj-tabs-bar"><div class="proj-tab active" onclick="selectP(1)">
+<div class="proj-tabs-bar" id="proj-tabs-bar"><div class="proj-tab active" onclick="selectP(0)">
       <div class="tab-dot" style="background:#1D9E75"></div>
-      PRUEBA — Sistema de Gestión Documental
-      <button class="tab-archive-btn" onclick="event.stopPropagation();archiveProject(1)" title="Archivar proyecto">⊘</button>
-    </div><div class="proj-tab archived" onclick="toggleArchivedView()" title="Ver proyectos archivados">📁 Archivados (1)</div><div class="tab-add" onclick="openAddProject()">＋</div></div>
+      Adición nodos H710
+      <button class="tab-archive-btn" onclick="event.stopPropagation();archiveProject(0)" title="Archivar proyecto">⊘</button>
+    </div><div class="tab-add" onclick="openAddProject()">＋</div></div>
 
 <!-- KPI STRIP -->
-<div class="kpi-strip" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+<div class="kpi-strip" style="grid-template-columns: repeat(5, minmax(0px, 1fr));">
   <div class="kpi-cell">
     <div class="kpi-lbl">Avance real</div>
-    <div class="kpi-val" id="kpi-real" style="color:#185FA5">2%</div>
-    <div class="kpi-sub" id="kpi-real-sub">Planeado: 2%</div>
+    <div class="kpi-val" id="kpi-real" style="color:#185FA5">18%</div>
+    <div class="kpi-sub" id="kpi-real-sub">Planeado: 18%</div>
   </div>
   <div class="kpi-cell">
     <div class="kpi-lbl">Brecha</div>
@@ -690,41 +690,41 @@ body{font-family:Arial,sans-serif;background:#EEF0F4;color:#1a1a1a;min-height:10
 Completados: real=100%
 Total: completados + próximos + atrasados" style="cursor:help">
     <div class="kpi-lbl">Hitos completados</div>
-    <div class="kpi-val" id="kpi-hitos" style="color:#3B6D11">0/3</div>
-    <div class="kpi-sub" id="kpi-hitos-sub">0% completados</div>
-    <div id="kpi-hitos-detail" style="font-size: 9px; color: var(--blue); margin-top: 2px;">▶ 3 próximo(s)</div>
+    <div class="kpi-val" id="kpi-hitos" style="color:#3B6D11">2/8</div>
+    <div class="kpi-sub" id="kpi-hitos-sub">25% completados</div>
+    <div id="kpi-hitos-detail" style="font-size: 9px; color: var(--red); margin-top: 2px;">⚠ 1 atrasado(s) · ▶ 5 próximo(s)</div>
   </div>
   <div class="kpi-cell">
     <div class="kpi-lbl">Fecha fin contrato</div>
-    <div class="kpi-val" id="kpi-fin" style="font-size:15px;margin-top:4px">30 de oct de 2026</div>
-    <div class="kpi-sub" id="kpi-contratista">TECNOSOFT SAS</div>
+    <div class="kpi-val" id="kpi-fin" style="font-size:15px;margin-top:4px">8 de jul de 2026</div>
+    <div class="kpi-sub" id="kpi-contratista">Redcomputo LTDA</div>
   </div>
 </div>
 
 <!-- MAIN GRID -->
-<div class="main-grid">
+<div class="main-grid" style="">
 
   <!-- LEFT -->
   <div class="col">
     <div class="col-hdr"><span class="col-hdr-title">Estado del proyecto</span><div style="display:flex;align-items:center;gap:6px"><button onclick="openEditProject()" style="font-size:10px;padding:3px 10px;background:#1D9E75;color:#fff;border:none;border-radius:5px;cursor:pointer;font-family:Arial,sans-serif;font-weight:600">✏ Editar</button><span class="sec-num">01</span></div></div>
     <div class="left-pad" id="left-content">
-    <div class="proj-name">PRUEBA — Sistema de Gestión Documental</div>
-    <div class="proj-cto">CTO 2026-0001</div>
+    <div class="proj-name">Adición nodos H710</div>
+    <div class="proj-cto">CTO 2025-3247</div>
     <span class="status-badge b-ok">En tiempo</span>
     <div class="prog-block">
-      <div class="prog-lbl"><span>Avance real</span><span style="color:#185FA5;font-weight:700">2%</span></div>
-      <div class="prog-track"><div class="prog-plan" style="width:2%"></div><div class="prog-real" style="width:2%;background:var(--green)"></div></div>
+      <div class="prog-lbl"><span>Avance real</span><span style="color:#185FA5;font-weight:700">18%</span></div>
+      <div class="prog-track"><div class="prog-plan" style="width:18%"></div><div class="prog-real" style="width:18%;background:var(--green)"></div></div>
     </div>
     <div class="prog-block">
-      <div class="prog-lbl"><span>Planeado</span><span style="color:var(--amber);font-weight:700">2%</span></div>
-      <div class="prog-track"><div class="prog-real" style="width:2%;background:var(--amber);opacity:.5"></div></div>
+      <div class="prog-lbl"><span>Planeado</span><span style="color:var(--amber);font-weight:700">18%</span></div>
+      <div class="prog-track"><div class="prog-real" style="width:18%;background:var(--amber);opacity:.5"></div></div>
     </div>
     <div class="divider"></div>
-    <div class="meta-row"><span class="meta-key">Supervisor</span><span class="meta-val">Juan Pérez</span></div>
-    <div class="meta-row"><span class="meta-key">Inicio</span><span class="meta-val">1 de may de 2026</span></div>
-    <div class="meta-row"><span class="meta-key">Fin</span><span class="meta-val">31 de oct de 2026</span></div>
+    <div class="meta-row"><span class="meta-key">Supervisor</span><span class="meta-val">Edgar Eduardo Romero Bohorquez — SDM OTIC</span></div>
+    <div class="meta-row"><span class="meta-key">Inicio</span><span class="meta-val">26 de may de 2026</span></div>
+    <div class="meta-row"><span class="meta-key">Fin</span><span class="meta-val">8 de jul de 2026</span></div>
     <div class="meta-row"><span class="meta-key">Brecha</span><span class="meta-val" style="color:var(--green)">+0%</span></div></div>
-    <div class="hitos-section" id="hitos-content"><div style="font-size:10px;font-weight:700;color:var(--t);text-transform:uppercase;letter-spacing:.06em;padding:0 16px 6px">Hitos</div><div class="hito-group"><div class="hito-group-title next">▶ Próximas 2 semanas</div><div class="hito-item"><div class="hito-dot next"></div><div><div class="hito-text">HITO: Diagnóstico aprobado por supervisor (31/05/2026)</div></div></div><div class="hito-item"><div class="hito-dot next"></div><div><div class="hito-text">HITO: Sistema desarrollado y probado (31/08/2026)</div></div></div><div class="hito-item"><div class="hito-dot next"></div><div><div class="hito-text">HITO: Proyecto entregado y cerrado (31/10/2026)</div></div></div></div></div>
+    <div class="hitos-section" id="hitos-content"><div style="font-size:10px;font-weight:700;color:var(--t);text-transform:uppercase;letter-spacing:.06em;padding:0 16px 6px">Hitos</div><div class="hito-group"><div class="hito-group-title done">✓ Cumplidos</div><div class="hito-item"><div class="hito-dot done"></div><div><div class="hito-text">HITO: Reuniones iniciales completadas (03/06/2026)</div></div></div><div class="hito-item"><div class="hito-dot done"></div><div><div class="hito-text">HITO: Prerrequisitos técnicos validados. (03/06/2026)</div></div></div></div><div class="hito-group"><div class="hito-group-title next">▶ Próximas 2 semanas</div><div class="hito-item"><div class="hito-dot next"></div><div><div class="hito-text">HITO: Nodos H710 instalados físicamente y disponibles para integración. (18/06/2026)</div></div></div><div class="hito-item"><div class="hito-dot next"></div><div><div class="hito-text">HITO: Precheck Dell aprobado para expansión del clúster. (24/06/2026)</div></div></div><div class="hito-item"><div class="hito-dot next"></div><div><div class="hito-text">HITO: Dos (2) nodos H710 integrados exitosamente al clúster PowerScale. (28/06/2026)</div></div></div><div class="hito-item"><div class="hito-dot next"></div><div><div class="hito-text">HITO: SmartPools activado. (01/07/2026)</div></div></div><div class="hito-item"><div class="hito-dot next"></div><div><div class="hito-text">HITO: Proyecto cerrado y documentación entregada a satisfacción. (08/07/2026)</div></div></div></div><div class="hito-group"><div class="hito-group-title late">✕ Atrasados</div><div class="hito-item"><div class="hito-dot late"></div><div><div class="hito-text">NA</div></div></div></div></div>
   </div>
 
   <!-- CENTER -->
@@ -738,77 +738,38 @@ Total: completados + próximos + atrasados" style="cursor:help">
         <div class="ctab" onclick="showCTab('cambios',this)" style="color:#BA7517">⚡ Cambios</div>
         <div class="ctab" onclick="showCTab('prep',this)">📋 Preparar reunión</div>
       </div>
-      <div id="center-body"><div style="padding:14px 16px">
-    
-    <div style="display:flex;justify-content:flex-end;margin-bottom:8px">
-      <button onclick="openEditFicha()" style="font-size:10px;padding:4px 12px;background:var(--blue);color:#fff;border:none;border-radius:5px;cursor:pointer;font-weight:600;font-family:Arial,sans-serif">✏ Editar ficha</button>
-    </div>
-    <div class="ficha-section">
-      <div class="ficha-title">✅ Condiciones previas al inicio</div>
-      <div style="font-size:10px;color:var(--t2);margin-bottom:8px;line-height:1.5">Verificación de requisitos administrativos antes de iniciar la ejecución. Marque cada ítem al cumplirse; edite la descripción si requiere ajustes.</div>
-      <div style="background:var(--bg2);border-radius:8px;padding:10px 12px;margin-bottom:4px">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <div style="font-size:9px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.06em">Verificación administrativa</div>
-      <div style="font-size:10px;font-weight:700;color:var(--amber);">0/4 cumplidos</div>
-    </div>
-    <div class="preinicio-item" id="pi-row-pi1">
-      <input type="checkbox" class="preinicio-check" onchange="togglePreInicio('pi1',this.checked)" title="Marcar como cumplido">
-      <div style="flex:1;min-width:0">
-        <div class="preinicio-label">📄 Firma del Contrato</div>
-        <textarea class="preinicio-desc-edit" rows="2" onblur="savePreInicioDesc('pi1',this.value)" placeholder="Descripción editable...">Suscripción del contrato entre la SDM y el contratista. Requisito previo a cualquier actividad de ejecución.</textarea>
+      <div id="center-body">
+      <div class="legend-row">
+        <div class="leg"><div class="leg-sq" style="background:#185FA5"></div>Avance real</div>
+        <div class="leg"><div class="leg-sq" style="background:#BA7517"></div>Avance planeado</div>
+        <div class="leg"><div class="leg-sq" style="background:#3B6D11;opacity:.5"></div>Brecha +0%</div>
       </div>
-    </div><div class="preinicio-item" id="pi-row-pi2">
-      <input type="checkbox" class="preinicio-check" onchange="togglePreInicio('pi2',this.checked)" title="Marcar como cumplido">
-      <div style="flex:1;min-width:0">
-        <div class="preinicio-label">🛡️ Aprobación de Pólizas</div>
-        <textarea class="preinicio-desc-edit" rows="2" onblur="savePreInicioDesc('pi2',this.value)" placeholder="Descripción editable...">Radicación y aprobación de las pólizas de cumplimiento, calidad y amparo de salarios exigidas por la entidad.</textarea>
+      <div class="chart-wrap"><canvas id="sc-canvas" width="982" height="300" style="display: block; box-sizing: border-box; height: 200px; width: 655px;"></canvas></div>
+      <div class="analysis-box">
+        <div class="analysis-lbl">Análisis a la fecha</div>
+        <div class="analysis-text" id="analysis-text" contenteditable="true" spellcheck="false">Semana 01 (03-Junio-2026) — Fase 1 y Fase 2 al 100% completado.18% de avance real frente a lo mismo planificado.
+— Fase 3 en progreso: 20% Completado:  Entrega e inspección de equipos a la entidad<br></div>
+        <div class="analysis-hint">✏ Haz clic para editar · Se guarda automáticamente</div>
       </div>
-    </div><div class="preinicio-item" id="pi-row-pi3">
-      <input type="checkbox" class="preinicio-check" onchange="togglePreInicio('pi3',this.checked)" title="Marcar como cumplido">
-      <div style="flex:1;min-width:0">
-        <div class="preinicio-label">👤 Designación de Supervisor</div>
-        <textarea class="preinicio-desc-edit" rows="2" onblur="savePreInicioDesc('pi3',this.value)" placeholder="Descripción editable...">Comunicación oficial mediante acto administrativo de la designación del supervisor o interventor del contrato.</textarea>
-      </div>
-    </div><div class="preinicio-item" id="pi-row-pi4">
-      <input type="checkbox" class="preinicio-check" onchange="togglePreInicio('pi4',this.checked)" title="Marcar como cumplido">
-      <div style="flex:1;min-width:0">
-        <div class="preinicio-label">✅ Firma Acta de Inicio</div>
-        <textarea class="preinicio-desc-edit" rows="2" onblur="savePreInicioDesc('pi4',this.value)" placeholder="Descripción editable...">Suscripción del acta de inicio entre supervisor y contratista, que formaliza el comienzo de la ejecución contractual.</textarea>
-      </div>
-    </div>
-    <div style="margin-top:6px;font-size:9px;color:var(--t2)">💡 Haga clic en el checkbox para cambiar el estado. La descripción se guarda automáticamente al perder el foco.</div>
-  </div>
-    </div>
-    <div class="ficha-section">
-      <div class="ficha-title">Responsables</div>
-      <div class="ficha-row"><span class="ficha-key">Líder secretaría (SDM)</span><span class="ficha-val">María López</span></div>
-      <div class="ficha-row"><span class="ficha-key">Líder contratista</span><span class="ficha-val">Miguelito</span></div>
-      <div class="ficha-row"><span class="ficha-key">Supervisor / Interventor</span><span class="ficha-val">Juan Pérez</span></div>
-      <div class="ficha-row"><span class="ficha-key">Contrato</span><span class="ficha-val">CTO 2026-0001</span></div>
-    </div>
-    <div class="ficha-section">
-      <div class="ficha-title">Financiero</div>
-      <div class="ficha-kpis">
-        <div class="ficha-kpi"><div class="ficha-kpi-lbl">Valor total</div><div class="ficha-kpi-val fkv-a">$&nbsp;120.000.000</div></div>
-        <div class="ficha-kpi"><div class="ficha-kpi-lbl">Total pagado</div><div class="ficha-kpi-val fkv-g">$0</div></div>
-        <div class="ficha-kpi"><div class="ficha-kpi-lbl">Saldo pendiente</div><div class="ficha-kpi-val fkv-r">$&nbsp;120.000.000</div></div>
-      </div>
-      <div style="background:var(--bg2);border-radius:6px;padding:8px 10px">
-        <div style="font-size:9px;font-weight:700;color:var(--t2);text-transform:uppercase;margin-bottom:5px">Pagos programados</div>
-        <div class="pago-item"><span>Anticipo 30 %</span><span style="font-weight:700">$&nbsp;36.000.000</span><span class="pe pe-pend">Pendiente</span></div>
-        <div style="margin-top:7px"><div style="display:flex;justify-content:space-between;font-size:9px;color:var(--t2);margin-bottom:2px"><span>Ejecutado</span><span style="font-weight:700;color:var(--teal)">0%</span></div><div style="height:5px;background:var(--bd);border-radius:3px;overflow:hidden"><div style="height:100%;width:0%;background:var(--teal);border-radius:3px"></div></div></div>
-      </div>
-    </div>
-    <div class="ficha-section">
-      <div class="ficha-title">Línea de tiempo</div>
-      <div class="tl-bar"><div class="tl-fill" style="width:2%;position:relative"><div class="tl-mk"></div></div></div>
-      <div class="tl-lbl"><span>30 de abr de 2026</span><span style="color:var(--red);font-weight:700">Hoy 2%</span><span>30 de oct de 2026</span></div>
-    </div>
-    <div class="ficha-section">
-      <div class="ficha-title">Ampliaciones / Control de cambios</div>
-      <div style="font-size:10px;color:var(--t2);padding:6px 0">Sin ampliaciones — use ⚡ Control de cambios para registrar una</div>
-    </div>
-  </div></div>
+      <div style="margin-bottom:6px">
+        <div style="font-size:10px;font-weight:700;color:var(--t);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">Gestión</div>
+        <div class="gestion-grid">
+          <div class="gestion-card done-card">
+            <div class="gestion-card-hdr done">✓ Actividades realizadas</div>
+            <div class="gestion-card-body done"><div class="gestion-item"><div class="g-dot ok"></div><span>HITO 1 completado: Reuniones iniciales completadas.</span></div><div class="gestion-item"><div class="g-dot ok"></div><span>HITO 2 completado: Prerrequisitos técnicos validados.                                                                                   — Fase 3 en progreso: 20% Completado:  Entrega e inspección de equipos a la entidad</span></div></div>
+          </div>
+          <div class="gestion-card todo-card">
+            <div class="gestion-card-hdr todo">▶ Actividades próximas</div>
+            <div class="gestion-card-body todo"><div class="gestion-item"><div class="g-dot info"></div><span>Montaje y conexión del chasis y los nodos en el Datacenter.</span></div><div class="gestion-item"><div class="g-dot info"></div><span>RFC para la actividad de montaje y conexión.</span></div></div>
+          </div>
+        </div>
+        <div class="gestion-grid-risks">
+          <div class="gestion-card risk-card">
+            <div class="gestion-card-hdr risk">⚠ Riesgos activos</div>
+            <div class="gestion-card-body risk" style="display:grid;grid-template-columns:1fr 1fr;gap:0"><div class="gestion-item"><div class="g-dot warn"></div><span>• Apertura del caso en DELL para hacer la actualización de Firmware: se esta adelantando labores paralelas con DELL para abrir el caso, por el momento la fecha para esta actividad continua para el 23/06/2026.</span></div></div>
+          </div>
+        </div>
+      </div></div>
     </div>
   </div>
 
@@ -818,8 +779,8 @@ Total: completados + próximos + atrasados" style="cursor:help">
     <div class="right-pad">
       <div id="temas-content">
     <div class="tema-card">
-      <div class="tema-hdr tema-title-edit" id="tema-title-0" contenteditable="true" spellcheck="false" data-ti="0" data-field="title" style="outline:none;cursor:text" title="✒ Haz clic para editar · Se guarda automáticamente">📥 Línea base cargada — 12 de may de 2026</div>
-      <div class="tema-body ok tema-obs-edit" id="tema-obs-0" contenteditable="true" spellcheck="false" data-ti="0" data-field="obs" style="outline:none;cursor:text;white-space:pre-wrap;min-height:28px" title="✒ Haz clic para editar · Se guarda automáticamente">BL establecida: 17 actividades. SPI inicial: 1.00.</div>
+      <div class="tema-hdr tema-title-edit" id="tema-title-0" contenteditable="true" spellcheck="false" data-ti="0" data-field="title" style="outline:none;cursor:text" title="✒ Haz clic para editar · Se guarda automáticamente">📥 Línea base cargada — 12 de jun de 2026</div>
+      <div class="tema-body ok tema-obs-edit" id="tema-obs-0" contenteditable="true" spellcheck="false" data-ti="0" data-field="obs" style="outline:none;cursor:text;white-space:pre-wrap;min-height:28px" title="✒ Haz clic para editar · Se guarda automáticamente">BL establecida: 36 actividades. SPI inicial: 1.00.</div>
       <div style="font-size:9px;color:var(--t2);padding:2px 11px 5px;opacity:.6">✏ Haz clic para editar · Se guarda automáticamente</div>
     </div></div>
       <div class="private-panel" id="private-panel">
@@ -844,32 +805,15 @@ Total: completados + próximos + atrasados" style="cursor:help">
           <button class="priv-send" onclick="sendPrivate()">↗</button>
         </div>
       </div>
-      <div id="archived-section-wrap"><div class="archived-section" id="archived-view" style="display:none">
-    <div class="archived-title">📁 Proyectos archivados — histórico</div>
-    <div style="font-size:10px;color:var(--t2);margin-bottom:8px;line-height:1.5">Los proyectos archivados conservan todo su historial. Puedes restaurarlos o eliminarlos permanentemente.</div>
-    <div class="archived-item" style="flex-direction:column;align-items:stretch;gap:6px">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start">
-          <div>
-            <div class="archived-name">ARANDA — Licencias ITSM</div>
-            <div class="archived-cto">CTO 2025-3215 · HEIMCORE</div>
-            <div style="font-size:10px;color:var(--t2);margin-top:2px">Fin: Abr 24, 2026 · Avance final: <strong style="color:var(--amber)">81%</strong> · Plan: 94%</div>
-          </div>
-          <div style="display:flex;gap:5px;flex-shrink:0">
-            <button class="restore-btn" onclick="restoreProject(0)" title="Volver a activar">↩ Restaurar</button>
-            <button onclick="deleteProject(0)" title="Eliminar permanentemente" style="background:var(--red-light);color:var(--red);border:1px solid var(--red);border-radius:5px;padding:3px 9px;font-size:10px;cursor:pointer;font-family:Arial,sans-serif;font-weight:700">🗑 Eliminar</button>
-          </div>
-        </div>
-        
-      </div>
-  </div></div>
+      <div id="archived-section-wrap"></div>
     </div>
   </div>
 </div>
 
-</div><!-- /shell -->
+<div id="empty-state-msg" style="text-align: center; padding: 60px 20px; color: rgb(107, 114, 128); font-size: 13px; background: rgb(255, 255, 255); border-radius: 0px 0px 12px 12px; border-width: medium 1px 1px; border-style: none solid solid; border-color: currentcolor rgb(224, 226, 230) rgb(224, 226, 230); border-image: initial; display: none;"><div style="font-size:32px;margin-bottom:12px">📋</div><div style="font-weight:700;color:#0D2137;font-size:15px;margin-bottom:8px">Sin proyectos activos</div><div>Crea uno con <strong>+ Proyecto</strong> o carga un Excel del proveedor con <strong>✓ Carga Excel</strong>.</div></div></div><!-- /shell -->
 
 <!-- TOAST -->
-<div class="toast" id="toast">✓ Línea base establecida — 17 actividades, curva S semanal congelada</div>
+<div class="toast" id="toast">✓ Proyecto actualizado — gráfica y datos guardados</div>
 
 <!-- ════════════════════════════════════════════════
      MODAL CONTROL DE CAMBIOS
@@ -1291,14 +1235,14 @@ Total: completados + próximos + atrasados" style="cursor:help">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
     <div>
       <div class="modal-title" style="margin-bottom:0">↙ Carga de información del proveedor</div>
-      <div style="font-size:10px;color:var(--t2);margin-top:2px" id="carga-subtitle">PRUEBA — Sistema de Gestión Documental — CTO 2026-0001</div>
+      <div style="font-size:10px;color:var(--t2);margin-top:2px" id="carga-subtitle">Adición nodos H710 — CTO 2025-3247</div>
     </div>
     <button onclick="closeCarga()" style="background:none;border:none;font-size:18px;cursor:pointer;color:#6b7280">✕</button>
   </div>
   <div class="step-bar">
     <div class="step-item s-done" id="cp-step-0">1 · Cargar Excel</div>
-    <div class="step-item s-active" id="cp-step-1">2 · Validación</div>
-    <div class="step-item" id="cp-step-2">3 · Confirmar</div>
+    <div class="step-item s-done" id="cp-step-1">2 · Validación</div>
+    <div class="step-item s-active" id="cp-step-2">3 · Confirmar</div>
   </div>
 
   <!-- PASO 1: Zona de carga -->
@@ -1324,10 +1268,10 @@ Total: completados + próximos + atrasados" style="cursor:help">
   </div>
 
   <!-- PASO 2: Validación -->
-  <div id="cp-panel-1" style="display: block;">
+  <div id="cp-panel-1" style="display: none;">
     <div class="cp-alert cp-green" id="cp-val-ok" style="display: flex;">
       <div class="cp-ico" style="background:var(--green)">✓</div>
-      <div id="cp-val-ok-text">17 filas detectadas. Sin errores críticos.</div>
+      <div id="cp-val-ok-text">36 filas detectadas. Sin errores críticos.</div>
     </div>
     <div class="cp-alert cp-red" id="cp-val-err" style="display:none">
       <div class="cp-ico" style="background:var(--red)">!</div>
@@ -1336,96 +1280,108 @@ Total: completados + próximos + atrasados" style="cursor:help">
     <!-- PARCHE #5: Panel detallado de validación de datos por actividad -->
     <div id="cp-validation-errors" style="display:none; margin-bottom:14px;"></div>
     <div class="cp-table" id="cp-preview-table"><div style="background:var(--blue-light);border-left:3px solid var(--blue);padding:8px 12px;margin-bottom:8px;font-size:10px;color:#0C447C;line-height:2">
-    <span style="background:var(--amber-light);color:var(--amber);padding:2px 8px;border-radius:4px;font-weight:700">🔒 Línea base bloqueada 12/5/2026 — solo se actualizará el % real</span><div style="background:#FFF8E6;border:1px solid #F0C060;border-radius:6px;padding:8px 12px;margin-top:8px;font-size:11px;color:#7A4F00">
-        <strong>⚠ Auditoría de integridad (v6.0):</strong><br>• ⚠ Fase "Fase 1 — Diagnóstico y Levantamiento": reporta 0% pero actividades hijas promedian 38%
+    <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:4px;font-weight:700">📥 Primera carga — las fechas quedarán como línea base congelada</span><div style="background:#FFF8E6;border:1px solid #F0C060;border-radius:6px;padding:8px 12px;margin-top:8px;font-size:11px;color:#7A4F00">
+        <strong>⚠ Auditoría de integridad (v6.0):</strong><br>• ⚠ Fase "Fase 1 — Reuniones de inicio": reporta 0% pero actividades hijas promedian 100%<br>• ⚠ Fase "Fase 2 — Preparación y Validación Previa": reporta 0% pero actividades hijas promedian 100%<br>• ⚠ Fase "Fase 3 — Recepción e Instalación Física de los Nodos H710": reporta 0% pero actividades hijas promedian 20%
         <br><em>Estos valores se calcularon automáticamente desde las actividades hijas.</em>
       </div>
-  </div><div class="cp-table-hdr">Vista previa — 17 filas (mostrando 8)</div>
+  </div><div class="cp-table-hdr">Vista previa — 36 filas (mostrando 8)</div>
     <div class="cp-grid cp-head"><span>EDT</span><span>Nombre de tarea</span><span>Inicio BL</span><span>Fin BL</span><span>Días BL</span><span>%Plan</span><span>%Real</span></div><div class="cp-grid" style="background:var(--blue-light)">
       <span style="font-size:9px;color:var(--t2);font-family:monospace">1</span>
-      <span style="font-weight:700;color:var(--navy)">Fase 1 — Diagnóstico y Levantamiento</span>
-      <span style="font-size:9px;color:var(--blue)">01/05/2026</span>
-      <span style="font-size:9px;color:var(--blue)">31/05/2026</span>
-      <span style="text-align:center;font-size:9px;color:var(--t2)">30d</span>
-      <span style="text-align:center">20%</span>
-      <span style="text-align:center;font-weight:700;color:var(--red)">0%</span>
+      <span style="font-weight:700;color:var(--navy)">Fase 1 — Reuniones de inicio</span>
+      <span style="font-size:9px;color:var(--blue)">26/05/2026</span>
+      <span style="font-size:9px;color:var(--blue)">03/06/2026</span>
+      <span style="text-align:center;font-size:9px;color:var(--t2)">8d</span>
+      <span style="text-align:center">0%</span>
+      <span style="text-align:center;font-weight:700;color:var(--teal)">0%</span>
     </div><div class="cp-grid" style="">
       <span style="font-size:9px;color:var(--t2);font-family:monospace">1.1</span>
-      <span style="">Reunión de arranque y acta de inicio</span>
-      <span style="font-size:9px;color:var(--blue)">01/05/2026</span>
-      <span style="font-size:9px;color:var(--blue)">01/05/2026</span>
+      <span style="">Reunión de arranque</span>
+      <span style="font-size:9px;color:var(--blue)">26/05/2026</span>
+      <span style="font-size:9px;color:var(--blue)">26/05/2026</span>
       <span style="text-align:center;font-size:9px;color:var(--t2)">—</span>
       <span style="text-align:center">100%</span>
       <span style="text-align:center;font-weight:700;color:var(--teal)">100%</span>
     </div><div class="cp-grid" style="">
       <span style="font-size:9px;color:var(--t2);font-family:monospace">1.2</span>
-      <span style="">Levantamiento de procesos actuales</span>
-      <span style="font-size:9px;color:var(--blue)">02/05/2026</span>
-      <span style="font-size:9px;color:var(--blue)">09/05/2026</span>
-      <span style="text-align:center;font-size:9px;color:var(--t2)">7d</span>
-      <span style="text-align:center">50%</span>
-      <span style="text-align:center;font-weight:700;color:var(--teal)">50%</span>
-    </div><div class="cp-grid" style="">
-      <span style="font-size:9px;color:var(--t2);font-family:monospace">1.3</span>
-      <span style="">Análisis de sistemas existentes</span>
-      <span style="font-size:9px;color:var(--blue)">12/05/2026</span>
-      <span style="font-size:9px;color:var(--blue)">19/05/2026</span>
-      <span style="text-align:center;font-size:9px;color:var(--t2)">7d</span>
-      <span style="text-align:center">0%</span>
-      <span style="text-align:center;font-weight:700;color:var(--teal)">0%</span>
-    </div><div class="cp-grid" style="">
-      <span style="font-size:9px;color:var(--t2);font-family:monospace">1.4</span>
-      <span style="">Informe de diagnóstico y plan detallado</span>
-      <span style="font-size:9px;color:var(--blue)">20/05/2026</span>
-      <span style="font-size:9px;color:var(--blue)">31/05/2026</span>
-      <span style="text-align:center;font-size:9px;color:var(--t2)">11d</span>
-      <span style="text-align:center">0%</span>
-      <span style="text-align:center;font-weight:700;color:var(--teal)">0%</span>
+      <span style="">Reunión de Kickoff</span>
+      <span style="font-size:9px;color:var(--blue)">03/06/2026</span>
+      <span style="font-size:9px;color:var(--blue)">03/06/2026</span>
+      <span style="text-align:center;font-size:9px;color:var(--t2)">—</span>
+      <span style="text-align:center">100%</span>
+      <span style="text-align:center;font-weight:700;color:var(--teal)">100%</span>
     </div><div class="cp-grid" style="background:var(--amber-light)">
       <span style="font-size:9px;color:var(--t2);font-family:monospace">★1.H</span>
-      <span style="">HITO: Diagnóstico aprobado por supervisor</span>
-      <span style="font-size:9px;color:var(--blue)">31/05/2026</span>
-      <span style="font-size:9px;color:var(--blue)">31/05/2026</span>
+      <span style="">HITO: Reuniones iniciales completadas</span>
+      <span style="font-size:9px;color:var(--blue)">26/05/2026</span>
+      <span style="font-size:9px;color:var(--blue)">03/06/2026</span>
+      <span style="text-align:center;font-size:9px;color:var(--t2)">8d</span>
+      <span style="text-align:center">100%</span>
+      <span style="text-align:center;font-weight:700;color:var(--teal)">100%</span>
+    </div><div class="cp-grid" style="background:var(--blue-light)">
+      <span style="font-size:9px;color:var(--t2);font-family:monospace">2</span>
+      <span style="font-weight:700;color:var(--navy)">Fase 2 — Preparación y Validación Previa</span>
+      <span style="font-size:9px;color:var(--blue)">03/06/2026</span>
+      <span style="font-size:9px;color:var(--blue)">03/06/2026</span>
       <span style="text-align:center;font-size:9px;color:var(--t2)">—</span>
       <span style="text-align:center">0%</span>
       <span style="text-align:center;font-weight:700;color:var(--teal)">0%</span>
-    </div><div class="cp-grid" style="background:var(--blue-light)">
-      <span style="font-size:9px;color:var(--t2);font-family:monospace">2</span>
-      <span style="font-weight:700;color:var(--navy)">Fase 2 — Desarrollo e Implementación</span>
-      <span style="font-size:9px;color:var(--blue)">01/06/2026</span>
-      <span style="font-size:9px;color:var(--blue)">31/08/2026</span>
-      <span style="text-align:center;font-size:9px;color:var(--t2)">91d</span>
-      <span style="text-align:center">0%</span>
-      <span style="text-align:center;font-weight:700;color:var(--teal)">0%</span>
     </div><div class="cp-grid" style="">
-      <span style="font-size:9px;color:var(--t2);font-family:monospace">2.1</span>
-      <span style="">Diseño de arquitectura documental</span>
-      <span style="font-size:9px;color:var(--blue)">01/06/2026</span>
-      <span style="font-size:9px;color:var(--blue)">30/06/2026</span>
-      <span style="text-align:center;font-size:9px;color:var(--t2)">29d</span>
+      <span style="font-size:9px;color:var(--t2);font-family:monospace">2.2</span>
+      <span style="">Verificación de espacio en rack, energía y conectividad.</span>
+      <span style="font-size:9px;color:var(--blue)">03/06/2026</span>
+      <span style="font-size:9px;color:var(--blue)">03/06/2026</span>
+      <span style="text-align:center;font-size:9px;color:var(--t2)">—</span>
+      <span style="text-align:center">100%</span>
+      <span style="text-align:center;font-weight:700;color:var(--teal)">100%</span>
+    </div><div class="cp-grid" style="background:var(--amber-light)">
+      <span style="font-size:9px;color:var(--t2);font-family:monospace">★2.H</span>
+      <span style="">HITO: Prerrequisitos técnicos validados.</span>
+      <span style="font-size:9px;color:var(--blue)">03/06/2026</span>
+      <span style="font-size:9px;color:var(--blue)">03/06/2026</span>
+      <span style="text-align:center;font-size:9px;color:var(--t2)">—</span>
+      <span style="text-align:center">100%</span>
+      <span style="text-align:center;font-weight:700;color:var(--teal)">100%</span>
+    </div><div class="cp-grid" style="background:var(--blue-light)">
+      <span style="font-size:9px;color:var(--t2);font-family:monospace">3</span>
+      <span style="font-weight:700;color:var(--navy)">Fase 3 — Recepción e Instalación Física de los Nodos H710</span>
+      <span style="font-size:9px;color:var(--blue)">09/06/2026</span>
+      <span style="font-size:9px;color:var(--blue)">18/06/2026</span>
+      <span style="text-align:center;font-size:9px;color:var(--t2)">9d</span>
       <span style="text-align:center">0%</span>
       <span style="text-align:center;font-weight:700;color:var(--teal)">0%</span>
-    </div><div style="padding:4px 8px;font-size:9px;color:var(--t2)">...y 9 filas más</div></div>
+    </div><div style="padding:4px 8px;font-size:9px;color:var(--t2)">...y 28 filas más</div></div>
     <div class="cp-lbl">Análisis / Observaciones del proveedor</div>
-    <div class="cp-obs" id="cp-obs-text">(Sin análisis — viene del Excel de Project)</div>
+    <div class="cp-obs" id="cp-obs-text">Semana 01 (03-Junio-2026) — Fase 1 y Fase 2 al 100% completado.
+• HITO 1 completado: Reuniones iniciales completadas.
+• HITO 2 completado: Prerrequisitos técnicos validados.                                                                                   — Fase 3 en progreso: 20% Completado:  Entrega e inspección de equipos a la entidad
+Bloqueos resueltos:
+• N/A
+
+Riesgos activos:
+• Apertura del caso en DELL para hacer la actualización de Firmware: se esta adelantando labores paralelas con DELL para abrir el caso, por el momento la fecha para esta actividad continua para el 23/06/2026.
+
+Compromisos próxima semana:
+• Montaje y conexión del chasis y los nodos en el Datacenter. • RFC para la actividad de montaje y conexión.</div>
     <div class="cp-lbl">Actividades realizadas (período)</div>
-    <div class="cp-obs" id="cp-act-done-text">(No registrado)</div>
+    <div class="cp-obs" id="cp-act-done-text">HITO 1 completado: Reuniones iniciales completadas.
+HITO 2 completado: Prerrequisitos técnicos validados.                                                                                   — Fase 3 en progreso: 20% Completado:  Entrega e inspección de equipos a la entidad</div>
     <div class="cp-lbl">Próximas actividades</div>
-    <div class="cp-obs" id="cp-act-next-text">(No registrado)</div>
+    <div class="cp-obs" id="cp-act-next-text">Montaje y conexión del chasis y los nodos en el Datacenter.
+RFC para la actividad de montaje y conexión.</div>
   </div>
 
   <!-- PASO 3: Confirmar -->
-  <div id="cp-panel-2" style="display: none;">
+  <div id="cp-panel-2" style="display: block;">
     <div class="cp-alert cp-green">
       <div class="cp-ico" style="background:var(--green)">✓</div>
       <div id="cp-confirm-text">Los datos han sido validados. Al confirmar se actualizará el tablero.</div>
     </div>
     <div style="background:var(--bg2);border-radius:8px;padding:12px 14px;font-size:11px;line-height:1.8">
-      <div><strong>Actividades detectadas:</strong> <span id="cp-count-act">17</span></div>
-      <div><strong>Eventos del proveedor:</strong> <span id="cp-count-ev">1</span> <span id="cp-ev-detail" style="color: var(--red); font-size: 9px;">→ 1 bloqueo(s)</span></div>
+      <div><strong>Actividades detectadas:</strong> <span id="cp-count-act">36</span></div>
+      <div><strong>Eventos del proveedor:</strong> <span id="cp-count-ev">0</span> <span id="cp-ev-detail" style="color: var(--red); font-size: 9px;">(ninguno registrado)</span></div>
       <div><strong>Advertencias:</strong> <span id="cp-count-err">0</span></div>
-      <div><strong>Fecha de corte:</strong> <span id="cp-fecha-corte">01/05/2026</span></div>
-      <div><strong>% Real (campo resumen Excel):</strong> <span id="cp-pct-global">2%</span></div>
+      <div><strong>Fecha de corte:</strong> <span id="cp-fecha-corte">12/06/2026</span></div>
+      <div><strong>% Real (campo resumen Excel):</strong> <span id="cp-pct-global">18%</span></div>
       <div style="margin-top:6px;padding-top:6px;border-top:1px solid var(--bd)">
         <strong>📊 Curva S:</strong> calculada automáticamente por duración de actividades — sin columna Peso %<br>
         <strong>🔒 Línea base:</strong> <span id="cp-bl-status" style="font-weight: 700; color: var(--amber);">📥 Primera carga — las fechas quedarán congeladas como línea base</span>
@@ -1437,8 +1393,8 @@ Total: completados + próximos + atrasados" style="cursor:help">
     <div style="font-size:10px;color:var(--t2)" id="cp-footer-note">Las fechas de inicio y fin del cronograma no pueden ser modificadas por el proveedor.</div>
     <div style="display:flex;gap:7px">
       <button class="mfbtn mfbtn-cancel" onclick="closeCarga()">Cancelar</button>
-      <button class="mfbtn mfbtn-save" id="cp-btn-next" onclick="cpNext()" style="display: inline-block;">Continuar →</button>
-      <button class="mfbtn mfbtn-save" id="cp-btn-import" onclick="cpImport()" style="display: none; background: rgb(29, 158, 117);">✓ Importar y actualizar tablero</button>
+      <button class="mfbtn mfbtn-save" id="cp-btn-next" onclick="cpNext()" style="display: none;">Continuar →</button>
+      <button class="mfbtn mfbtn-save" id="cp-btn-import" onclick="cpImport()" style="display: inline-block; background: rgb(29, 158, 117);">✓ Importar y actualizar tablero</button>
     </div>
   </div>
 </div>
@@ -1449,8 +1405,8 @@ Total: completados + próximos + atrasados" style="cursor:help">
 <div class="crono-modal" style="max-width:1200px">
   <div class="crono-modal-hdr">
     <div>
-      <div class="crono-modal-title" id="crono-title">Cronograma — PRUEBA — Sistema de Gestión Documental</div>
-      <div class="crono-modal-sub" id="crono-sub">CTO 2026-0001 · TECNOSOFT SAS · Inicio: 30 de abr de 2026 · Fin: 30 de oct de 2026 · Avance real: 2% | Planeado: 2%</div>
+      <div class="crono-modal-title" id="crono-title">Cronograma — Adición nodos H710</div>
+      <div class="crono-modal-sub" id="crono-sub">CTO 2025-3247 · Redcomputo LTDA · Inicio: 26 de may de 2026 · Fin: 8 de jul de 2026 · Avance real: 18.2% | Planeado: 18.2%</div>
     </div>
     <div style="display:flex;align-items:center;gap:8px">
       <div style="display:flex;align-items:center;gap:12px;margin-right:8px">
@@ -1478,196 +1434,405 @@ Total: completados + próximos + atrasados" style="cursor:help">
       </thead>
       <tbody id="crono-tbody"><tr class="row-project">
     <td class="td-edt">0</td>
-    <td class="td-name indent-0" style="color:#fff;font-weight:700">PRUEBA — Sistema de Gestión Documental — CTO 2026-0001</td>
-    <td class="td-date">30 de abr de 2026</td>
-    <td class="td-date">30 de oct de 2026</td>
-    <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-ok" style="width:2%"></div></div><span class="pct-ms-num" style="color:#fff">2%</span></div></td>
-    <td style="text-align:center;color:rgba(255,255,255,.8);font-weight:700">2%</td>
+    <td class="td-name indent-0" style="color:#fff;font-weight:700">Adición nodos H710 — CTO 2025-3247</td>
+    <td class="td-date">26 de may de 2026</td>
+    <td class="td-date">8 de jul de 2026</td>
+    <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-risk" style="width:18.2%"></div></div><span class="pct-ms-num" style="color:#fff">18.2%</span></div></td>
+    <td style="text-align:center;color:rgba(255,255,255,.8);font-weight:700">18.2%</td>
     <td style="text-align:center"><span class="spi-val spi-ok">1.00</span></td>
-    <td style="text-align:center"><span class="ind-circle ind-ok"></span></td>
+    <td style="text-align:center"><span class="ind-circle ind-risk"></span></td>
   </tr><tr class="row-phase">
         <td class="td-edt">1</td>
-        <td class="td-name indent-1">Fase 1 — Diagnóstico y Levantamiento
+        <td class="td-name indent-1">Fase 1 — Reuniones de inicio
           
         </td>
-        <td class="td-date">01/05/2026</td>
-        <td class="td-date">31/05/2026</td>
-        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#fff">0%</span></div></td>
-        <td style="text-align:center;color:rgba(255,255,255,.85);font-weight:700">20%</td>
-        <td style="text-align:center"><span class="spi-val spi-risk" style="color:#fff">0.00</span></td>
-        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+        <td class="td-date">26/05/2026</td>
+        <td class="td-date">03/06/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-done" style="width:100%"></div></div><span class="pct-ms-num" style="color:#fff">100%</span></div></td>
+        <td style="text-align:center;color:rgba(255,255,255,.85);font-weight:700">100%</td>
+        <td style="text-align:center"><span class="spi-val spi-done" style="color:#fff">1.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-done"></span></td>
       </tr><tr class="row-task">
         <td class="td-edt">1.1</td>
-        <td class="td-name indent-2">Reunión de arranque y acta de inicio
-          <span style="font-size:9px;color:#9CA3AF;display:block">100</span>
+        <td class="td-name indent-2">Reunión de arranque
+          
         </td>
-        <td class="td-date">01/05/2026</td>
-        <td class="td-date">01/05/2026</td>
-        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,1,'act',1)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-done" style="width:100%"></div></div><span class="pct-ms-num" style="color:#0F6E56">100%</span></div></td>
+        <td class="td-date">26/05/2026</td>
+        <td class="td-date">26/05/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',1)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-done" style="width:100%"></div></div><span class="pct-ms-num" style="color:#0F6E56">100%</span></div></td>
         <td style="text-align:center;color:var(--amber);font-weight:700">100%</td>
         <td style="text-align:center"><span class="spi-val spi-done">1.00</span></td>
         <td style="text-align:center"><span class="ind-circle ind-done"></span></td>
       </tr><tr class="row-task">
         <td class="td-edt">1.2</td>
-        <td class="td-name indent-2">Levantamiento de procesos actuales
-          <span style="font-size:9px;color:#9CA3AF;display:block">50</span>
+        <td class="td-name indent-2">Reunión de Kickoff
+          
         </td>
-        <td class="td-date">02/05/2026</td>
-        <td class="td-date">09/05/2026</td>
-        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,1,'act',2)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-ok" style="width:50%"></div></div><span class="pct-ms-num" style="color:#0C447C">50%</span></div></td>
-        <td style="text-align:center;color:var(--amber);font-weight:700">50%</td>
-        <td style="text-align:center"><span class="spi-val spi-ok">1.00</span></td>
-        <td style="text-align:center"><span class="ind-circle ind-ok"></span></td>
-      </tr><tr class="row-task">
-        <td class="td-edt">1.3</td>
-        <td class="td-name indent-2">Análisis de sistemas existentes
-          <span style="font-size:9px;color:#9CA3AF;display:block">0</span>
-        </td>
-        <td class="td-date">12/05/2026</td>
-        <td class="td-date">19/05/2026</td>
-        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,1,'act',3)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
-        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
-        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
-        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
-      </tr><tr class="row-task">
-        <td class="td-edt">1.4</td>
-        <td class="td-name indent-2">Informe de diagnóstico y plan detallado
-          <span style="font-size:9px;color:#9CA3AF;display:block">0</span>
-        </td>
-        <td class="td-date">20/05/2026</td>
-        <td class="td-date">31/05/2026</td>
-        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,1,'act',4)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
-        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
-        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
-        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+        <td class="td-date">03/06/2026</td>
+        <td class="td-date">03/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',2)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-done" style="width:100%"></div></div><span class="pct-ms-num" style="color:#0F6E56">100%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">100%</td>
+        <td style="text-align:center"><span class="spi-val spi-done">1.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-done"></span></td>
       </tr><tr class="row-milestone">
         <td class="td-edt">★1.H</td>
-        <td class="td-name indent-2"><span style="color:#185FA5;font-style:italic">H: </span>HITO: Diagnóstico aprobado por supervisor
-          <span style="font-size:9px;color:#9CA3AF;display:block">0</span>
+        <td class="td-name indent-2"><span style="color:#185FA5;font-style:italic">H: </span>HITO: Reuniones iniciales completadas
+          
         </td>
-        <td class="td-date">31/05/2026</td>
-        <td class="td-date">31/05/2026</td>
-        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
-        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
-        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
-        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+        <td class="td-date">26/05/2026</td>
+        <td class="td-date">03/06/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-done" style="width:100%"></div></div><span class="pct-ms-num" style="color:#0F6E56">100%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">100%</td>
+        <td style="text-align:center"><span class="spi-val spi-done">1.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-done"></span></td>
       </tr><tr class="row-phase">
         <td class="td-edt">2</td>
-        <td class="td-name indent-1">Fase 2 — Desarrollo e Implementación
+        <td class="td-name indent-1">Fase 2 — Preparación y Validación Previa
           
         </td>
-        <td class="td-date">01/06/2026</td>
-        <td class="td-date">31/08/2026</td>
-        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#fff">0%</span></div></td>
-        <td style="text-align:center;color:rgba(255,255,255,.85);font-weight:700">0%</td>
-        <td style="text-align:center"><span class="spi-val spi-risk" style="color:#fff">0.00</span></td>
-        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
-      </tr><tr class="row-task">
-        <td class="td-edt">2.1</td>
-        <td class="td-name indent-2">Diseño de arquitectura documental
-          <span style="font-size:9px;color:#9CA3AF;display:block">0</span>
-        </td>
-        <td class="td-date">01/06/2026</td>
-        <td class="td-date">30/06/2026</td>
-        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,1,'act',7)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
-        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
-        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
-        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+        <td class="td-date">03/06/2026</td>
+        <td class="td-date">03/06/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-done" style="width:100%"></div></div><span class="pct-ms-num" style="color:#fff">100%</span></div></td>
+        <td style="text-align:center;color:rgba(255,255,255,.85);font-weight:700">100%</td>
+        <td style="text-align:center"><span class="spi-val spi-done" style="color:#fff">1.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-done"></span></td>
       </tr><tr class="row-task">
         <td class="td-edt">2.2</td>
-        <td class="td-name indent-2">Desarrollo del módulo de gestión documental
-          <span style="font-size:9px;color:#9CA3AF;display:block">0</span>
-        </td>
-        <td class="td-date">01/07/2026</td>
-        <td class="td-date">31/07/2026</td>
-        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,1,'act',8)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
-        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
-        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
-        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
-      </tr><tr class="row-task">
-        <td class="td-edt">2.3</td>
-        <td class="td-name indent-2">Integración con sistemas de la SDM
-          <span style="font-size:9px;color:#9CA3AF;display:block">0</span>
-        </td>
-        <td class="td-date">01/08/2026</td>
-        <td class="td-date">31/08/2026</td>
-        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,1,'act',9)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
-        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
-        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
-        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
-      </tr><tr class="row-milestone">
-        <td class="td-edt">★2.H</td>
-        <td class="td-name indent-2"><span style="color:#185FA5;font-style:italic">H: </span>HITO: Sistema desarrollado y probado
-          <span style="font-size:9px;color:#9CA3AF;display:block">0</span>
-        </td>
-        <td class="td-date">31/08/2026</td>
-        <td class="td-date">31/08/2026</td>
-        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
-        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
-        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
-        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
-      </tr><tr class="row-phase">
-        <td class="td-edt">3</td>
-        <td class="td-name indent-1">Fase 3 — Pruebas y Entrega
+        <td class="td-name indent-2">Verificación de espacio en rack, energía y conectividad.
           
         </td>
-        <td class="td-date">01/09/2026</td>
-        <td class="td-date">31/10/2026</td>
-        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#fff">0%</span></div></td>
-        <td style="text-align:center;color:rgba(255,255,255,.85);font-weight:700">0%</td>
-        <td style="text-align:center"><span class="spi-val spi-risk" style="color:#fff">0.00</span></td>
-        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+        <td class="td-date">03/06/2026</td>
+        <td class="td-date">03/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',5)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-done" style="width:100%"></div></div><span class="pct-ms-num" style="color:#0F6E56">100%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">100%</td>
+        <td style="text-align:center"><span class="spi-val spi-done">1.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-done"></span></td>
+      </tr><tr class="row-milestone">
+        <td class="td-edt">★2.H</td>
+        <td class="td-name indent-2"><span style="color:#185FA5;font-style:italic">H: </span>HITO: Prerrequisitos técnicos validados.
+          
+        </td>
+        <td class="td-date">03/06/2026</td>
+        <td class="td-date">03/06/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-done" style="width:100%"></div></div><span class="pct-ms-num" style="color:#0F6E56">100%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">100%</td>
+        <td style="text-align:center"><span class="spi-val spi-done">1.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-done"></span></td>
+      </tr><tr class="row-phase">
+        <td class="td-edt">3</td>
+        <td class="td-name indent-1">Fase 3 — Recepción e Instalación Física de los Nodos H710
+          
+        </td>
+        <td class="td-date">09/06/2026</td>
+        <td class="td-date">18/06/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-risk" style="width:20%"></div></div><span class="pct-ms-num" style="color:#fff">20%</span></div></td>
+        <td style="text-align:center;color:rgba(255,255,255,.85);font-weight:700">20%</td>
+        <td style="text-align:center"><span class="spi-val spi-ok" style="color:#fff">1.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-risk"></span></td>
       </tr><tr class="row-task">
         <td class="td-edt">3.1</td>
-        <td class="td-name indent-2">Pruebas de aceptación UAT con usuarios SDM
-          <span style="font-size:9px;color:#9CA3AF;display:block">0</span>
+        <td class="td-name indent-2">Entrega e inspección de equipos a la entidad
+          
         </td>
-        <td class="td-date">01/09/2026</td>
-        <td class="td-date">19/09/2026</td>
-        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,1,'act',12)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
-        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
-        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
-        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+        <td class="td-date">09/06/2026</td>
+        <td class="td-date">09/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',8)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-done" style="width:100%"></div></div><span class="pct-ms-num" style="color:#0F6E56">100%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">100%</td>
+        <td style="text-align:center"><span class="spi-val spi-done">1.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-done"></span></td>
       </tr><tr class="row-task">
         <td class="td-edt">3.2</td>
-        <td class="td-name indent-2">Ajustes post-UAT y corrección de errores
-          <span style="font-size:9px;color:#9CA3AF;display:block">0</span>
+        <td class="td-name indent-2">Montaje en rack (Instalación de rieles y accesorios)
+          
         </td>
-        <td class="td-date">22/09/2026</td>
-        <td class="td-date">10/10/2026</td>
-        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,1,'act',13)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td class="td-date">17/06/2026</td>
+        <td class="td-date">17/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',9)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
         <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
         <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
         <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
       </tr><tr class="row-task">
         <td class="td-edt">3.3</td>
-        <td class="td-name indent-2">Capacitación de usuarios y documentación
-          <span style="font-size:9px;color:#9CA3AF;display:block">0</span>
+        <td class="td-name indent-2">Conexión a la red eléctrica redundante
+          
         </td>
-        <td class="td-date">13/10/2026</td>
-        <td class="td-date">24/10/2026</td>
-        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,1,'act',14)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td class="td-date">17/06/2026</td>
+        <td class="td-date">17/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',10)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
         <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
         <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
         <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
       </tr><tr class="row-task">
         <td class="td-edt">3.4</td>
-        <td class="td-name indent-2">Acta de cierre y entrega final
-          <span style="font-size:9px;color:#9CA3AF;display:block">0</span>
+        <td class="td-name indent-2">Conexión de red backend y frontend
+          
         </td>
-        <td class="td-date">27/10/2026</td>
-        <td class="td-date">31/10/2026</td>
-        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,1,'act',15)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td class="td-date">18/06/2026</td>
+        <td class="td-date">18/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',11)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">3.5</td>
+        <td class="td-name indent-2">Verificación de encendido y hardware
+          
+        </td>
+        <td class="td-date">18/06/2026</td>
+        <td class="td-date">18/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',12)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
         <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
         <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
         <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
       </tr><tr class="row-milestone">
         <td class="td-edt">★3.H</td>
-        <td class="td-name indent-2"><span style="color:#185FA5;font-style:italic">H: </span>HITO: Proyecto entregado y cerrado
-          <span style="font-size:9px;color:#9CA3AF;display:block">0</span>
+        <td class="td-name indent-2"><span style="color:#185FA5;font-style:italic">H: </span>HITO: Nodos H710 instalados físicamente y disponibles para integración.
+          
         </td>
-        <td class="td-date">31/10/2026</td>
-        <td class="td-date">31/10/2026</td>
+        <td class="td-date">09/06/2026</td>
+        <td class="td-date">18/06/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-phase">
+        <td class="td-edt">4</td>
+        <td class="td-name indent-1">Fase 4 — Dell Precheck y Actualizacion de Firmware
+          
+        </td>
+        <td class="td-date">23/06/2026</td>
+        <td class="td-date">24/06/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#fff">0%</span></div></td>
+        <td style="text-align:center;color:rgba(255,255,255,.85);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk" style="color:#fff">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">4.1</td>
+        <td class="td-name indent-2">Validación y actualizacion de cluster a la version de firmware 9.13.1
+          
+        </td>
+        <td class="td-date">23/06/2026</td>
+        <td class="td-date">24/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',15)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">4.2</td>
+        <td class="td-name indent-2">Health Check del clúster PowerScale
+          
+        </td>
+        <td class="td-date">23/06/2026</td>
+        <td class="td-date">24/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',16)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">4.3</td>
+        <td class="td-name indent-2">Validación de hardware, firmware y OneFS
+          
+        </td>
+        <td class="td-date">23/06/2026</td>
+        <td class="td-date">24/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',17)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">4.4</td>
+        <td class="td-name indent-2">Emisión de concepto técnico Dell
+          
+        </td>
+        <td class="td-date">24/06/2026</td>
+        <td class="td-date">24/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',18)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-milestone">
+        <td class="td-edt">★4.H</td>
+        <td class="td-name indent-2"><span style="color:#185FA5;font-style:italic">H: </span>HITO: Precheck Dell aprobado para expansión del clúster.
+          
+        </td>
+        <td class="td-date">23/06/2026</td>
+        <td class="td-date">24/06/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-phase">
+        <td class="td-edt">5</td>
+        <td class="td-name indent-1">Fase 5 — Actualización e Integración al Clúster  y Balanceo de Datos
+          
+        </td>
+        <td class="td-date">27/06/2026</td>
+        <td class="td-date">28/06/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#fff">0%</span></div></td>
+        <td style="text-align:center;color:rgba(255,255,255,.85);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk" style="color:#fff">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">5.1</td>
+        <td class="td-name indent-2">Actualización de firmware nodos H710 a la version  9.13.1
+          
+        </td>
+        <td class="td-date">27/06/2026</td>
+        <td class="td-date">28/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',21)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">5.2</td>
+        <td class="td-name indent-2">Integración de los dos nodos H710 al cluster
+          
+        </td>
+        <td class="td-date">27/06/2026</td>
+        <td class="td-date">28/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',22)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">5.3</td>
+        <td class="td-name indent-2">Ejecución de procesos de rebalanceo del cluster
+          
+        </td>
+        <td class="td-date">27/06/2026</td>
+        <td class="td-date">28/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',23)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">5.4</td>
+        <td class="td-name indent-2">Verificacion de servicios y pruebas funcionales
+          
+        </td>
+        <td class="td-date">27/06/2026</td>
+        <td class="td-date">28/06/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',24)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-milestone">
+        <td class="td-edt">★5.H</td>
+        <td class="td-name indent-2"><span style="color:#185FA5;font-style:italic">H: </span>HITO: Dos (2) nodos H710 integrados exitosamente al clúster PowerScale.
+          
+        </td>
+        <td class="td-date">27/06/2026</td>
+        <td class="td-date">28/06/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-phase">
+        <td class="td-edt">6</td>
+        <td class="td-name indent-1">Fase 6 — Activación SmartPools
+          
+        </td>
+        <td class="td-date">01/07/2026</td>
+        <td class="td-date">01/07/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#fff">0%</span></div></td>
+        <td style="text-align:center;color:rgba(255,255,255,.85);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk" style="color:#fff">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">6.1</td>
+        <td class="td-name indent-2">Verificacíón del licenciamiento  SmartPools
+          
+        </td>
+        <td class="td-date">01/07/2026</td>
+        <td class="td-date">01/07/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',27)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">6.2</td>
+        <td class="td-name indent-2">Validación de cobertura para 4 H700 y 2 H710
+          
+        </td>
+        <td class="td-date">01/07/2026</td>
+        <td class="td-date">01/07/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',28)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">6.3</td>
+        <td class="td-name indent-2">Verificación de políticas SmartPools
+          
+        </td>
+        <td class="td-date">01/07/2026</td>
+        <td class="td-date">01/07/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',29)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">6.4</td>
+        <td class="td-name indent-2">Monitoreo de utilización y distribución de datos
+          
+        </td>
+        <td class="td-date">01/07/2026</td>
+        <td class="td-date">01/07/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',30)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-milestone">
+        <td class="td-edt">★6.H</td>
+        <td class="td-name indent-2"><span style="color:#185FA5;font-style:italic">H: </span>HITO: SmartPools activado.
+          
+        </td>
+        <td class="td-date">01/07/2026</td>
+        <td class="td-date">01/07/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-phase">
+        <td class="td-edt">7</td>
+        <td class="td-name indent-1">Fase 7 — Transferencia de Conocimiento y Cierre
+          
+        </td>
+        <td class="td-date">02/07/2026</td>
+        <td class="td-date">08/07/2026</td>
+        <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#fff">0%</span></div></td>
+        <td style="text-align:center;color:rgba(255,255,255,.85);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk" style="color:#fff">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">7.1</td>
+        <td class="td-name indent-2">Sesión de transferencia de conocimiento
+          
+        </td>
+        <td class="td-date">02/07/2026</td>
+        <td class="td-date">02/07/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',33)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-task">
+        <td class="td-edt">7.2</td>
+        <td class="td-name indent-2">Entrega de documentación técnica
+          
+        </td>
+        <td class="td-date">08/07/2026</td>
+        <td class="td-date">08/07/2026</td>
+        <td style="text-align:center;cursor:cell" ondblclick="editPct(this,0,'act',34)" title="Doble clic para editar % real"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
+        <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
+        <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
+        <td style="text-align:center"><span class="ind-circle ind-blank"></span></td>
+      </tr><tr class="row-milestone">
+        <td class="td-edt">★7.H</td>
+        <td class="td-name indent-2"><span style="color:#185FA5;font-style:italic">H: </span>HITO: Proyecto cerrado y documentación entregada a satisfacción.
+          
+        </td>
+        <td class="td-date">02/07/2026</td>
+        <td class="td-date">08/07/2026</td>
         <td style="text-align:center"><div class="pct-ms-wrap"><div class="pct-ms-bar"><div class="pct-ms-fill f-blocked" style="width:0%"></div></div><span class="pct-ms-num" style="color:#888780">0%</span></div></td>
         <td style="text-align:center;color:var(--amber);font-weight:700">0%</td>
         <td style="text-align:center"><span class="spi-val spi-risk">0.00</span></td>
@@ -1701,23 +1866,23 @@ Total: completados + próximos + atrasados" style="cursor:help">
 </div>
 
 <!-- EDIT PROJECT MODAL -->
-<div class="modal-overlay" id="modal-edit" onclick="if(event.target===this)this.style.display='none'">
+<div class="modal-overlay" id="modal-edit" onclick="if(event.target===this)this.style.display='none'" style="display: none;">
 <div class="modal" style="width:660px;max-width:97vw">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-    <div class="modal-title" style="margin-bottom:0" id="edit-modal-title">Editar proyecto</div>
+    <div class="modal-title" style="margin-bottom:0" id="edit-modal-title">Editar — Adición nodos H710</div>
     <button onclick="document.getElementById('modal-edit').style.display='none'" style="background:none;border:none;font-size:18px;cursor:pointer;color:#6b7280">✕</button>
   </div>
   <!-- pestañas -->
   <div style="display:flex;border-bottom:1px solid #E0E2E6;margin-bottom:14px" id="etabs">
-    <div class="etab" data-tab="general" onclick="showETab('general')" style="font-size:11px;padding:6px 13px;cursor:pointer;color:#185FA5;border-bottom:2px solid #185FA5;font-weight:700">📊 General &amp; Gráfica</div>
-    <div class="etab" data-tab="contrato" onclick="showETab('contrato')" style="font-size:11px;padding:6px 13px;cursor:pointer;color:#6b7280;border-bottom:2px solid transparent">📋 Contrato</div>
-    <div class="etab" data-tab="act" onclick="showETab('act')" style="font-size:11px;padding:6px 13px;cursor:pointer;color:#6b7280;border-bottom:2px solid transparent">⚙ Actividades</div>
-    <div class="etab" data-tab="risk" onclick="showETab('risk')" style="font-size:11px;padding:6px 13px;cursor:pointer;color:#6b7280;border-bottom:2px solid transparent">⚠ Riesgos</div>
-    <div class="etab" data-tab="temas" onclick="showETab('temas')" style="font-size:11px;padding:6px 13px;cursor:pointer;color:#6b7280;border-bottom:2px solid transparent">📌 Temas</div>
+    <div class="etab" data-tab="general" onclick="showETab('general')" style="font-size: 11px; padding: 6px 13px; cursor: pointer; color: rgb(107, 114, 128); border-bottom: 2px solid transparent; font-weight: 400;">📊 General &amp; Gráfica</div>
+    <div class="etab" data-tab="contrato" onclick="showETab('contrato')" style="font-size: 11px; padding: 6px 13px; cursor: pointer; color: rgb(107, 114, 128); border-bottom: 2px solid transparent; font-weight: 400;">📋 Contrato</div>
+    <div class="etab" data-tab="act" onclick="showETab('act')" style="font-size: 11px; padding: 6px 13px; cursor: pointer; color: rgb(107, 114, 128); border-bottom: 2px solid transparent; font-weight: 400;">⚙ Actividades</div>
+    <div class="etab" data-tab="risk" onclick="showETab('risk')" style="font-size: 11px; padding: 6px 13px; cursor: pointer; color: rgb(24, 95, 165); border-bottom: 2px solid rgb(24, 95, 165); font-weight: 700;">⚠ Riesgos</div>
+    <div class="etab" data-tab="temas" onclick="showETab('temas')" style="font-size: 11px; padding: 6px 13px; cursor: pointer; color: rgb(107, 114, 128); border-bottom: 2px solid transparent; font-weight: 400;">📌 Temas</div>
   </div>
 
   <!-- GENERAL -->
-  <div id="ep-general">
+  <div id="ep-general" style="display: none;">
     <div class="form-grid" style="margin-bottom:12px">
       <div><div class="form-lbl">Avance real (%)</div><input class="form-inp" id="e-real" type="number" min="0" max="100"><div style="font-size:9px;color:#6b7280;margin-top:2px">Lo que se ha completado hoy</div></div>
       <div><div class="form-lbl">Avance planeado (%)</div><input class="form-inp" id="e-plan" type="number" min="0" max="100"><div style="font-size:9px;color:#6b7280;margin-top:2px">Según el cronograma a la fecha</div></div>
@@ -1725,10 +1890,10 @@ Total: completados + próximos + atrasados" style="cursor:help">
     <div style="margin-bottom:12px">
       <div class="form-lbl">Estado del proyecto</div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:5px">
-        <div id="sp-ok" onclick="selSt('ok')" style="display:flex;align-items:center;gap:6px;padding:8px;border-radius:8px;border:2px solid #E0E2E6;cursor:pointer;background:#EAF3DE"><span style="width:9px;height:9px;border-radius:50%;background:#3B6D11;flex-shrink:0"></span><span style="font-size:11px;font-weight:700;color:#3B6D11">En tiempo</span></div>
-        <div id="sp-warn" onclick="selSt('warn')" style="display:flex;align-items:center;gap:6px;padding:8px;border-radius:8px;border:2px solid #E0E2E6;cursor:pointer;background:#FAEEDA"><span style="width:9px;height:9px;border-radius:50%;background:#BA7517;flex-shrink:0"></span><span style="font-size:11px;font-weight:700;color:#BA7517">Leve atraso</span></div>
-        <div id="sp-risk" onclick="selSt('risk')" style="display:flex;align-items:center;gap:6px;padding:8px;border-radius:8px;border:2px solid #E0E2E6;cursor:pointer;background:#FCEBEB"><span style="width:9px;height:9px;border-radius:50%;background:#A32D2D;flex-shrink:0"></span><span style="font-size:11px;font-weight:700;color:#A32D2D">En riesgo</span></div>
-        <div id="sp-done" onclick="selSt('done')" style="display:flex;align-items:center;gap:6px;padding:8px;border-radius:8px;border:2px solid #E0E2E6;cursor:pointer;background:#E6F1FB"><span style="width:9px;height:9px;border-radius:50%;background:#185FA5;flex-shrink:0"></span><span style="font-size:11px;font-weight:700;color:#185FA5">Finalizado</span></div>
+        <div id="sp-ok" onclick="selSt('ok')" style="display: flex; align-items: center; gap: 6px; padding: 8px; border-radius: 8px; border: 2px solid rgb(59, 109, 17); cursor: pointer; background: rgb(234, 243, 222); box-shadow: rgba(59, 109, 17, 0.2) 0px 0px 0px 3px;"><span style="width:9px;height:9px;border-radius:50%;background:#3B6D11;flex-shrink:0"></span><span style="font-size:11px;font-weight:700;color:#3B6D11">En tiempo</span></div>
+        <div id="sp-warn" onclick="selSt('warn')" style="display: flex; align-items: center; gap: 6px; padding: 8px; border-radius: 8px; border: 2px solid rgb(224, 226, 230); cursor: pointer; background: rgb(250, 238, 218); box-shadow: none;"><span style="width:9px;height:9px;border-radius:50%;background:#BA7517;flex-shrink:0"></span><span style="font-size:11px;font-weight:700;color:#BA7517">Leve atraso</span></div>
+        <div id="sp-risk" onclick="selSt('risk')" style="display: flex; align-items: center; gap: 6px; padding: 8px; border-radius: 8px; border: 2px solid rgb(224, 226, 230); cursor: pointer; background: rgb(252, 235, 235); box-shadow: none;"><span style="width:9px;height:9px;border-radius:50%;background:#A32D2D;flex-shrink:0"></span><span style="font-size:11px;font-weight:700;color:#A32D2D">En riesgo</span></div>
+        <div id="sp-done" onclick="selSt('done')" style="display: flex; align-items: center; gap: 6px; padding: 8px; border-radius: 8px; border: 2px solid rgb(224, 226, 230); cursor: pointer; background: rgb(230, 241, 251); box-shadow: none;"><span style="width:9px;height:9px;border-radius:50%;background:#185FA5;flex-shrink:0"></span><span style="font-size:11px;font-weight:700;color:#185FA5">Finalizado</span></div>
       </div>
     </div>
     <!-- CURVA S -->
@@ -1737,7 +1902,47 @@ Total: completados + próximos + atrasados" style="cursor:help">
       <div style="font-size:10px;color:#6b7280;margin-bottom:8px">Actualiza el <strong>% Real</strong> de cada periodo para alimentar la gráfica. Deja en blanco los periodos que aún no han llegado.</div>
       <table style="width:100%;border-collapse:collapse;font-size:11px">
         <thead><tr style="background:#0D2137"><th style="padding:6px 9px;color:#fff;text-align:left;font-size:9px;font-weight:700">Periodo</th><th style="padding:6px 9px;color:#fff;text-align:center;font-size:9px;font-weight:700">% Planeado<br><span style="font-weight:400">(acumulado)</span></th><th style="padding:6px 9px;color:#fff;text-align:center;font-size:9px;font-weight:700">% Real<br><span style="font-weight:400">(acumulado)</span></th><th style="padding:6px 9px;color:#fff;text-align:center;font-size:9px;width:30px">✕</th></tr></thead>
-        <tbody id="sc-edit-body"></tbody>
+        <tbody id="sc-edit-body"><tr style="border-bottom:1px solid #E8EAED;">
+      <td style="padding:5px 8px"><input id="sc-l-0" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:90px;font-family:Arial,sans-serif" value="25 May"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-p-0" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="4.5"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-r-0" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="" placeholder="—" oninput="this.style.borderColor=this.value?'#185FA5':'#C8CAD0';this.style.background=this.value?'#E6F1FB':'#F4F5F7'"></td>
+      <td style="padding:5px 8px;text-align:center"><button onclick="removeScRow(0)" style="background:none;border:none;color:#A32D2D;cursor:pointer;font-size:13px">✕</button></td>
+    </tr><tr style="border-bottom:1px solid #E8EAED;">
+      <td style="padding:5px 8px"><input id="sc-l-1" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:90px;font-family:Arial,sans-serif" value="1 Jun"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-p-1" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="13.6"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-r-1" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="" placeholder="—" oninput="this.style.borderColor=this.value?'#185FA5':'#C8CAD0';this.style.background=this.value?'#E6F1FB':'#F4F5F7'"></td>
+      <td style="padding:5px 8px;text-align:center"><button onclick="removeScRow(1)" style="background:none;border:none;color:#A32D2D;cursor:pointer;font-size:13px">✕</button></td>
+    </tr><tr style="border-bottom:1px solid #E8EAED;background:#F0FAF6">
+      <td style="padding:5px 8px"><input id="sc-l-2" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:90px;font-family:Arial,sans-serif" value="8 Jun"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-p-2" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="18.2"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-r-2" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #185FA5;border-radius:5px;background:#E6F1FB;width:75px;text-align:center;font-family:Arial,sans-serif" value="18.2" placeholder="—" oninput="this.style.borderColor=this.value?'#185FA5':'#C8CAD0';this.style.background=this.value?'#E6F1FB':'#F4F5F7'"></td>
+      <td style="padding:5px 8px;text-align:center"><button onclick="removeScRow(2)" style="background:none;border:none;color:#A32D2D;cursor:pointer;font-size:13px">✕</button></td>
+    </tr><tr style="border-bottom:1px solid #E8EAED;">
+      <td style="padding:5px 8px"><input id="sc-l-3" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:90px;font-family:Arial,sans-serif" value="15 Jun"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-p-3" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="36.4"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-r-3" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="" placeholder="—" oninput="this.style.borderColor=this.value?'#185FA5':'#C8CAD0';this.style.background=this.value?'#E6F1FB':'#F4F5F7'"></td>
+      <td style="padding:5px 8px;text-align:center"><button onclick="removeScRow(3)" style="background:none;border:none;color:#A32D2D;cursor:pointer;font-size:13px">✕</button></td>
+    </tr><tr style="border-bottom:1px solid #E8EAED;">
+      <td style="padding:5px 8px"><input id="sc-l-4" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:90px;font-family:Arial,sans-serif" value="22 Jun"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-p-4" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="72.7"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-r-4" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="" placeholder="—" oninput="this.style.borderColor=this.value?'#185FA5':'#C8CAD0';this.style.background=this.value?'#E6F1FB':'#F4F5F7'"></td>
+      <td style="padding:5px 8px;text-align:center"><button onclick="removeScRow(4)" style="background:none;border:none;color:#A32D2D;cursor:pointer;font-size:13px">✕</button></td>
+    </tr><tr style="border-bottom:1px solid #E8EAED;">
+      <td style="padding:5px 8px"><input id="sc-l-5" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:90px;font-family:Arial,sans-serif" value="29 Jun"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-p-5" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="95.5"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-r-5" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="" placeholder="—" oninput="this.style.borderColor=this.value?'#185FA5':'#C8CAD0';this.style.background=this.value?'#E6F1FB':'#F4F5F7'"></td>
+      <td style="padding:5px 8px;text-align:center"><button onclick="removeScRow(5)" style="background:none;border:none;color:#A32D2D;cursor:pointer;font-size:13px">✕</button></td>
+    </tr><tr style="border-bottom:1px solid #E8EAED;">
+      <td style="padding:5px 8px"><input id="sc-l-6" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:90px;font-family:Arial,sans-serif" value="6 Jul"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-p-6" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="100"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-r-6" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="" placeholder="—" oninput="this.style.borderColor=this.value?'#185FA5':'#C8CAD0';this.style.background=this.value?'#E6F1FB':'#F4F5F7'"></td>
+      <td style="padding:5px 8px;text-align:center"><button onclick="removeScRow(6)" style="background:none;border:none;color:#A32D2D;cursor:pointer;font-size:13px">✕</button></td>
+    </tr><tr style="border-bottom:1px solid #E8EAED;">
+      <td style="padding:5px 8px"><input id="sc-l-7" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:90px;font-family:Arial,sans-serif" value="13 Jul"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-p-7" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="100"></td>
+      <td style="padding:5px 8px;text-align:center"><input id="sc-r-7" type="number" min="0" max="100" style="font-size:11px;padding:3px 6px;border:1px solid #C8CAD0;border-radius:5px;background:#F4F5F7;width:75px;text-align:center;font-family:Arial,sans-serif" value="" placeholder="—" oninput="this.style.borderColor=this.value?'#185FA5':'#C8CAD0';this.style.background=this.value?'#E6F1FB':'#F4F5F7'"></td>
+      <td style="padding:5px 8px;text-align:center"><button onclick="removeScRow(7)" style="background:none;border:none;color:#A32D2D;cursor:pointer;font-size:13px">✕</button></td>
+    </tr></tbody>
       </table>
       <button onclick="addScEditRow()" style="font-size:10px;color:#185FA5;background:none;border:1px dashed #185FA5;padding:3px 11px;border-radius:5px;cursor:pointer;font-family:Arial,sans-serif;margin-top:7px">+ Agregar periodo</button>
     </div>
@@ -1772,7 +1977,7 @@ Total: completados + próximos + atrasados" style="cursor:help">
   </div>
 
   <!-- RIESGOS -->
-  <div id="ep-risk" style="display:none">
+  <div id="ep-risk" style="display: block;">
     <div style="font-size:11px;font-weight:700;color:#A32D2D;padding:6px 10px;background:#FCEBEB;border-radius:6px;margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em">⚠ Riesgos activos</div>
     <div style="font-size:10px;color:#6b7280;margin-bottom:6px">Un riesgo por línea. Sé específico sobre el impacto.</div>
     <textarea class="form-inp" id="e-risks" style="min-height:130px;resize:vertical;font-size:11px"></textarea>
@@ -1783,7 +1988,22 @@ Total: completados + próximos + atrasados" style="cursor:help">
   <!-- TEMAS -->
   <div id="ep-temas" style="display:none">
     <div style="font-size:10px;color:#6b7280;margin-bottom:10px;background:#f0f4ff;padding:8px 10px;border-radius:6px;border-left:3px solid #185FA5">Cada tema aparece como tarjeta en la columna derecha. Máximo 4 temas.</div>
-    <div id="temas-edit-list"></div>
+    <div id="temas-edit-list">
+    <div style="background:#F4F5F7;border-radius:8px;padding:10px;margin-bottom:8px;border:1px solid #E0E2E6">
+      <div style="display:grid;grid-template-columns:1fr 110px 28px;gap:8px;align-items:end;margin-bottom:6px">
+        <div><div class="form-lbl">Título</div><input class="form-inp" id="te-t-0" value="📥 Línea base cargada — 12 de jun de 2026"></div>
+        <div><div class="form-lbl">Tipo</div>
+          <select class="form-inp" id="te-tipo-0">
+            <option value="ok" selected="">✓ Normal</option>
+            <option value="warn">⚠ Alerta</option>
+            <option value="risk">✕ Riesgo</option>
+            <option value="neutral">— Neutral</option>
+          </select>
+        </div>
+        <button onclick="removeTema(0)" style="background:none;border:none;color:#A32D2D;cursor:pointer;font-size:15px;padding-bottom:2px">✕</button>
+      </div>
+      <div><div class="form-lbl">Descripción</div><textarea class="form-inp" id="te-o-0" style="min-height:50px;resize:vertical">BL establecida: 36 actividades. SPI inicial: 1.00.</textarea></div>
+    </div></div>
     <button onclick="addTemaEdit()" style="font-size:10px;color:#185FA5;background:none;border:1px dashed #185FA5;padding:4px 13px;border-radius:6px;cursor:pointer;font-family:Arial,sans-serif;margin-top:7px">+ Agregar tema</button>
   </div>
 
@@ -1808,16 +2028,16 @@ Total: completados + próximos + atrasados" style="cursor:help">
 
   <!-- Pestañas del formulario -->
   <div style="display:flex;border-bottom:1px solid var(--bd);background:var(--bg2)" id="add-etabs">
-    <button class="etab" data-tab="add-basico" onclick="showAddTab('add-basico')" style="font-size: 11px; padding: 7px 14px; cursor: pointer; color: rgb(107, 114, 128); border-width: medium medium 2px; border-style: none none solid; border-color: currentcolor currentcolor transparent; font-weight: 700; background: none; font-family: Arial, sans-serif;">📋 Datos básicos</button>
-    <button class="etab" data-tab="add-financiero" onclick="showAddTab('add-financiero')" style="font-size: 11px; padding: 7px 14px; cursor: pointer; color: rgb(107, 114, 128); border-width: medium medium 2px; border-style: none none solid; border-color: currentcolor currentcolor transparent; font-weight: 700; background: none; font-family: Arial, sans-serif;">💰 Financiero</button>
-    <button class="etab" data-tab="add-fases" onclick="showAddTab('add-fases')" style="font-size: 11px; padding: 7px 14px; cursor: pointer; color: rgb(24, 95, 165); border-width: medium medium 2px; border-style: none none solid; border-color: currentcolor currentcolor rgb(24, 95, 165); font-weight: 700; background: none; font-family: Arial, sans-serif;">📅 Fases y cronograma</button>
-    <button class="etab" data-tab="add-scurve" onclick="showAddTab('add-scurve')" style="font-size:11px;padding:7px 14px;cursor:pointer;color:#6b7280;border-bottom:2px solid transparent;font-weight:700;background:none;border-top:none;border-left:none;border-right:none;font-family:Arial,sans-serif">📈 Curva S</button>
+    <button class="etab" data-tab="add-basico" onclick="showAddTab('add-basico')" style="font-size: 11px; padding: 7px 14px; cursor: pointer; color: rgb(107, 114, 128); border-width: medium medium 2px; border-style: none none solid; border-color: currentcolor currentcolor transparent; font-weight: 400; background: none; font-family: Arial, sans-serif;">📋 Datos básicos</button>
+    <button class="etab" data-tab="add-financiero" onclick="showAddTab('add-financiero')" style="font-size: 11px; padding: 7px 14px; cursor: pointer; color: rgb(107, 114, 128); border-width: medium medium 2px; border-style: none none solid; border-color: currentcolor currentcolor transparent; font-weight: 400; background: none; font-family: Arial, sans-serif;">💰 Financiero</button>
+    <button class="etab" data-tab="add-fases" onclick="showAddTab('add-fases')" style="font-size: 11px; padding: 7px 14px; cursor: pointer; color: rgb(107, 114, 128); border-width: medium medium 2px; border-style: none none solid; border-color: currentcolor currentcolor transparent; font-weight: 400; background: none; font-family: Arial, sans-serif;">📅 Fases y cronograma</button>
+    <button class="etab" data-tab="add-scurve" onclick="showAddTab('add-scurve')" style="font-size: 11px; padding: 7px 14px; cursor: pointer; color: rgb(107, 114, 128); border-width: medium medium 2px; border-style: none none solid; border-color: currentcolor currentcolor transparent; font-weight: 400; background: none; font-family: Arial, sans-serif;">📈 Curva S</button>
   </div>
 
   <div style="overflow-y:auto;max-height:68vh;padding:16px 18px">
 
     <!-- TAB 1: Datos básicos -->
-    <div id="add-basico" style="display: none;">
+    <div id="add-basico" style="display: block;">
       <div style="font-size:10px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Información del contrato</div>
       <div class="form-grid" style="margin-bottom:12px">
         <div class="form-row" style="grid-column:1/-1"><div class="form-lbl">Nombre del proyecto <span style="color:var(--red)">*</span></div><input class="form-inp" id="f-name" placeholder="Ej: Adquisición plataforma ITSM Aranda"></div>
@@ -1871,7 +2091,7 @@ Total: completados + próximos + atrasados" style="cursor:help">
     </div>
 
     <!-- TAB 3: Fases y cronograma -->
-    <div id="add-fases" style="display: block;">
+    <div id="add-fases" style="display: none;">
       <!-- Selector: Manual o Excel -->
       <div style="display:flex;gap:8px;margin-bottom:12px">
         <button id="fases-modo-manual" onclick="setFasesModo('manual')" style="flex:1;padding:9px;border-radius:7px;border:2px solid var(--blue);background:var(--blue);color:#fff;cursor:pointer;font-size:11px;font-weight:700;font-family:Arial,sans-serif;display:flex;align-items:center;justify-content:center;gap:6px">✏ Ingresar fases manualmente</button>
@@ -1895,15 +2115,7 @@ Total: completados + próximos + atrasados" style="cursor:help">
     <input class="form-inp" type="date" style="margin:0">
     <input class="form-inp" type="number" placeholder="Plan%" min="0" max="100" style="margin:0">
     <button onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--red);cursor:pointer;font-size:15px;padding:0">✕</button>
-  </div><div class="phase-row" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 28px; gap: 6px; margin-bottom: 6px; align-items: center;"><input class="form-inp" placeholder="Nombre de la fase" style="margin:0">
-    <input class="form-inp" type="date" style="margin:0">
-    <input class="form-inp" type="date" style="margin:0">
-    <input class="form-inp" type="number" placeholder="Plan%" min="0" max="100" style="margin:0">
-    <button style="background:none;border:none;color:var(--red);cursor:pointer;font-size:15px;padding:0" onclick="this.parentElement.remove()">✕</button></div><div class="phase-row" style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 28px; gap: 6px; margin-bottom: 6px; align-items: center;"><input class="form-inp" placeholder="Nombre de la fase" style="margin:0">
-    <input class="form-inp" type="date" style="margin:0">
-    <input class="form-inp" type="date" style="margin:0">
-    <input class="form-inp" type="number" placeholder="Plan%" min="0" max="100" style="margin:0">
-    <button style="background:none;border:none;color:var(--red);cursor:pointer;font-size:15px;padding:0" onclick="this.parentElement.remove()">✕</button></div></div>
+  </div></div>
         <button onclick="addPhaseRow()" style="font-size:10px;color:var(--blue);background:none;border:1px dashed var(--blue);padding:3px 12px;border-radius:5px;cursor:pointer;font-family:Arial,sans-serif;margin-top:4px">+ Agregar fase</button>
       </div>
       <!-- Panel EXCEL -->
@@ -2121,7 +2333,7 @@ let PROJECTS=[], activeP=0, activeCTab='scurve', isUnlocked=false;
 // v6.0: Load from embedded data first, then no localStorage fallback
 let storedPin='1234';
 /* __OTIC_DATA_EMBEDDED__ */
-const __EMBEDDED__={"projects":[],"activeP":0,"storedPin":"1234"};
+const __EMBEDDED__={"projects":[{"id":"p1781295754070","name":"Adición nodos H710","contrato":"CTO 2025-3247","contratista":"Redcomputo LTDA","supervisor":"Edgar Eduardo Romero Bohorquez — SDM OTIC","lider_sdm":"Edgar Eduardo Romero Bohorquez — SDM OTIC","lider_contratista":"Ing. Rafael Leon — Redcomputo LTDA","inicio":"26 de may de 2026","fin":"8 de jul de 2026","realPct":18,"planPct":18,"status":"ok","statusLabel":"En tiempo","archived":false,"valor_total":2654093600,"total_pagado":0,"pagos":[],"cambios":[],"log_cambios":[],"reportes_proveedor":[{"periodo":"Semana 01 — Junio 2026","fecha":"12 de jun de 2026, 03:23 p. m.","empresa":"Redcomputo LTDA","responsable":"","pctGlobal":18.2,"logros":"HITO 1 completado: Reuniones iniciales completadas.\nHITO 2 completado: Prerrequisitos técnicos validados.                                                                                   — Fase 3 en progreso: 20% Completado:  Entrega e inspección de equipos a la entidad","compromisos":"","bloqueos":"","estado":"aprobado","importado":true,"eventosExcel":[]}],"phases":[{"name":"Fase 1 — Reuniones de inicio","inicio":"26/05/2026","fin":"03/06/2026","real":0,"plan":0,"peso":0,"_bl_inicio":"26/05/2026","_bl_fin":"03/06/2026"},{"name":"Fase 2 — Preparación y Validación Previa","inicio":"03/06/2026","fin":"03/06/2026","real":0,"plan":0,"peso":0,"_bl_inicio":"03/06/2026","_bl_fin":"03/06/2026"},{"name":"Fase 3 — Recepción e Instalación Física de los Nodos H710","inicio":"09/06/2026","fin":"18/06/2026","real":0,"plan":0,"peso":0,"_bl_inicio":"09/06/2026","_bl_fin":"18/06/2026"},{"name":"Fase 4 — Dell Precheck y Actualizacion de Firmware","inicio":"23/06/2026","fin":"24/06/2026","real":0,"plan":0,"peso":0,"_bl_inicio":"23/06/2026","_bl_fin":"24/06/2026"},{"name":"Fase 5 — Actualización e Integración al Clúster  y Balanceo de Datos","inicio":"27/06/2026","fin":"28/06/2026","real":0,"plan":0,"peso":0,"_bl_inicio":"27/06/2026","_bl_fin":"28/06/2026"},{"name":"Fase 6 — Activación SmartPools","inicio":"01/07/2026","fin":"01/07/2026","real":0,"plan":0,"peso":0,"_bl_inicio":"01/07/2026","_bl_fin":"01/07/2026"},{"name":"Fase 7 — Transferencia de Conocimiento y Cierre","inicio":"02/07/2026","fin":"08/07/2026","real":0,"plan":0,"peso":0,"_bl_inicio":"02/07/2026","_bl_fin":"08/07/2026"}],"activities_done":["HITO 1 completado: Reuniones iniciales completadas.","HITO 2 completado: Prerrequisitos técnicos validados.                                                                                   — Fase 3 en progreso: 20% Completado:  Entrega e inspección de equipos a la entidad"],"activities_next":["Montaje y conexión del chasis y los nodos en el Datacenter.","RFC para la actividad de montaje y conexión."],"risks":["• Apertura del caso en DELL para hacer la actualización de Firmware: se esta adelantando labores paralelas con DELL para abrir el caso, por el momento la fecha para esta actividad continua para el 23/06/2026."],"temas":[{"title":"📥 Línea base cargada — 12 de jun de 2026","obs":"BL establecida: 36 actividades. SPI inicial: 1.00.","tipo":"ok"}],"hitos_done":["HITO: Reuniones iniciales completadas (03/06/2026)","HITO: Prerrequisitos técnicos validados. (03/06/2026)"],"hitos_next":["HITO: Nodos H710 instalados físicamente y disponibles para integración. (18/06/2026)","HITO: Precheck Dell aprobado para expansión del clúster. (24/06/2026)","HITO: Dos (2) nodos H710 integrados exitosamente al clúster PowerScale. (28/06/2026)","HITO: SmartPools activado. (01/07/2026)","HITO: Proyecto cerrado y documentación entregada a satisfacción. (08/07/2026)"],"hitos_late":["NA"],"urgente":[{"level":"warn","text":"• Apertura del caso en DELL para hacer la actualización de Firmware: se esta adelantando labores paralelas con DELL para abrir el caso, por el momento la fecha para esta actividad continua para el 23/06/2026.","action":"Revisar con supervisor"}],"scurveLabels":["25 May","1 Jun","8 Jun","15 Jun","22 Jun","29 Jun","6 Jul","13 Jul"],"scurvePlan":[4.5,13.6,18.2,36.4,72.7,95.5,100,100],"scurveReal":[null,null,18.2,null,null,null,null,null],"scurveExplain":"Semana 01 (03-Junio-2026) — Fase 1 y Fase 2 al 100% completado.18% de avance real frente a lo mismo planificado.\n— Fase 3 en progreso: 20% Completado:  Entrega e inspección de equipos a la entidad","gantt_activities":[{"edt":"1","nombre":"Fase 1 — Reuniones de inicio","tipo":"FASE","inicio":"26/05/2026","fin":"03/06/2026","_bl_inicio":"26/05/2026","_bl_fin":"03/06/2026","plan":100,"real":100,"peso":0,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"1.1","nombre":"Reunión de arranque","tipo":"ACTIVIDAD","inicio":"26/05/2026","fin":"26/05/2026","_bl_inicio":"26/05/2026","_bl_fin":"26/05/2026","plan":100,"real":100,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"Completado","obs":"Completado.","holgura":null,"nivel":null},{"edt":"1.2","nombre":"Reunión de Kickoff","tipo":"ACTIVIDAD","inicio":"03/06/2026","fin":"03/06/2026","_bl_inicio":"03/06/2026","_bl_fin":"03/06/2026","plan":100,"real":100,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"Completado","obs":"Reunión finalizada","holgura":null,"nivel":null},{"edt":"★1.H","nombre":"HITO: Reuniones iniciales completadas","tipo":"HITO","inicio":"26/05/2026","fin":"03/06/2026","_bl_inicio":"26/05/2026","_bl_fin":"03/06/2026","plan":100,"real":100,"peso":0,"pred":"","responsable":"","entregable":"","estado":"Completado","obs":"HITO completado","holgura":null,"nivel":null},{"edt":"2","nombre":"Fase 2 — Preparación y Validación Previa","tipo":"FASE","inicio":"03/06/2026","fin":"03/06/2026","_bl_inicio":"03/06/2026","_bl_fin":"03/06/2026","plan":100,"real":100,"peso":0,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"2.2","nombre":"Verificación de espacio en rack, energía y conectividad.","tipo":"ACTIVIDAD","inicio":"03/06/2026","fin":"03/06/2026","_bl_inicio":"03/06/2026","_bl_fin":"03/06/2026","plan":100,"real":100,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"Completado","obs":"Se verifican pre requisitos de instalación","holgura":null,"nivel":null},{"edt":"★2.H","nombre":"HITO: Prerrequisitos técnicos validados.","tipo":"HITO","inicio":"03/06/2026","fin":"03/06/2026","_bl_inicio":"03/06/2026","_bl_fin":"03/06/2026","plan":100,"real":100,"peso":0,"pred":"","responsable":"","entregable":"","estado":"Completado","obs":"todos los prerequisitos tecnicos estan validados","holgura":null,"nivel":null},{"edt":"3","nombre":"Fase 3 — Recepción e Instalación Física de los Nodos H710","tipo":"FASE","inicio":"09/06/2026","fin":"18/06/2026","_bl_inicio":"09/06/2026","_bl_fin":"18/06/2026","plan":20,"real":20,"peso":0,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"3.1","nombre":"Entrega e inspección de equipos a la entidad","tipo":"ACTIVIDAD","inicio":"09/06/2026","fin":"09/06/2026","_bl_inicio":"09/06/2026","_bl_fin":"09/06/2026","plan":100,"real":100,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"Completado","obs":"Se entregan los equipos en la SDM","holgura":null,"nivel":null},{"edt":"3.2","nombre":"Montaje en rack (Instalación de rieles y accesorios)","tipo":"ACTIVIDAD","inicio":"17/06/2026","fin":"17/06/2026","_bl_inicio":"17/06/2026","_bl_fin":"17/06/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"3.3","nombre":"Conexión a la red eléctrica redundante","tipo":"ACTIVIDAD","inicio":"17/06/2026","fin":"17/06/2026","_bl_inicio":"17/06/2026","_bl_fin":"17/06/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"3.4","nombre":"Conexión de red backend y frontend","tipo":"ACTIVIDAD","inicio":"18/06/2026","fin":"18/06/2026","_bl_inicio":"18/06/2026","_bl_fin":"18/06/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"3.5","nombre":"Verificación de encendido y hardware","tipo":"ACTIVIDAD","inicio":"18/06/2026","fin":"18/06/2026","_bl_inicio":"18/06/2026","_bl_fin":"18/06/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"★3.H","nombre":"HITO: Nodos H710 instalados físicamente y disponibles para integración.","tipo":"HITO","inicio":"09/06/2026","fin":"18/06/2026","_bl_inicio":"09/06/2026","_bl_fin":"18/06/2026","plan":0,"real":0,"peso":0,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"4","nombre":"Fase 4 — Dell Precheck y Actualizacion de Firmware","tipo":"FASE","inicio":"23/06/2026","fin":"24/06/2026","_bl_inicio":"23/06/2026","_bl_fin":"24/06/2026","plan":0,"real":0,"peso":0,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"4.1","nombre":"Validación y actualizacion de cluster a la version de firmware 9.13.1","tipo":"ACTIVIDAD","inicio":"23/06/2026","fin":"24/06/2026","_bl_inicio":"23/06/2026","_bl_fin":"24/06/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"4.2","nombre":"Health Check del clúster PowerScale","tipo":"ACTIVIDAD","inicio":"23/06/2026","fin":"24/06/2026","_bl_inicio":"23/06/2026","_bl_fin":"24/06/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"4.3","nombre":"Validación de hardware, firmware y OneFS","tipo":"ACTIVIDAD","inicio":"23/06/2026","fin":"24/06/2026","_bl_inicio":"23/06/2026","_bl_fin":"24/06/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"4.4","nombre":"Emisión de concepto técnico Dell","tipo":"ACTIVIDAD","inicio":"24/06/2026","fin":"24/06/2026","_bl_inicio":"24/06/2026","_bl_fin":"24/06/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"★4.H","nombre":"HITO: Precheck Dell aprobado para expansión del clúster.","tipo":"HITO","inicio":"23/06/2026","fin":"24/06/2026","_bl_inicio":"23/06/2026","_bl_fin":"24/06/2026","plan":0,"real":0,"peso":0,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"5","nombre":"Fase 5 — Actualización e Integración al Clúster  y Balanceo de Datos","tipo":"FASE","inicio":"27/06/2026","fin":"28/06/2026","_bl_inicio":"27/06/2026","_bl_fin":"28/06/2026","plan":0,"real":0,"peso":0,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"5.1","nombre":"Actualización de firmware nodos H710 a la version  9.13.1","tipo":"ACTIVIDAD","inicio":"27/06/2026","fin":"28/06/2026","_bl_inicio":"27/06/2026","_bl_fin":"28/06/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"5.2","nombre":"Integración de los dos nodos H710 al cluster","tipo":"ACTIVIDAD","inicio":"27/06/2026","fin":"28/06/2026","_bl_inicio":"27/06/2026","_bl_fin":"28/06/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"5.3","nombre":"Ejecución de procesos de rebalanceo del cluster","tipo":"ACTIVIDAD","inicio":"27/06/2026","fin":"28/06/2026","_bl_inicio":"27/06/2026","_bl_fin":"28/06/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"5.4","nombre":"Verificacion de servicios y pruebas funcionales","tipo":"ACTIVIDAD","inicio":"27/06/2026","fin":"28/06/2026","_bl_inicio":"27/06/2026","_bl_fin":"28/06/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"★5.H","nombre":"HITO: Dos (2) nodos H710 integrados exitosamente al clúster PowerScale.","tipo":"HITO","inicio":"27/06/2026","fin":"28/06/2026","_bl_inicio":"27/06/2026","_bl_fin":"28/06/2026","plan":0,"real":0,"peso":0,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"6","nombre":"Fase 6 — Activación SmartPools","tipo":"FASE","inicio":"01/07/2026","fin":"01/07/2026","_bl_inicio":"01/07/2026","_bl_fin":"01/07/2026","plan":0,"real":0,"peso":0,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"6.1","nombre":"Verificacíón del licenciamiento  SmartPools","tipo":"ACTIVIDAD","inicio":"01/07/2026","fin":"01/07/2026","_bl_inicio":"01/07/2026","_bl_fin":"01/07/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"6.2","nombre":"Validación de cobertura para 4 H700 y 2 H710","tipo":"ACTIVIDAD","inicio":"01/07/2026","fin":"01/07/2026","_bl_inicio":"01/07/2026","_bl_fin":"01/07/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"6.3","nombre":"Verificación de políticas SmartPools","tipo":"ACTIVIDAD","inicio":"01/07/2026","fin":"01/07/2026","_bl_inicio":"01/07/2026","_bl_fin":"01/07/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"6.4","nombre":"Monitoreo de utilización y distribución de datos","tipo":"ACTIVIDAD","inicio":"01/07/2026","fin":"01/07/2026","_bl_inicio":"01/07/2026","_bl_fin":"01/07/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"★6.H","nombre":"HITO: SmartPools activado.","tipo":"HITO","inicio":"01/07/2026","fin":"01/07/2026","_bl_inicio":"01/07/2026","_bl_fin":"01/07/2026","plan":0,"real":0,"peso":0,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"7","nombre":"Fase 7 — Transferencia de Conocimiento y Cierre","tipo":"FASE","inicio":"02/07/2026","fin":"08/07/2026","_bl_inicio":"02/07/2026","_bl_fin":"08/07/2026","plan":0,"real":0,"peso":0,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"7.1","nombre":"Sesión de transferencia de conocimiento","tipo":"ACTIVIDAD","inicio":"02/07/2026","fin":"02/07/2026","_bl_inicio":"02/07/2026","_bl_fin":"02/07/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"7.2","nombre":"Entrega de documentación técnica","tipo":"ACTIVIDAD","inicio":"08/07/2026","fin":"08/07/2026","_bl_inicio":"08/07/2026","_bl_fin":"08/07/2026","plan":0,"real":0,"peso":4.545454545454546,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null},{"edt":"★7.H","nombre":"HITO: Proyecto cerrado y documentación entregada a satisfacción.","tipo":"HITO","inicio":"02/07/2026","fin":"08/07/2026","_bl_inicio":"02/07/2026","_bl_fin":"08/07/2026","plan":0,"real":0,"peso":0,"pred":"","responsable":"","entregable":"","estado":"pendiente","obs":"","holgura":null,"nivel":null}],"_baselineSet":true,"_baselineDate":"12/6/2026","_baseline":{"_id":1781295831387,"_timestamp":"12/6/2026","_fechaCorteMs":1781240400000,"_fechaCorteLabel":"12/06/2026","_blActs":[{"edt":"1","nombre":"Fase 1 — Reuniones de inicio","tipo":"FASE","peso":0,"inicio":"26/05/2026","fin":"03/06/2026"},{"edt":"1.1","nombre":"Reunión de arranque","tipo":"ACTIVIDAD","peso":0,"inicio":"26/05/2026","fin":"26/05/2026"},{"edt":"1.2","nombre":"Reunión de Kickoff","tipo":"ACTIVIDAD","peso":0,"inicio":"03/06/2026","fin":"03/06/2026"},{"edt":"2","nombre":"Fase 2 — Preparación y Validación Previa","tipo":"FASE","peso":0,"inicio":"03/06/2026","fin":"03/06/2026"},{"edt":"2.2","nombre":"Verificación de espacio en rack, energía y conectividad.","tipo":"ACTIVIDAD","peso":0,"inicio":"03/06/2026","fin":"03/06/2026"},{"edt":"3","nombre":"Fase 3 — Recepción e Instalación Física de los Nodos H710","tipo":"FASE","peso":0,"inicio":"09/06/2026","fin":"18/06/2026"},{"edt":"3.1","nombre":"Entrega e inspección de equipos a la entidad","tipo":"ACTIVIDAD","peso":0,"inicio":"09/06/2026","fin":"09/06/2026"},{"edt":"3.2","nombre":"Montaje en rack (Instalación de rieles y accesorios)","tipo":"ACTIVIDAD","peso":0,"inicio":"17/06/2026","fin":"17/06/2026"},{"edt":"3.3","nombre":"Conexión a la red eléctrica redundante","tipo":"ACTIVIDAD","peso":0,"inicio":"17/06/2026","fin":"17/06/2026"},{"edt":"3.4","nombre":"Conexión de red backend y frontend","tipo":"ACTIVIDAD","peso":0,"inicio":"18/06/2026","fin":"18/06/2026"},{"edt":"3.5","nombre":"Verificación de encendido y hardware","tipo":"ACTIVIDAD","peso":0,"inicio":"18/06/2026","fin":"18/06/2026"},{"edt":"4","nombre":"Fase 4 — Dell Precheck y Actualizacion de Firmware","tipo":"FASE","peso":0,"inicio":"23/06/2026","fin":"24/06/2026"},{"edt":"4.1","nombre":"Validación y actualizacion de cluster a la version de firmware 9.13.1","tipo":"ACTIVIDAD","peso":0,"inicio":"23/06/2026","fin":"24/06/2026"},{"edt":"4.2","nombre":"Health Check del clúster PowerScale","tipo":"ACTIVIDAD","peso":0,"inicio":"23/06/2026","fin":"24/06/2026"},{"edt":"4.3","nombre":"Validación de hardware, firmware y OneFS","tipo":"ACTIVIDAD","peso":0,"inicio":"23/06/2026","fin":"24/06/2026"},{"edt":"4.4","nombre":"Emisión de concepto técnico Dell","tipo":"ACTIVIDAD","peso":0,"inicio":"24/06/2026","fin":"24/06/2026"},{"edt":"5","nombre":"Fase 5 — Actualización e Integración al Clúster  y Balanceo de Datos","tipo":"FASE","peso":0,"inicio":"27/06/2026","fin":"28/06/2026"},{"edt":"5.1","nombre":"Actualización de firmware nodos H710 a la version  9.13.1","tipo":"ACTIVIDAD","peso":0,"inicio":"27/06/2026","fin":"28/06/2026"},{"edt":"5.2","nombre":"Integración de los dos nodos H710 al cluster","tipo":"ACTIVIDAD","peso":0,"inicio":"27/06/2026","fin":"28/06/2026"},{"edt":"5.3","nombre":"Ejecución de procesos de rebalanceo del cluster","tipo":"ACTIVIDAD","peso":0,"inicio":"27/06/2026","fin":"28/06/2026"},{"edt":"5.4","nombre":"Verificacion de servicios y pruebas funcionales","tipo":"ACTIVIDAD","peso":0,"inicio":"27/06/2026","fin":"28/06/2026"},{"edt":"6","nombre":"Fase 6 — Activación SmartPools","tipo":"FASE","peso":0,"inicio":"01/07/2026","fin":"01/07/2026"},{"edt":"6.1","nombre":"Verificacíón del licenciamiento  SmartPools","tipo":"ACTIVIDAD","peso":0,"inicio":"01/07/2026","fin":"01/07/2026"},{"edt":"6.2","nombre":"Validación de cobertura para 4 H700 y 2 H710","tipo":"ACTIVIDAD","peso":0,"inicio":"01/07/2026","fin":"01/07/2026"},{"edt":"6.3","nombre":"Verificación de políticas SmartPools","tipo":"ACTIVIDAD","peso":0,"inicio":"01/07/2026","fin":"01/07/2026"},{"edt":"6.4","nombre":"Monitoreo de utilización y distribución de datos","tipo":"ACTIVIDAD","peso":0,"inicio":"01/07/2026","fin":"01/07/2026"},{"edt":"7","nombre":"Fase 7 — Transferencia de Conocimiento y Cierre","tipo":"FASE","peso":0,"inicio":"02/07/2026","fin":"08/07/2026"},{"edt":"7.1","nombre":"Sesión de transferencia de conocimiento","tipo":"ACTIVIDAD","peso":0,"inicio":"02/07/2026","fin":"02/07/2026"},{"edt":"7.2","nombre":"Entrega de documentación técnica","tipo":"ACTIVIDAD","peso":0,"inicio":"08/07/2026","fin":"08/07/2026"}]},"_excelReportedReal":18,"_excelReportedPlan":100,"_baselineSCurve":{"labels":["25 May","1 Jun","8 Jun","15 Jun","22 Jun","29 Jun","6 Jul","13 Jul"],"plan":[4.5,13.6,18.2,36.4,72.7,95.5,100,100],"_blActs":[{"edt":"1","peso":0,"inicio":"26/05/2026","fin":"03/06/2026"},{"edt":"1.1","peso":4.545454545454546,"inicio":"26/05/2026","fin":"26/05/2026"},{"edt":"1.2","peso":4.545454545454546,"inicio":"03/06/2026","fin":"03/06/2026"},{"edt":"★1.H","peso":0,"inicio":"26/05/2026","fin":"03/06/2026"},{"edt":"2","peso":0,"inicio":"03/06/2026","fin":"03/06/2026"},{"edt":"2.2","peso":4.545454545454546,"inicio":"03/06/2026","fin":"03/06/2026"},{"edt":"★2.H","peso":0,"inicio":"03/06/2026","fin":"03/06/2026"},{"edt":"3","peso":0,"inicio":"09/06/2026","fin":"18/06/2026"},{"edt":"3.1","peso":4.545454545454546,"inicio":"09/06/2026","fin":"09/06/2026"},{"edt":"3.2","peso":4.545454545454546,"inicio":"17/06/2026","fin":"17/06/2026"},{"edt":"3.3","peso":4.545454545454546,"inicio":"17/06/2026","fin":"17/06/2026"},{"edt":"3.4","peso":4.545454545454546,"inicio":"18/06/2026","fin":"18/06/2026"},{"edt":"3.5","peso":4.545454545454546,"inicio":"18/06/2026","fin":"18/06/2026"},{"edt":"★3.H","peso":0,"inicio":"09/06/2026","fin":"18/06/2026"},{"edt":"4","peso":0,"inicio":"23/06/2026","fin":"24/06/2026"},{"edt":"4.1","peso":4.545454545454546,"inicio":"23/06/2026","fin":"24/06/2026"},{"edt":"4.2","peso":4.545454545454546,"inicio":"23/06/2026","fin":"24/06/2026"},{"edt":"4.3","peso":4.545454545454546,"inicio":"23/06/2026","fin":"24/06/2026"},{"edt":"4.4","peso":4.545454545454546,"inicio":"24/06/2026","fin":"24/06/2026"},{"edt":"★4.H","peso":0,"inicio":"23/06/2026","fin":"24/06/2026"},{"edt":"5","peso":0,"inicio":"27/06/2026","fin":"28/06/2026"},{"edt":"5.1","peso":4.545454545454546,"inicio":"27/06/2026","fin":"28/06/2026"},{"edt":"5.2","peso":4.545454545454546,"inicio":"27/06/2026","fin":"28/06/2026"},{"edt":"5.3","peso":4.545454545454546,"inicio":"27/06/2026","fin":"28/06/2026"},{"edt":"5.4","peso":4.545454545454546,"inicio":"27/06/2026","fin":"28/06/2026"},{"edt":"★5.H","peso":0,"inicio":"27/06/2026","fin":"28/06/2026"},{"edt":"6","peso":0,"inicio":"01/07/2026","fin":"01/07/2026"},{"edt":"6.1","peso":4.545454545454546,"inicio":"01/07/2026","fin":"01/07/2026"},{"edt":"6.2","peso":4.545454545454546,"inicio":"01/07/2026","fin":"01/07/2026"},{"edt":"6.3","peso":4.545454545454546,"inicio":"01/07/2026","fin":"01/07/2026"},{"edt":"6.4","peso":4.545454545454546,"inicio":"01/07/2026","fin":"01/07/2026"},{"edt":"★6.H","peso":0,"inicio":"01/07/2026","fin":"01/07/2026"},{"edt":"7","peso":0,"inicio":"02/07/2026","fin":"08/07/2026"},{"edt":"7.1","peso":4.545454545454546,"inicio":"02/07/2026","fin":"02/07/2026"},{"edt":"7.2","peso":4.545454545454546,"inicio":"08/07/2026","fin":"08/07/2026"},{"edt":"★7.H","peso":0,"inicio":"02/07/2026","fin":"08/07/2026"}]},"spi":1,"preInicio":[{"id":"pi1","label":"Firma del Contrato","done":true,"desc":"Suscripción del contrato entre la SDM y el contratista. Requisito previo a cualquier actividad de ejecución."},{"id":"pi2","label":"Aprobación de Pólizas","done":true,"desc":"Radicación y aprobación de las pólizas de cumplimiento, calidad y amparo de salarios exigidas por la entidad."},{"id":"pi3","label":"Designación de Supervisor","done":true,"desc":"Comunicación oficial mediante acto administrativo de la designación del supervisor o interventor del contrato."},{"id":"pi4","label":"Firma Acta de Inicio","done":true,"desc":"Suscripción del acta de inicio entre supervisor y contratista, que formaliza el comienzo de la ejecución contractual."}],"prep_done":"","prep_wip":"","prep_blocks":"","prep_next":"","prep_dec":""}],"activeP":0,"storedPin":"1234","gvStoredPin":"0000","_saveTs":"mqbe3tdh"};
 /* __OTIC_DATA_EMBEDDED__ */
 if(typeof __EMBEDDED__!=='undefined'){
   try{
